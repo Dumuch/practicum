@@ -1,2 +1,2 @@
-# practicum
+# sprint_1
  
