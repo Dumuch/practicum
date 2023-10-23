@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/styles.scss">
+
+    <title>Document</title>
+</head>
+<body>
+
+<div class="container">
+
+    {{#>form title="Вход" class="sign-in__form"}}
+
+        {{#*inline "fields"}}
+            {{> input name="name" label="Логин" placeholder="Введите имя" }}
+            {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
+        {{/inline}}
+
+        {{#*inline "footer"}}
+            {{> button label="Авторизоваться"}}
+            {{> link label="Нет аккаунта?" href="signUp.html"}}
+        {{/inline}}
+
+    {{/form}}
+
+</div>
+
+
+</body>
+</html>

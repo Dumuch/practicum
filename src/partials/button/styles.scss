@@ -1,0 +1,17 @@
+.button {
+  padding: 10px 15px;
+  border: none;
+  outline: none;
+  background-color: $base-blue;
+  border-radius: 5px;
+
+  @include transition(background-color);
+
+  color: $base-white;
+  font-size: 12px;
+
+  &:hover {
+    background-color: rgba($base-blue, 0.75);
+    cursor: pointer;
+  }
+}
