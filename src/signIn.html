@@ -7,27 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles/styles.scss">
 
-    <title>Document</title>
+    <title>Авторизация</title>
 </head>
 <body>
 
-<div class="container">
+<main>
 
-    {{#>form title="Вход" class="sign-in__form"}}
+    <div class="container">
 
-        {{#*inline "fields"}}
-            {{> input name="name" label="Логин" placeholder="Введите имя" }}
-            {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
-        {{/inline}}
+        {{#>form title="Вход" class="sign-in__form"}}
 
-        {{#*inline "footer"}}
-            {{> button label="Авторизоваться"}}
-            {{> link label="Нет аккаунта?" href="signUp.html"}}
-        {{/inline}}
+            {{#*inline "fields"}}
+                {{> input name="name" label="Логин" placeholder="Введите имя" }}
+                {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
+            {{/inline}}
 
-    {{/form}}
+            {{#*inline "footer"}}
+                {{> button label="Авторизоваться"}}
+                {{> link label="Нет аккаунта?" href="signUp.html"}}
+            {{/inline}}
 
-</div>
+        {{/form}}
+
+    </div>
+</main>
 
 
 </body>
