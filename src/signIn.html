@@ -1,8 +1,8 @@
 {{#> mainLayout pageTitle="Авторизация" }}
 
-    {{#>form title="Вход" class="sign-in__form"}}
+    {{#> defaultModal title="Вход" class="sign-in__modal"}}
 
-        {{#*inline "fields"}}
+        {{#*inline "body"}}
             {{> input name="name" label="Логин" placeholder="Введите имя" }}
             {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
         {{/inline}}
@@ -12,6 +12,6 @@
             {{> link label="Нет аккаунта?" href="signUp.html"}}
         {{/inline}}
 
-    {{/form}}
+    {{/defaultModal}}
 
 {{/mainLayout}}

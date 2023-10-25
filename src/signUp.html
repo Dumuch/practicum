@@ -1,8 +1,8 @@
 {{#> mainLayout pageTitle="Регистрация" }}
 
-    {{#>form title="Регистрация" class="sign-up__form"}}
+    {{#> defaultModal title="Регистрация" class="sign-up__modal"}}
 
-        {{#*inline "fields"}}
+        {{#*inline "body"}}
             {{> input name="first_name" label="Имя" placeholder="Введите имя" }}
             {{> input name="second_name" label="Фамилия" placeholder="Введите фамилию" }}
             {{> input name="login" label="Логин" placeholder="Введите логин" }}
@@ -16,6 +16,6 @@
             {{> link label="Войти" href="signIn.html"}}
         {{/inline}}
 
-    {{/form}}
+    {{/defaultModal}}
 
 {{/mainLayout}}

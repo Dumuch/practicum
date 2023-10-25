@@ -3,6 +3,7 @@ import handlebars from 'vite-plugin-handlebars';
 import { resolve } from 'path'
 
 export default defineConfig({
+    publicDir: resolve(__dirname, 'public'),
     server: {
         port: 3000,
         proxy: {
@@ -25,11 +26,14 @@ export default defineConfig({
     },
     plugins: [handlebars({
         partialDirectory: [
-            resolve(__dirname, 'src/partials/button'),
-            resolve(__dirname, 'src/partials/link'),
-            resolve(__dirname, 'src/partials/input'),
-            resolve(__dirname, 'src/partials/form'),
-            resolve(__dirname, 'src/layouts/main'),
+            resolve(__dirname, 'src/components/button'),
+            resolve(__dirname, 'src/components/link'),
+            resolve(__dirname, 'src/components/input'),
+            resolve(__dirname, 'src/components/modals'),
+            resolve(__dirname, 'src/components/images'),
+
+
+            resolve(__dirname, 'src/layouts'),
         ],
         context: 'global'
     })],
