@@ -1,41 +1,21 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles/styles.scss">
+{{#> mainLayout pageTitle="Регистрация" }}
 
-    <title>Регистрация</title>
-</head>
-<body>
+    {{#>form title="Регистрация" class="sign-up__form"}}
 
-<main>
+        {{#*inline "fields"}}
+            {{> input name="first_name" label="Имя" placeholder="Введите имя" }}
+            {{> input name="second_name" label="Фамилия" placeholder="Введите фамилию" }}
+            {{> input name="login" label="Логин" placeholder="Введите логин" }}
+            {{> input name="email" label="Email" placeholder="Введите электронную почту" type="email"}}
+            {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
+            {{> input name="phone" label="Телефон" placeholder="Введите номер телефона" }}
+        {{/inline}}
 
-    <div class="container">
+        {{#*inline "footer"}}
+            {{> button label="Зарегистрироваться"}}
+            {{> link label="Войти" href="signIn.html"}}
+        {{/inline}}
 
-        {{#>form title="Регистрация" class="sign-up__form"}}
+    {{/form}}
 
-            {{#*inline "fields"}}
-                {{> input name="first_name" label="Имя" placeholder="Введите имя" }}
-                {{> input name="second_name" label="Фамилия" placeholder="Введите фамилию" }}
-                {{> input name="login" label="Логин" placeholder="Введите логин" }}
-                {{> input name="email" label="Email" placeholder="Введите электронную почту" type="email"}}
-                {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
-                {{> input name="phone" label="Телефон" placeholder="Введите номер телефона" }}
-            {{/inline}}
-
-            {{#*inline "footer"}}
-                {{> button label="Зарегистрироваться"}}
-                {{> link label="Войти" href="signIn.html"}}
-            {{/inline}}
-
-        {{/form}}
-
-    </div>
-</main>
-
-
-</body>
-</html>
+{{/mainLayout}}

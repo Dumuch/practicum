@@ -29,7 +29,9 @@ export default defineConfig({
             resolve(__dirname, 'src/partials/link'),
             resolve(__dirname, 'src/partials/input'),
             resolve(__dirname, 'src/partials/form'),
-        ]
+            resolve(__dirname, 'src/layouts/main'),
+        ],
+        context: 'global'
     })],
 
 })

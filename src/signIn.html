@@ -1,37 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles/styles.scss">
+{{#> mainLayout pageTitle="Авторизация" }}
 
-    <title>Авторизация</title>
-</head>
-<body>
+    {{#>form title="Вход" class="sign-in__form"}}
 
-<main>
+        {{#*inline "fields"}}
+            {{> input name="name" label="Логин" placeholder="Введите имя" }}
+            {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
+        {{/inline}}
 
-    <div class="container">
+        {{#*inline "footer"}}
+            {{> button label="Авторизоваться"}}
+            {{> link label="Нет аккаунта?" href="signUp.html"}}
+        {{/inline}}
 
-        {{#>form title="Вход" class="sign-in__form"}}
+    {{/form}}
 
-            {{#*inline "fields"}}
-                {{> input name="name" label="Логин" placeholder="Введите имя" }}
-                {{> input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
-            {{/inline}}
-
-            {{#*inline "footer"}}
-                {{> button label="Авторизоваться"}}
-                {{> link label="Нет аккаунта?" href="signUp.html"}}
-            {{/inline}}
-
-        {{/form}}
-
-    </div>
-</main>
-
-
-</body>
-</html>
+{{/mainLayout}}
