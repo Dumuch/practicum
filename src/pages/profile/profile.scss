@@ -2,10 +2,35 @@
   margin-top: auto;
   margin-bottom: auto;
 }
+
 .profile-settings__header {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+}
+
+.profile-settings__avatar-wrapper {
+  position: relative;
+}
+
+.profile-settings__avatar-hover {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  opacity: 0;
+  border-radius: 50%;
+  background-color: rgba($base-black, 0.5);
+  transition: 0.2s;
+  color: $base-white;
+}
+
+.profile-settings__avatar-wrapper:hover .profile-settings__avatar-hover {
+  opacity: 1;
 }
 
 .profile-settings__avatar {
@@ -54,6 +79,7 @@
 
 .profile-settings__link {
   border-bottom: 1px solid $base-grey;
+
   &_alert {
     color: $base-red;
   }

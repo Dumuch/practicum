@@ -2,7 +2,12 @@
 
     <div class="profile-settings">
         <div class="profile-settings__header">
-            {{> images/avatarImage class="profile-settings__avatar" src="/assets/images/noimage.jpeg" alt="image" width="200" height="200"}}
+            <div class="profile-settings__avatar-wrapper">
+                {{> images/avatarImage class="profile-settings__avatar" src="/assets/images/noimage.jpeg" alt="image" width="200" height="200"}}
+                <div class="profile-settings__avatar-hover">
+                    Поменять аватар
+                </div>
+            </div>
         </div>
 
         <div class="profile-settings__fields">
