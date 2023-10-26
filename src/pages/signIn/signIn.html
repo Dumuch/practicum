@@ -1,0 +1,17 @@
+{{#> mainLayout pageTitle="Авторизация" }}
+
+    {{#> modals/defaultModal title="Вход" class="sign-in__modal"}}
+
+        {{#*inline "body"}}
+            {{> input/input name="name" label="Логин" placeholder="Введите имя" }}
+            {{> input/input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
+        {{/inline}}
+
+        {{#*inline "footer"}}
+            {{> button/button label="Авторизоваться"}}
+            {{> link/link label="Нет аккаунта?" href="/pages/signUp/signUp.html"}}
+        {{/inline}}
+
+    {{/modals/defaultModal}}
+
+{{/mainLayout}}

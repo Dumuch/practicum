@@ -1,11 +1,11 @@
 @import "helpers/variables";
 @import "helpers/mixins";
 
-@import '../layouts/styles';
+@import '../layouts/layouts';
 
 
-@import '../components/styles';
-@import '../pages/styles';
+@import '../components/components';
+@import '../pages/pages';
 
 
 main {

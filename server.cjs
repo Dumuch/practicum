@@ -5,6 +5,10 @@ const PORT = 3000;
 
 app.use(express.static(__dirname + '/dist'));
 
+app.get('/', (req, res) => {
+    res.redirect("/pages/chat/chat.html")
+});
+
 app.listen(PORT, function () {
     console.log(`Example app listening on port ${PORT}!`);
 });
