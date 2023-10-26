@@ -1,0 +1,10 @@
+.link {
+  text-decoration: none;
+  font-size: 14px;
+  color: $base-blue;
+  @include transition(color);
+
+  &:hover {
+    color: rgba($base-blue, 0.75);
+  }
+}
