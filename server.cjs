@@ -6,7 +6,7 @@ const PORT = 3000;
 app.use(express.static(__dirname + '/dist'));
 
 app.get('/', (req, res) => {
-    res.redirect("/pages/chat/chat.html")
+    res.redirect("/pages/index/index.html")
 });
 
 app.listen(PORT, function () {

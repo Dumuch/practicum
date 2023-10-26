@@ -5,12 +5,14 @@
  
 **Список страниц**
 -
-- http://localhost:3000/
-- http://localhost:3000/signIn.html
-- http://localhost:3000/signUp.html
-- http://localhost:3000/profile.html
-- http://localhost:3000/404.html
-- http://localhost:3000/500.html
+
+- http://localhost:3000/pages/index/index.html
+- http://localhost:3000/pages/chat/chat.html
+- http://localhost:3000/pages/signIn/signIn.html
+- http://localhost:3000/pages/signUp/signUp.html
+- http://localhost:3000/pages/profile/profile.html
+- http://localhost:3000/pages/404/404.html
+- http://localhost:3000/pages/500/500.html
 
 
 **Основные комманды**
