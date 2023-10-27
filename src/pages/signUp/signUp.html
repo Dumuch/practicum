@@ -3,17 +3,19 @@
     {{#> modals/defaultModal title="Регистрация" class="sign-up__modal"}}
 
         {{#*inline "body"}}
-            {{> input/input name="first_name" label="Имя" placeholder="Введите имя" }}
-            {{> input/input name="second_name" label="Фамилия" placeholder="Введите фамилию" }}
-            {{> input/input name="login" label="Логин" placeholder="Введите логин" }}
-            {{> input/input name="email" label="Email" placeholder="Введите электронную почту" type="email"}}
-            {{> input/input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
-            {{> input/input name="phone" label="Телефон" placeholder="Введите номер телефона" }}
-        {{/inline}}
+            <form id="signUpForm" class="sign-up-form" action="#">
+                {{> input/input name="first_name" label="Имя" placeholder="Введите имя" }}
+                {{> input/input name="second_name" label="Фамилия" placeholder="Введите фамилию" }}
+                {{> input/input name="login" label="Логин" placeholder="Введите логин" }}
+                {{> input/input name="email" label="Email" placeholder="Введите электронную почту" type="email"}}
+                {{> input/input name="password" label="Пароль" placeholder="Введите пароль" type="password" autocomplete="new-password" }}
+                {{> input/input name="phone" label="Телефон" placeholder="Введите номер телефона" }}
 
-        {{#*inline "footer"}}
-            {{> button/button label="Зарегистрироваться"}}
-            {{> link/link label="Войти" href="/pages/signIn/signIn.html"}}
+                <div class="sign-up-form__actions">
+                    {{> button/button label="Зарегистрироваться" type="submit" formId="signUpForm"}}
+                    {{> link/link label="Войти" href="/pages/signIn/signIn.html"}}
+                </div>
+            </form>
         {{/inline}}
 
     {{/modals/defaultModal}}
