@@ -24,8 +24,7 @@ export default defineConfig({
     },
     plugins: [handlebars({
         partialDirectory: [
-            resolve(__dirname, 'src/components'),
-            resolve(__dirname, 'src/layouts/mainLayout'),
+            resolve(__dirname, 'src/layouts/precompiledLayout'),
         ],
         context: 'global'
     })],

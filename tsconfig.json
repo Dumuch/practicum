@@ -1,0 +1,16 @@
+{
+  "noImplicitAny": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "sourceMap": true,
+  "strictNullChecks": true,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "es5",
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ]
+  }
+}
