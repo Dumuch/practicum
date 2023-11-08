@@ -1,9 +1,9 @@
 import './signIn.scss';
 import { Block } from '../../libs/block';
 import { Render } from '../../libs/render';
+import { Button } from '../../components/button/button';
 //language=hbs
 const template = `{{#> mainLayout }}
-
     {{#> modals/defaultModal title="Вход" class="sign-in__modal"}}
 
         {{#*inline "body"}}
@@ -12,7 +12,6 @@ const template = `{{#> mainLayout }}
                 {{> input/input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
 
                 <div class="sign-in-form__actions">
-                    {{> button/button label="Авторизоваться" type="submit" }}
                     {{> link/link label="Нет аккаунта?" href="/pages/signUp/signUp.html"}}
                 </div>
 
@@ -20,7 +19,6 @@ const template = `{{#> mainLayout }}
         {{/inline}}
 
     {{/modals/defaultModal}}
-
 {{/mainLayout}}
 `
 
@@ -39,9 +37,16 @@ const signInPage = new SignInPage({
 const app = new Render();
 app.render("#app", signInPage)
 
+const button = new Button({
+    text: 'Click me',
+});
+
+app.render(".sign-in-form__actions", button)
+
 // Через секунду контент изменится сам, достаточно обновить пропсы
-setTimeout(() => {
-    signInPage.setProps({
-        text: 'Click me, please',
-    });
-}, 1000);
+// setTimeout(() => {
+//     button.setProps({
+//         text: 'Click me, please',
+//         class: 'button12'
+//     });
+// }, 1000);

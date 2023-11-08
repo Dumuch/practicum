@@ -91,7 +91,8 @@ export class Block {
         // Этот небезопасный метод для упрощения логики
         // Используйте шаблонизатор из npm или напишите свой безопасный
         // Нужно не в строку компилировать (или делать это правильно),
-        // либо сразу в DOM-элементы возвращать из compile DOM-ноду
+        // либо сразу в DOM-элементы возвращать из compile DOM-ноду'
+        console.log(this._templateFunction(this.props))
         if (this._element) {
             this._element.innerHTML = this._templateFunction(this.props);
         }
@@ -99,7 +100,7 @@ export class Block {
 
 
     render(): string {
-        return '';
+        return this.element.innerHTML;
     }
 
     getContent() {
@@ -130,9 +131,8 @@ export class Block {
         });
     }
 
-    private _createDocumentElement(tagName: string | null): HTMLElement {
-        // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-        return document.createElement(tagName || 'template');
+    private _createDocumentElement(tagName: string): HTMLElement {
+        return document.createElement(tagName);
     }
 
     show() {
