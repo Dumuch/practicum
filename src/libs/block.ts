@@ -1,5 +1,5 @@
 import { EventBus } from './eventBus';
-import Handlebars from 'handlebars';
+import Handlebars, { log } from 'handlebars';
 
 export class Block {
     static EVENTS = {
@@ -14,17 +14,22 @@ export class Block {
     protected props: Record<string, any>;
     private eventBus: () => EventBus;
     private _templateFunction: HandlebarsTemplateDelegate;
+    private _children: Record<string, Block> = {}
 
-
-    constructor(tagName: string = 'div', props: Record<string, any> = {}, template: string) {
+    constructor(tagName: string = 'div', props: Record<string, any> = {}, template: string, children: Record<string, Block>[] = []) {
         const eventBus = new EventBus();
 
+        if (children) {
+            children.forEach(child => {
+                this._children = { ...this._children, ...child }
+            })
+        }
         this._templateFunction = Handlebars.compile(template)
-
         this._meta = {
             tagName,
             props
         };
+
 
         this.props = this._makePropsProxy(props);
         this.eventBus = () => eventBus;
@@ -32,6 +37,7 @@ export class Block {
         this._registerEvents(this.eventBus());
         this.eventBus().emit(Block.EVENTS.INIT);
     }
+
 
     _registerEvents(eventBus: EventBus) {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
@@ -47,7 +53,6 @@ export class Block {
 
     init() {
         this._createResources();
-
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
@@ -88,14 +93,15 @@ export class Block {
 
     _render() {
         const block = this.render();
+
         // Этот небезопасный метод для упрощения логики
         // Используйте шаблонизатор из npm или напишите свой безопасный
         // Нужно не в строку компилировать (или делать это правильно),
         // либо сразу в DOM-элементы возвращать из compile DOM-ноду'
         const dom = document.createElement('div');
         dom.innerHTML = this._templateFunction(this.props);
-        const virtualElement = dom.querySelector('.' + this._meta.tagName);
 
+        const virtualElement = dom.querySelector(this._meta.tagName);
         if (this._element && virtualElement) {
             for (let i = 0; i < virtualElement.attributes.length; i++) {
                 const attribute = virtualElement.attributes[i];
@@ -104,6 +110,39 @@ export class Block {
             this._element.innerHTML = virtualElement.innerHTML;
         } else if (this._element) {
             this._element.innerHTML = this._templateFunction(this.props);
+        }
+
+        for (const childName in this._children) {
+            if (this._children.hasOwnProperty(childName)) {
+                const child = this._children[childName];
+                child._render();
+                const childElement = child.getContent();
+                if (childElement) {
+                    let replaceElement = this._element.querySelector('#' + childName);
+                    let isTopLevel = false
+
+                    if (!replaceElement) {
+                        isTopLevel = true
+                        replaceElement = this._element
+
+                    };
+
+
+                    const bodyClass = replaceElement.getAttribute('data-body-class')
+                    if (bodyClass) {
+                        const children = Array.from(replaceElement.children);
+                        children.forEach(child => {
+                            childElement.querySelector('.' + bodyClass).appendChild(child);
+                        });
+                    }
+                    if (isTopLevel) {
+                        document.querySelector('#app').append(childElement, replaceElement);
+                    } else {
+                        replaceElement.parentNode.replaceChild(childElement, replaceElement);
+
+                    }
+                }
+            }
         }
     }
 
@@ -156,5 +195,10 @@ export class Block {
         if (content) {
             content.style.display = 'none';
         }
+    }
+
+    setChild(tagName: string, child: Block) {
+        console.log('tagName', tagName)
+        this._children[tagName] = child;
     }
 }
