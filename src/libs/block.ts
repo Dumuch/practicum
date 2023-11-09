@@ -92,8 +92,17 @@ export class Block {
         // Используйте шаблонизатор из npm или напишите свой безопасный
         // Нужно не в строку компилировать (или делать это правильно),
         // либо сразу в DOM-элементы возвращать из compile DOM-ноду'
-        console.log(this._templateFunction(this.props))
-        if (this._element) {
+        const dom = document.createElement('div');
+        dom.innerHTML = this._templateFunction(this.props);
+        const virtualElement = dom.querySelector('.' + this._meta.tagName);
+
+        if (this._element && virtualElement) {
+            for (let i = 0; i < virtualElement.attributes.length; i++) {
+                const attribute = virtualElement.attributes[i];
+                this._element.setAttribute(attribute.name, attribute.value);
+            }
+            this._element.innerHTML = virtualElement.innerHTML;
+        } else if (this._element) {
             this._element.innerHTML = this._templateFunction(this.props);
         }
     }

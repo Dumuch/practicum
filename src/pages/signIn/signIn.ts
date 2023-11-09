@@ -2,8 +2,9 @@ import './signIn.scss';
 import { Block } from '../../libs/block';
 import { Render } from '../../libs/render';
 import { Button } from '../../components/button/button';
+import { Link } from '../../components/link/link';
 //language=hbs
-const template = `{{#> mainLayout }}
+const template = `#> mainLayout }}
     {{#> modals/defaultModal title="Вход" class="sign-in__modal"}}
 
         {{#*inline "body"}}
@@ -12,14 +13,13 @@ const template = `{{#> mainLayout }}
                 {{> input/input name="password" label="Пароль" placeholder="Введите пароль" type="password" }}
 
                 <div class="sign-in-form__actions">
-                    {{> link/link label="Нет аккаунта?" href="/pages/signUp/signUp.html"}}
                 </div>
 
             </form>
         {{/inline}}
 
     {{/modals/defaultModal}}
-{{/mainLayout}}
+/mainLayout}}
 `
 
 
@@ -35,18 +35,22 @@ const signInPage = new SignInPage({
 });
 
 const app = new Render();
-app.render("#app", signInPage)
+app.render('#app', [signInPage])
 
 const button = new Button({
     text: 'Click me',
 });
+const link = new Link({
+    label: 'Нет аккаунта?',
+    href: '/pages/signUp/signUp.html'
+})
 
-app.render(".sign-in-form__actions", button)
+app.render('.sign-in-form__actions', [button, link])
 
 // Через секунду контент изменится сам, достаточно обновить пропсы
-// setTimeout(() => {
-//     button.setProps({
-//         text: 'Click me, please',
-//         class: 'button12'
-//     });
-// }, 1000);
+setTimeout(() => {
+    button.setProps({
+        text: 'Click me, please',
+        class: 'button12'
+    });
+}, 1000);
