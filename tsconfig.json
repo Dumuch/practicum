@@ -5,12 +5,32 @@
   "sourceMap": true,
   "strictNullChecks": true,
   "compilerOptions": {
+    "module": "esnext",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "incremental": true,
     "esModuleInterop": true,
     "target": "es5",
     "lib": [
       "es5",
+      "esnext",
       "es6",
       "dom"
     ]
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
