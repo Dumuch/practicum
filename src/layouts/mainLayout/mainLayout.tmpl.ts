@@ -1,68 +1,32 @@
 import './mainLayout.scss';
-import { Block } from '../../libs/block';
-import { Link } from '../../components/link/link';
+import { Block, BlockProps } from '../../libs/block';
+import { headerNavigations } from '../../components/navigations/headerNavigations/headerNavigations';
 
 //language=hbs
 const template = `
-    <div class="layout">
-        <header>
-            <nav class="site-nav">
+    <header>
+        <nav class="site-nav">
+          {{{navigation}}}
+        </nav>
+    </header>
 
-            </nav>
-        </header>
-
-        <main>
-            <div class="container">
-                {{body}}
-            </div>
-        </main>
-    </div>
-`
-
+    <main>
+      {{{body}}}
+    </main>
+`;
 
 export class MainLayout extends Block {
-    constructor(props: Record<string, any>) {
-        super('div', props, template);
-    }
+  constructor(props: BlockProps = {}) {
+    super('div', {
+      attr: {
+        class: 'layout',
+      },
+      navigation: headerNavigations,
+      ...props,
+    });
+  }
+
+  render(): Node {
+    return this.compile(template);
+  }
 }
-
-const arr = [
-    {
-        label: 'Главная страница',
-        href: '/pages/index/index.html'
-    },
-    {
-        label: 'Страница чата',
-        href: '/pages/chat/chat.html'
-    },
-
-    {
-        label: 'Страница авторизации',
-        href: '/pages/signIn/signIn.html'
-    },
-
-    {
-        label: 'Страница регистрации',
-        href: '/pages/signUp/signUp.html'
-    },
-
-    {
-        label: 'Страница профиля',
-        href: '/pages/profile/profile.html'
-    },
-
-    {
-        label: 'Страница 404',
-        href: '/pages/404/404.html'
-    },
-
-    {
-        label: 'Страница 5**',
-        href: '/pages/500/500.html'
-    }]
-
-const links = arr.map(link => {
-
-})
-
-

@@ -5,6 +5,15 @@
   position: relative;
   display: block;
   padding: 20px 0 5px 0;
+  margin: 5px 0;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 .input__label {

@@ -1,37 +1,82 @@
+import { Block } from '../../libs/block';
+import renderDOM from '../../helpers/renderDOM';
+import { MainLayout } from '../../layouts/mainLayout/mainLayout.tmpl';
 import './profile.scss';
-//language=hbs
-window['page'] = `
-    {{#> mainLayout }}
+import { ProfileForm } from '../../components/forms/profileForm';
+import { AvatarImage } from '../../components/images/avatarImage.tmpl';
+import { Link } from '../../components/link/link';
+import { appRoutes } from '../../constants/routes';
 
-        <div class="profile-settings">
-            <div class="profile-settings__header">
-                <div class="profile-settings__avatar-wrapper">
-                    {{> images/avatarImage class="profile-settings__avatar" src="/assets/images/noimage.jpeg" alt="image" width="200" height="200"}}
-                    <div class="profile-settings__avatar-hover">
-                        Поменять аватар
-                    </div>
+//language=hbs
+const pageTemplate = `
+    <div class="profile-settings">
+        <div class="profile-settings__header">
+            <div class="profile-settings__avatar-wrapper">
+                {{{avatarImage}}}
+                <div class="profile-settings__avatar-hover">
+                    Поменять аватар
                 </div>
             </div>
-
-            <div class="profile-settings__fields">
-                <form id="profileSettingsForm" action="#">
-                    {{> input/input disabled="true" class="profile-settings-field" name="email" label="Почта" placeholder="test@test.com" value="test@test.com" }}
-                    {{> input/input disabled="true" class="profile-settings-field" name="login" label="Логин" placeholder="ivan" value="ivan" }}
-                    {{> input/input disabled="true" class="profile-settings-field" name="first_name" label="Имя" placeholder="Иван" value="Иван" }}
-                    {{> input/input disabled="true" class="profile-settings-field" name="second_name" label="Фамилия" placeholder="Иванов" value="Иванов" }}
-                    {{> input/input disabled="true" class="profile-settings-field" name="display_name" label="Имя в чате" placeholder="Иван" value="Иван" }}
-                    {{> input/input disabled="true" class="profile-settings-field" name="phone" label="Телефон" placeholder="+7 (900) 123 12 12" value="+7 (900) 123 12 12" }}
-                </form>
-            </div>
-
-            <div class="profile-settings__footer">
-                {{> link/link class="profile-settings__link" href="/" label="Изменить данные"}}
-                {{> link/link class="profile-settings__link" href="/" label="Изменить пароль"}}
-                {{> link/link class="profile-settings__link_alert" href="/" label="Выйти"}}
-            </div>
-
         </div>
 
-    {{/mainLayout}}
+        <div class="profile-settings__fields">
+            {{{profileForm}}}
+        </div>
 
-`
+        <div class="profile-settings__footer">
+            {{{changeProfileLink}}}
+            {{{changePasswordLink}}}
+            {{{exitLink}}}
+
+        </div>
+    </div>
+`;
+
+class ProfilePage extends Block {
+  render() {
+    return this.compile(pageTemplate);
+  }
+}
+
+const profilePage = new ProfilePage('div', {
+  attr: {
+    class: 'container',
+  },
+  profileForm: new ProfileForm(),
+  avatarImage: new AvatarImage({
+    src: '/assets/images/noimage.jpeg',
+    alt: 'image',
+    width: '200',
+    height: '200',
+    attr: {
+      class: 'profile-settings__avatar',
+    },
+  }),
+  changeProfileLink: new Link({
+    attr: {
+      class: 'profile-settings__link',
+      href: appRoutes.profile,
+    },
+    label: 'Изменить данные',
+  }),
+  changePasswordLink: new Link({
+    attr: {
+      class: 'profile-settings__link',
+      href: appRoutes.profile,
+    },
+    label: 'Изменить пароль',
+  }),
+  exitLink: new Link({
+    attr: {
+      class: 'profile-settings__link',
+      href: appRoutes.profile,
+    },
+    label: 'Выйти',
+  }),
+});
+
+const mainLayout = new MainLayout({
+  body: profilePage,
+});
+
+renderDOM('#app', mainLayout);

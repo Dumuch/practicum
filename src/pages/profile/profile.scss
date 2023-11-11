@@ -42,36 +42,6 @@
   height: 150px;
 }
 
-.profile-settings__fields {
-  display: flex;
-  flex-direction: column;
-  min-width: 450px;
-}
-
-.profile-settings-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  border-bottom: 1px solid $base-grey;
-
-  & .input__label {
-    position: relative;
-    font-size: 14px;
-    white-space: nowrap;
-    color: $base-black;
-  }
-
-  & .input {
-    @include reset-input;
-
-    text-align: right;
-
-    &:disabled {
-      color: $base-grey;
-    }
-  }
-}
 
 .profile-settings__footer {
   margin-top: 20px;

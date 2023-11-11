@@ -1,11 +1,20 @@
 //language=hbs
 import './button.scss';
-import { Block } from '../../libs/block';
+import { Block, BlockProps } from '../../libs/block';
 
-const template = `<button class="button {{class}}" type="{{#if type }}{{type}}{{else}}button{{/if}}">{{text}}</button>`
+const template = `{{{text}}}`;
 
 export class Button extends Block {
-    constructor(props: Record<string, any>) {
-        super('button', props, template);
-    }
+  constructor(props: BlockProps = {}) {
+    super('button', {
+      attr: {
+        class: 'button',
+        type: 'button',
+      },
+      ...props,
+    });
+  }
+  render(): Node {
+    return this.compile(template);
+  }
 }

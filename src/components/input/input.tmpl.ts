@@ -1,16 +1,23 @@
 //language=hbs
 import './input.scss';
-import { Block } from '../../libs/block';
+import { Block, BlockProps } from '../../libs/block';
 
-const template =  `<label class="wrapper-input {{class}}">
+const template = `
     <span class="input__label">{{label}}</span>
     <input {{#if disabled }}disabled{{/if}} class="input" name="{{name}}" placeholder="{{placeholder}}"
            type="{{#if type }}{{type}}{{else}}text{{/if}}" autocomplete="{{autocomplete}}" value="{{value}}">
-</label>`
-
+`;
 
 export class Input extends Block {
-    constructor(props: Record<string, any>) {
-        super('label', props, template);
-    }
+  constructor(props: BlockProps = {}) {
+    super('label', {
+      ...props,
+      attr: {
+        class: `wrapper-input ${props?.attr?.class ?? ''}`,
+      },
+    });
+  }
+  render(): Node {
+    return this.compile(template);
+  }
 }
