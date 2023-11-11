@@ -68,7 +68,7 @@ const profilePage = new ProfilePage('div', {
   }),
   exitLink: new Link({
     attr: {
-      class: 'profile-settings__link',
+      class: 'link_alert profile-settings__link',
       href: appRoutes.profile,
     },
     label: 'Выйти',
