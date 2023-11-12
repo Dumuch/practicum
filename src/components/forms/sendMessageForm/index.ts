@@ -3,7 +3,7 @@ import { Button } from '../../button/button';
 import { ChatInput } from '../../inputs/chatInput';
 import './styles.scss';
 import serializeFormData from '../../../helpers/serializeFormData';
-import { hasForbiddenCharacters } from '../../../libs/validate';
+import { hasForbiddenCharacters, isEmpty } from '../../../libs/validate';
 
 //language=hbs
 const template = `
@@ -13,7 +13,7 @@ const template = `
 `;
 
 const validation: Record<string, (value: any) => boolean> = {
-  message: (value: string) => hasForbiddenCharacters(value),
+  message: (value: string) => hasForbiddenCharacters(value) || isEmpty(value),
 };
 
 
