@@ -1,5 +1,5 @@
 import { Block } from '../../../libs/block';
-import { Input } from '../../input/input.tmpl';
+import { DefaultInput } from '../../inputs/defaultInput';
 import { Button } from '../../button/button';
 import { Link } from '../../link/link';
 import { appRoutes } from '../../../constants/routes';
@@ -22,13 +22,13 @@ export class AuthorizationForm extends Block {
       attr: {
         class: 'sign-in-form',
       },
-      inputName: new Input({
+      inputName: new DefaultInput({
         name: 'login',
         label: 'Логин',
         placeholder: 'Введите логин',
       }),
 
-      inputPassword: new Input({
+      inputPassword: new DefaultInput({
         name: 'password',
         label: 'Пароль',
         placeholder: 'Введите пароль',

@@ -1,5 +1,5 @@
 import { Block } from '../../../libs/block';
-import { Input } from '../../input/input.tmpl';
+import { DefaultInput } from '../../inputs/defaultInput';
 import { Button } from '../../button/button';
 import { Link } from '../../link/link';
 import { appRoutes } from '../../../constants/routes';
@@ -28,37 +28,37 @@ export class RegistrationForm extends Block {
       attr: {
         class: 'sign-in-form',
       },
-      inputFirstName: new Input({
+      inputFirstName: new DefaultInput({
         name: 'first_name',
         label: 'Имя',
         placeholder: 'Введите имя',
       }),
 
-      inputSecondName: new Input({
+      inputSecondName: new DefaultInput({
         name: 'second_name',
         label: 'Фамилия',
         placeholder: 'Введите фамилию',
       }),
 
-      inputLogin: new Input({
+      inputLogin: new DefaultInput({
         name: 'login',
         label: 'Логин',
         placeholder: 'Введите логин',
       }),
 
-      inputEmail: new Input({
+      inputEmail: new DefaultInput({
         name: 'email',
         label: 'Email',
         placeholder: 'Введите электронную почту',
       }),
 
-      inputPassword: new Input({
+      inputPassword: new DefaultInput({
         name: 'password',
         label: 'Пароль',
         placeholder: 'Введите пароль',
       }),
 
-      inputPhone: new Input({
+      inputPhone: new DefaultInput({
         name: 'phone',
         label: 'Телефон',
         placeholder: 'Введите номер телефона',
@@ -67,7 +67,7 @@ export class RegistrationForm extends Block {
       buttonSubmit: new Button({
         text: 'Регистрация',
       }),
-      link: new Link('span', {
+      link: new Link({
         label: 'Авторизация',
         href: appRoutes.signIn,
       }),

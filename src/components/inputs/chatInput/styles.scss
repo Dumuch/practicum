@@ -1,0 +1,14 @@
+@import "../../../assets/styles/helpers/variables";
+@import "../../../assets/styles/helpers/mixins";
+
+.wrapper-chat-input {
+  background-color: rgba($base-grey, 0.2);
+  position: relative;
+  border-radius: 5px;
+}
+
+.chat-input {
+  @include reset-input;
+
+  padding: 10px;
+}

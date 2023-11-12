@@ -1,6 +1,6 @@
 //language=hbs
-import './input.scss';
-import { Block, BlockProps } from '../../libs/block';
+import './styles.scss';
+import { Block, BlockProps } from '../../../libs/block';
 
 const template = `
     <span class="input__label">{{label}}</span>
@@ -8,7 +8,7 @@ const template = `
            type="{{#if type }}{{type}}{{else}}text{{/if}}" autocomplete="{{autocomplete}}" value="{{value}}">
 `;
 
-export class Input extends Block {
+export class DefaultInput extends Block {
   constructor(props: BlockProps = {}) {
     super('label', {
       ...props,

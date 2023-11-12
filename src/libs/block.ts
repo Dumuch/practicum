@@ -6,7 +6,7 @@ interface BlockAttr {
   attr?: Record<string, string>;
 }
 
-type BlockKeyValue = Record<string, string | Record<string, string> | Block | Block[] | (() => void)>;
+type BlockKeyValue = Record<string, string | Record<string, string> | Block | Block[] | (() => void) | boolean>;
 
 export type BlockProps = BlockKeyValue & BlockAttr;
 
@@ -19,7 +19,7 @@ export class Block {
   };
 
   private _element: HTMLElement | undefined;
-  private readonly _meta: { tagName: string; };
+  private readonly _meta: { tagName: string };
   protected props: Record<string, string>;
   private readonly eventBus: () => EventBus;
 
