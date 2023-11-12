@@ -31,7 +31,7 @@ export class SendMessageForm extends Block {
         attr: {
           class: 'send-message-form__input-message',
         },
-        placeholder: 'Сообщение',
+        placeholder: 'Сообщение (Запрещен ввод HTML тегов)',
         name: 'message',
         events: {
           blur: (event: FocusEvent) => {
