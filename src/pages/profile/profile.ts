@@ -1,10 +1,10 @@
 import { Block } from '../../libs/block';
 import renderDOM from '../../helpers/renderDOM';
-import { MainLayout } from '../../layouts/mainLayout/mainLayout.tmpl';
+import { MainLayout } from '../../layouts/mainLayout';
 import './profile.scss';
 import { ProfileForm } from '../../components/forms/profileForm';
-import { AvatarImage } from '../../components/images/avatarImage.tmpl';
-import { Link } from '../../components/link/link';
+import { AvatarImage } from '../../components/images/avatarImage';
+import { Link } from '../../components/links/defaultLink';
 import { appRoutes } from '../../constants/routes';
 
 //language=hbs

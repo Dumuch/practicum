@@ -11,6 +11,7 @@
 - Язык программирования JavaScript
 - Сервер разработки Vite.js
 - Основной сервер Node.js (Express.js)
+- Настроены EsLint, Prettier, Typescript, StyleLint
 
 **Список страниц**
 -
@@ -33,4 +34,9 @@
 -`npm run build` - сборка проекта
 
 -`npm run server` - запуск проекта
- 
+
+-`lint` - запуск EsLint
+
+-`lint:fix` - запуск EsLint с атоматическим исправлением ошибок
+
+-`stylelint` - запуск StyleLint

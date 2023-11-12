@@ -1,6 +1,5 @@
-import './mainLayout.scss';
 import { Block, BlockProps } from '../../libs/block';
-import { headerNavigations } from '../../components/navigations/headerNavigations/headerNavigations';
+import { headerNavigations } from '../../components/navigations/headerNavigations';
 
 //language=hbs
 const template = `

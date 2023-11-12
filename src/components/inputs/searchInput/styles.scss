@@ -1,0 +1,49 @@
+@import "../../../assets/styles/helpers/variables";
+@import "../../../assets/styles/helpers/mixins";
+
+.wrapper-search-input {
+  position: relative;
+  background-color: rgba($base-grey, 0.2);
+  border-radius: 5px;
+}
+
+.search-input__label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: 0.2s;
+  top: 50%;
+  font-size: 12px;
+  color: $base-grey;
+
+  & svg {
+    width: 15px;
+    height: 15px;
+    fill: $base-grey;
+  }
+}
+
+.search-input {
+  @include reset-input;
+
+  padding: 10px 10px 10px 25px;
+  color: transparent;
+
+
+  &:focus {
+    color: $base-black;
+    outline: none;
+  }
+}
+
+.search-input:focus + .search-input__label {
+  left: 5px;
+  transform: translateX(0) translateY(-50%);
+
+  & span {
+    display: none;
+  }
+}

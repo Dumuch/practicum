@@ -1,34 +1,34 @@
-import { Block, BlockProps } from '../../libs/block';
-import './link.scss';
-
 //language=hbs
-const template = `{{{label}}}`;
+import './styles.scss';
+import { Block, BlockProps } from '../../../libs/block';
 
-export class Link extends Block {
+const template = `{{{text}}}`;
+
+export class Button extends Block {
   constructor(props: BlockProps = {}) {
-    const className = props?.attr?.class ? `link ${props.attr.class}` : 'link';
+    const className = props?.attr?.class ? `button ${props.attr.class}` : 'button';
 
     let currentProps = {
       attr: {
         class: className,
+        type: 'button',
       },
     };
 
     if (props.attr) {
       currentProps = {
         attr: {
-          ...props.attr,
           ...currentProps.attr,
+          ...props.attr,
         },
       };
     }
 
-    super('a', {
+    super('button', {
       ...props,
       ...currentProps,
     });
   }
-
   render(): Node {
     return this.compile(template);
   }

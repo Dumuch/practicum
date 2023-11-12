@@ -1,5 +1,5 @@
 import { Block } from '../../../libs/block';
-import { Input } from '../../input/input.tmpl';
+import { DefaultInput } from '../../inputs/defaultInput';
 import './styles.scss';
 
 //language=hbs
@@ -20,7 +20,7 @@ export class ProfileForm extends Block {
       attr: {
         class: 'profile-settings-form',
       },
-      inputFirstName: new Input({
+      inputFirstName: new DefaultInput({
         name: 'first_name',
         label: 'Имя',
         placeholder: 'Иван',
@@ -31,7 +31,7 @@ export class ProfileForm extends Block {
         },
       }),
 
-      inputSecondName: new Input({
+      inputSecondName: new DefaultInput({
         name: 'second_name',
         label: 'Фамилия',
         placeholder: 'Иванов',
@@ -42,7 +42,7 @@ export class ProfileForm extends Block {
         },
       }),
 
-      inputDisplayName: new Input({
+      inputDisplayName: new DefaultInput({
         name: 'display_name',
         label: 'Имя в чате',
         placeholder: 'Иван',
@@ -53,7 +53,7 @@ export class ProfileForm extends Block {
         },
       }),
 
-      inputLogin: new Input({
+      inputLogin: new DefaultInput({
         name: 'login',
         label: 'Логин',
         placeholder: 'ivan',
@@ -64,7 +64,7 @@ export class ProfileForm extends Block {
         },
       }),
 
-      inputEmail: new Input({
+      inputEmail: new DefaultInput({
         name: 'email',
         label: 'Email',
         placeholder: 'test@test.com',
@@ -75,7 +75,7 @@ export class ProfileForm extends Block {
         },
       }),
 
-      inputPhone: new Input({
+      inputPhone: new DefaultInput({
         name: 'phone',
         label: 'Телефон',
         placeholder: '+7 (900) 123 12 12',

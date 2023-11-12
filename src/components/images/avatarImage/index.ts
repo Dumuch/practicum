@@ -1,5 +1,5 @@
-import { Block, BlockProps } from '../../libs/block';
-import './avatarImage.scss';
+import { Block, BlockProps } from '../../../libs/block';
+import './styles.scss';
 
 //language=hbs
 

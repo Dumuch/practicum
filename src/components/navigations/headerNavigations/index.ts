@@ -1,5 +1,5 @@
 import { Block } from '../../../libs/block';
-import { Link } from '../../link/link';
+import { Link } from '../../links/defaultLink';
 import { appRoutes } from '../../../constants/routes';
 import './style.scss';
 import { Wrapper } from '../../wrapper';

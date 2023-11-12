@@ -6,9 +6,16 @@ interface BlockAttr {
   attr?: Record<string, string>;
 }
 
-type BlockKeyValue = Record<string, string | Record<string, string> | Block | Block[] | (() => void)>;
+interface BlockEvents {
+  events?: Record<string, (e: any) => void>;
+}
 
-export type BlockProps = BlockKeyValue & BlockAttr;
+type BlockKeyValue = Record<
+  string,
+  string | Record<string, string> | Block | Block[] | (() => void) | boolean | Record<string, (e: any) => void>
+>;
+
+export type BlockProps = BlockKeyValue & BlockAttr & BlockEvents;
 
 export class Block {
   static EVENTS = {
@@ -19,7 +26,7 @@ export class Block {
   };
 
   private _element: HTMLElement | undefined;
-  private readonly _meta: { tagName: string; };
+  private readonly _meta: { tagName: string };
   protected props: Record<string, string>;
   private readonly eventBus: () => EventBus;
 
@@ -42,7 +49,6 @@ export class Block {
     this._list = <Record<string, Block[]>>this._makePropsProxy(list);
 
     this._events = <Record<string, () => void>>this._makePropsProxy(events);
-
     this.props = <Record<string, string>>this._makePropsProxy({ ...props, _id: this._id });
 
     this.eventBus = () => eventBus;
@@ -111,8 +117,8 @@ export class Block {
     this.removeEvents();
     this._element!.innerHTML = '';
     this._element!.appendChild(block);
-    this.addEvents();
     this.addAttribute();
+    this.addEvents();
   }
 
   render(): Node {
@@ -183,7 +189,6 @@ export class Block {
           this._setUpdate = true;
           target[prop] = value;
         }
-
         return true;
       },
       deleteProperty: () => {
@@ -202,12 +207,13 @@ export class Block {
     const list: Record<string, Block[]> = {};
     const events: Record<string, () => void> = {};
 
-    if (propsAndChildren?.events) {
+    if (propsAndChildren.events) {
       Object.keys(propsAndChildren.events).forEach(key => {
-        events[key] = <() => void>propsAndChildren[key];
+        if (propsAndChildren.events) {
+          events[key] = <() => void>propsAndChildren.events[key];
+        }
       });
     }
-
     Object.keys(propsAndChildren).forEach(key => {
       if (propsAndChildren[key] instanceof Block) {
         children[key] = <Block>propsAndChildren[key];
