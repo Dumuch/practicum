@@ -6,12 +6,27 @@ const template = `{{{text}}}`;
 
 export class Button extends Block {
   constructor(props: BlockProps = {}) {
-    super('button', {
+    const className = props?.attr?.class ? `button ${props.attr.class}` : 'button';
+
+    let currentProps = {
       attr: {
-        class: 'button',
+        class: className,
         type: 'button',
       },
+    };
+
+    if (props.attr) {
+      currentProps = {
+        attr: {
+          ...currentProps.attr,
+          ...props.attr,
+        },
+      };
+    }
+
+    super('button', {
       ...props,
+      ...currentProps
     });
   }
   render(): Node {

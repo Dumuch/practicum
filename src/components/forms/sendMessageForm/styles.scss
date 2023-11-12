@@ -1,0 +1,10 @@
+.send-message-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.send-message-form__input-message {
+  flex-grow: 1;
+}

@@ -1,5 +1,5 @@
 import { Block, BlockProps } from '../../../libs/block';
-import "./styles.scss";
+import './styles.scss';
 
 //language=hbs
 const template = `
@@ -12,10 +12,27 @@ export class ChatInput extends Block {
     super('label', {
       ...props,
       attr: {
-        class: `wrapper-chat-input ${props?.attr?.class ?? ''}`,
+        class: `wrapper-chat-input ${props?.attr?.class ?? ''} ${props?.error ? 'wrapper-chat-input_error' : ''}`,
       },
     });
+
   }
+
+  addEvents() {
+    Object.keys(this._events).forEach(eventName => {
+      const input = this.getContent().querySelector('input')
+
+      input && input.addEventListener(eventName, this._events[eventName]);
+    });
+  }
+
+  removeEvents() {
+    Object.keys(this._events).forEach(eventName => {
+      const input = this.getContent().querySelector('input')
+      input && input.removeEventListener(eventName, this._events[eventName]);
+    });
+  }
+
   render(): Node {
     return this.compile(template);
   }

@@ -5,6 +5,10 @@
   background-color: rgba($base-grey, 0.2);
   position: relative;
   border-radius: 5px;
+
+  &.error {
+    border-bottom: 1px solid $base-red;
+  }
 }
 
 .chat-input {

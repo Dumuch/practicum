@@ -10,6 +10,7 @@ import { Button } from '../../components/button/button';
 import { chatContent } from '../../widgets/chatContent';
 import { ChatInput } from '../../components/inputs/chatInput';
 import './styles.scss';
+import { SendMessageForm } from '../../components/forms/sendMessageForm';
 
 //language=hbs
 const pageTemplate = `
@@ -19,7 +20,7 @@ const pageTemplate = `
             {{{inputSearch}}}
         </div>
         <div class='chat-list-wrapper'>
-          {{{chatList}}}
+            {{{chatList}}}
         </div>
     </div>
 
@@ -33,14 +34,12 @@ const pageTemplate = `
             </div>
             {{{openMenuButton}}}
         </div>
-        <div class='chat-body__content'>
+        <div class='chat-body__content _chat-body__content'>
             {{{chatContent}}}
         </div>
 
         <div class='chat-body__footer'>
-            {{{addSourceButton}}}
-            {{{inputMessage}}}
-            {{{submitButton}}}
+            {{{sendMessageForm}}}
         </div>
     </div>
 `;
@@ -59,14 +58,14 @@ const chatPage = new ChatPage('div', {
     label: 'Profile',
     attr: {
       href: appRoutes.profile,
-      class: 'chat-sidebar__header-link'
+      class: 'chat-sidebar__header-link',
     },
   }),
   inputSearch: new SearchInput({
     label: 'Поиск',
     attr: {
-      class: 'chat-sidebar__header-input'
-    }
+      class: 'chat-sidebar__header-input',
+    },
   }),
   chatList: chatList,
   avatarImage: new AvatarImage({
@@ -83,22 +82,19 @@ const chatPage = new ChatPage('div', {
     text: 'Открыть меню',
   }),
   chatContent: chatContent,
-  addSourceButton: new Button({
-    text: 'Прикрепить файл',
-  }),
-  inputMessage: new ChatInput({
-    attr: {
-      class: 'chat-body__footer-input-message'
-    },
-    placeholder: 'Сообщение',
-  }),
-  submitButton: new Button({
-    text: 'Отправить',
-  }),
+  sendMessageForm: new SendMessageForm(),
 });
 
 const mainLayout = new MainLayout({
   body: chatPage,
 });
+
+window.onload = () => {
+  const chatBody = document.querySelector('._chat-body__content');
+
+  if (chatBody) {
+    chatBody.scrollTo(0, chatBody.scrollHeight);
+  }
+};
 
 renderDOM('#app', mainLayout);
