@@ -20,4 +20,19 @@ export class DefaultInput extends Block {
   render(): Node {
     return this.compile(template);
   }
+
+  addEvents() {
+    Object.keys(this._events).forEach(eventName => {
+      const input = this.getContent().querySelector('input');
+
+      input && input.addEventListener(eventName, this._events[eventName]);
+    });
+  }
+
+  removeEvents() {
+    Object.keys(this._events).forEach(eventName => {
+      const input = this.getContent().querySelector('input');
+      input && input.removeEventListener(eventName, this._events[eventName]);
+    });
+  }
 }

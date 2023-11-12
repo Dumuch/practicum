@@ -1,6 +1,6 @@
 import { Block, BlockProps } from '../../libs/block';
 import chatContentMocks from '../../mocks/chatContentMocks';
-import './styles.scss'
+import './styles.scss';
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
 
@@ -8,7 +8,7 @@ export class ChatContent extends Block {
   constructor(props: BlockProps = {}) {
     super('ul', {
       attr: {
-        class: 'message-list-group'
+        class: 'message-list-group',
       },
       ...props,
     });

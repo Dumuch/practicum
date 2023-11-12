@@ -1,7 +1,7 @@
 import { Block, BlockProps } from '../../libs/block';
 import chatListMock from '../../mocks/chatListMock';
 import './styles.scss';
-import { AvatarImage } from '../../components/images/avatarImage.tmpl';
+import { AvatarImage } from '../../components/images/avatarImage';
 
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
@@ -10,7 +10,7 @@ export class ChatList extends Block {
   constructor(props: BlockProps = {}) {
     super('ul', {
       attr: {
-        class: 'chat-list'
+        class: 'chat-list',
       },
       ...props,
     });
@@ -65,13 +65,13 @@ export const chatList = new ChatList({
       avatarImage: new AvatarImage({
         width: '20',
         height: '20',
-        src: '/assets/images/noimage.jpeg'
+        src: '/assets/images/noimage.jpeg',
       }),
       userName,
       lastText,
       date,
       countMessage,
-      lastTextIsMe
+      lastTextIsMe,
     });
   }),
 });

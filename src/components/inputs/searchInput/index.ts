@@ -1,4 +1,4 @@
-import './styles.scss'
+import './styles.scss';
 import { Block, BlockProps } from '../../../libs/block';
 
 //language=hbs

@@ -21,7 +21,6 @@ main {
   width: 20%;
   display: flex;
   flex-direction: column;
-
   padding: 20px;
   background-color: $secondary-grey;
   border-right: 1px solid rgba($base-grey, 0.5);
@@ -47,7 +46,7 @@ main {
   flex-grow: 1;
   overflow: auto;
 
-  @include customScrollbar;
+  @include custom-scrollbar;
 }
 
 .chat-body {
@@ -68,7 +67,7 @@ main {
     flex-grow: 1;
     padding: 20px 0;
 
-    @include customScrollbar;
+    @include custom-scrollbar;
   }
 
   &__footer {

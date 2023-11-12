@@ -1,6 +1,6 @@
 import { Block } from '../../libs/block';
 import renderDOM from '../../helpers/renderDOM';
-import { MainLayout } from '../../layouts/mainLayout/mainLayout.tmpl';
+import { MainLayout } from '../../layouts/mainLayout';
 
 //language=hbs
 const pageTemplate = `

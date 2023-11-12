@@ -1,5 +1,5 @@
-import { Block, BlockProps } from '../../libs/block';
-import './link.scss';
+import { Block, BlockProps } from '../../../libs/block';
+import './styles.scss';
 
 //language=hbs
 const template = `{{{label}}}`;

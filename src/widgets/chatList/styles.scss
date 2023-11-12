@@ -13,7 +13,6 @@
     border-bottom: 1px solid rgba($base-grey, 0.5);
     display: flex;
     gap: 10px;
-
     transition: 0.2s;
 
     &:hover {
@@ -45,7 +44,6 @@
     flex-direction: column;
     flex-shrink: 0;
     justify-content: space-between;
-
     font-size: 13px;
 
     & span:first-of-type {

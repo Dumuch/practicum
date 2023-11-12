@@ -1,14 +1,13 @@
 import { Block } from '../../libs/block';
 import renderDOM from '../../helpers/renderDOM';
-import { MainLayout } from '../../layouts/mainLayout/mainLayout.tmpl';
-import { Link } from '../../components/link/link';
+import { MainLayout } from '../../layouts/mainLayout';
+import { Link } from '../../components/links/defaultLink';
 import { appRoutes } from '../../constants/routes';
 import { SearchInput } from '../../components/inputs/searchInput';
 import { chatList } from '../../widgets/chatList';
-import { AvatarImage } from '../../components/images/avatarImage.tmpl';
-import { Button } from '../../components/button/button';
+import { AvatarImage } from '../../components/images/avatarImage';
+import { Button } from '../../components/buttons/defaultButton';
 import { chatContent } from '../../widgets/chatContent';
-import { ChatInput } from '../../components/inputs/chatInput';
 import './styles.scss';
 import { SendMessageForm } from '../../components/forms/sendMessageForm';
 

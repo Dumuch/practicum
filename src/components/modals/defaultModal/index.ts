@@ -1,5 +1,5 @@
-import './defaultModal.scss';
-import { Block, BlockProps } from '../../libs/block';
+import './styles.scss';
+import { Block, BlockProps } from '../../../libs/block';
 
 //language=hbs
 const template = `

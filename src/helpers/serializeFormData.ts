@@ -3,8 +3,8 @@ export default (event: SubmitEvent) => {
   const data: Record<string, string> = {};
 
   formData.forEach((value, key) => {
-    data[key] = <string> value;
+    data[key] = <string>value;
   });
 
   return data;
-}
+};

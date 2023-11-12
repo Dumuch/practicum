@@ -2,8 +2,8 @@ import './signUp.scss';
 
 import { Block } from '../../libs/block';
 import renderDOM from '../../helpers/renderDOM';
-import { MainLayout } from '../../layouts/mainLayout/mainLayout.tmpl';
-import { DefaultModal } from '../../components/modals/defaultModal.tmpl';
+import { MainLayout } from '../../layouts/mainLayout';
+import { DefaultModal } from '../../components/modals/defaultModal';
 import { RegistrationForm } from '../../components/forms/registrationForm';
 
 //language=hbs

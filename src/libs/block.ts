@@ -10,7 +10,10 @@ interface BlockEvents {
   events?: Record<string, (e: any) => void>;
 }
 
-type BlockKeyValue = Record<string, string | Record<string, string> | Block | Block[] | (() => void) | boolean |  Record<string, (e: any) => void>>;
+type BlockKeyValue = Record<
+  string,
+  string | Record<string, string> | Block | Block[] | (() => void) | boolean | Record<string, (e: any) => void>
+>;
 
 export type BlockProps = BlockKeyValue & BlockAttr & BlockEvents;
 
@@ -207,7 +210,7 @@ export class Block {
     if (propsAndChildren.events) {
       Object.keys(propsAndChildren.events).forEach(key => {
         if (propsAndChildren.events) {
-          events[key] = <() => void> propsAndChildren.events[key];
+          events[key] = <() => void>propsAndChildren.events[key];
         }
       });
     }

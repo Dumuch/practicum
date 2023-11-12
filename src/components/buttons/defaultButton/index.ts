@@ -1,6 +1,6 @@
 //language=hbs
-import './button.scss';
-import { Block, BlockProps } from '../../libs/block';
+import './styles.scss';
+import { Block, BlockProps } from '../../../libs/block';
 
 const template = `{{{text}}}`;
 
@@ -26,7 +26,7 @@ export class Button extends Block {
 
     super('button', {
       ...props,
-      ...currentProps
+      ...currentProps,
     });
   }
   render(): Node {

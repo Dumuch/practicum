@@ -1,5 +1,5 @@
 import { Block } from '../../../libs/block';
-import { Button } from '../../button/button';
+import { Button } from '../../buttons/defaultButton';
 import { ChatInput } from '../../inputs/chatInput';
 import './styles.scss';
 import serializeFormData from '../../../helpers/serializeFormData';
@@ -15,7 +15,6 @@ const template = `
 const validation: Record<string, (value: any) => boolean> = {
   message: (value: string) => hasForbiddenCharacters(value) || isEmpty(value),
 };
-
 
 export class SendMessageForm extends Block {
   constructor() {
@@ -35,14 +34,14 @@ export class SendMessageForm extends Block {
         name: 'message',
         events: {
           blur: (event: FocusEvent) => {
-            const element = <HTMLInputElement> event.currentTarget;
+            const element = <HTMLInputElement>event.currentTarget;
 
             if (validation.message(element.value)) {
               element?.parentElement?.classList.add('error');
             }
           },
           focus: (event: FocusEvent) => {
-            const element = <HTMLInputElement> event.currentTarget;
+            const element = <HTMLInputElement>event.currentTarget;
             element?.parentElement?.classList.remove('error');
           },
         },
@@ -70,7 +69,6 @@ export class SendMessageForm extends Block {
           } else {
             console.log(data);
           }
-
         },
       },
     });

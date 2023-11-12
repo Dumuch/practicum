@@ -15,12 +15,11 @@ export class ChatInput extends Block {
         class: `wrapper-chat-input ${props?.attr?.class ?? ''} ${props?.error ? 'wrapper-chat-input_error' : ''}`,
       },
     });
-
   }
 
   addEvents() {
     Object.keys(this._events).forEach(eventName => {
-      const input = this.getContent().querySelector('input')
+      const input = this.getContent().querySelector('input');
 
       input && input.addEventListener(eventName, this._events[eventName]);
     });
@@ -28,7 +27,7 @@ export class ChatInput extends Block {
 
   removeEvents() {
     Object.keys(this._events).forEach(eventName => {
-      const input = this.getContent().querySelector('input')
+      const input = this.getContent().querySelector('input');
       input && input.removeEventListener(eventName, this._events[eventName]);
     });
   }
