@@ -4,7 +4,7 @@ import { Button } from '../../buttons/defaultButton';
 import { Link } from '../../links/defaultLink';
 import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
-import { isCurrentLogin, isMaxValue, isMinValue, isCurrentPassword } from '../../../libs/validate';
+import { isCorrectLogin, isMaxValue, isMinValue, isCurrentPassword } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
 
 //language=hbs
@@ -19,7 +19,7 @@ const template = `
 `;
 
 const validation: Record<string, (value: string) => boolean> = {
-    login: (value: string) => isMinValue(value, 3) || isMaxValue(value, 20) || isCurrentLogin(value),
+    login: (value: string) => isMinValue(value, 3) || isMaxValue(value, 20) || isCorrectLogin(value),
     password: (value: string) => isMinValue(value, 8) || isMaxValue(value, 40) || isCurrentPassword(value),
 };
 

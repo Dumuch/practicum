@@ -15,7 +15,7 @@ export const isMaxValue = (value: string, max: number) => {
     return value.length > max;
 };
 
-export const isCurrentLogin = (value: string) => {
+export const isCorrectLogin = (value: string) => {
     const spaceRegex = /\s/;
     const currentStrRegex = value.replace(/[a-zA-Z0-9-_]/g, '').length > 0;
     const onlyNumbers = value.replace(/[0-9-_]/g, '').length === 0;
@@ -46,25 +46,3 @@ export const isCurrentEmail = (value: string): boolean => {
     return !isValidRegex.test(value);
 };
 
-export class Validate {
-    protected _value: string;
-
-    constructor(value: string) {
-        this._value = value;
-    }
-
-    minValue = (min: number) => {
-        return this._value.length < min;
-    };
-
-    maxValue = (max: number) => {
-        return this._value.length > max;
-    };
-
-    correctLogin = () => {
-        const spaceRegex = /\s/;
-        const currentStrRegex = this._value.replace(/[a-zA-Z0-9-_]/g, '').length > 0;
-        const onlyNumbers = this._value.replace(/[0-9-_]/g, '').length === 0;
-        return spaceRegex.test(this._value) || currentStrRegex || onlyNumbers;
-    };
-}

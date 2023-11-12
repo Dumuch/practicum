@@ -5,7 +5,7 @@ import { Link } from '../../links/defaultLink';
 import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
 import {
-    isCurrentLogin,
+    isCorrectLogin,
     isCurrentPassword,
     isCurrentName,
     isMaxValue,
@@ -33,7 +33,7 @@ const template = `
 `;
 
 const validation: Record<string, (value: any) => boolean> = {
-    login: (value: string) => isMinValue(value, 3) || isMaxValue(value, 20) || isCurrentLogin(value),
+    login: (value: string) => isMinValue(value, 3) || isMaxValue(value, 20) || isCorrectLogin(value),
     password: (value: string) => isMinValue(value, 8) || isMaxValue(value, 40) || isCurrentPassword(value),
 
     first_name: (value: string) => isCurrentName(value),
