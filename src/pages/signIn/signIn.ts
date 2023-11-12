@@ -11,28 +11,28 @@ const pageTemplate = `
 `;
 
 class SignInPage extends Block {
-  render() {
-    return this.compile(pageTemplate);
-  }
+    render() {
+        return this.compile(pageTemplate);
+    }
 }
 
 const modal = new DefaultModal({
-  title: 'Авторизация',
-  attr: {
-    class: 'sign-in__modal',
-  },
-  body: new AuthorizationForm(),
+    title: 'Авторизация',
+    attr: {
+        class: 'sign-in__modal',
+    },
+    body: new AuthorizationForm(),
 });
 
 const signInPage = new SignInPage('div', {
-  attr: {
-    class: 'container',
-  },
-  modal: modal,
+    attr: {
+        class: 'container',
+    },
+    modal: modal,
 });
 
 const mainLayout = new MainLayout({
-  body: signInPage,
+    body: signInPage,
 });
 
 renderDOM('#app', mainLayout);

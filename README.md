@@ -37,6 +37,6 @@
 
 -`lint` - запуск EsLint
 
--`lint:fix` - запуск EsLint с атоматическим исправлением ошибок
+-`lint:fix` - запуск EsLint с исправлением ошибок
 
 -`stylelint` - запуск StyleLint

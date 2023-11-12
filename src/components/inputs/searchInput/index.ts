@@ -16,15 +16,15 @@ const template = `
 `;
 
 export class SearchInput extends Block {
-  constructor(props: BlockProps = {}) {
-    super('label', {
-      ...props,
-      attr: {
-        class: `wrapper-search-input ${props?.attr?.class ?? ''}`,
-      },
-    });
-  }
-  render(): Node {
-    return this.compile(template);
-  }
+    constructor(props: BlockProps = {}) {
+        super('label', {
+            ...props,
+            attr: {
+                class: `wrapper-search-input ${props?.attr?.class ?? ''}`,
+            },
+        });
+    }
+    render(): Node {
+        return this.compile(template);
+    }
 }

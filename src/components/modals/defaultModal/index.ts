@@ -10,16 +10,16 @@ const template = `
 `;
 
 export class DefaultModal extends Block {
-  constructor(props: BlockProps = {}) {
-    super('div', {
-      ...props,
-      attr: {
-        class: `modal ${props?.attr?.class ?? ''}`,
-      },
-    });
-  }
+    constructor(props: BlockProps = {}) {
+        super('div', {
+            ...props,
+            attr: {
+                class: `modal ${props?.attr?.class ?? ''}`,
+            },
+        });
+    }
 
-  render(): Node {
-    return this.compile(template);
-  }
+    render(): Node {
+        return this.compile(template);
+    }
 }

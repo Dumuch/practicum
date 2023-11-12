@@ -7,18 +7,18 @@ import { AvatarImage } from '../../components/images/avatarImage';
 const chatListTemplate = `{{{items}}}`;
 
 export class ChatList extends Block {
-  constructor(props: BlockProps = {}) {
-    super('ul', {
-      attr: {
-        class: 'chat-list',
-      },
-      ...props,
-    });
-  }
+    constructor(props: BlockProps = {}) {
+        super('ul', {
+            attr: {
+                class: 'chat-list',
+            },
+            ...props,
+        });
+    }
 
-  render(): Node {
-    return this.compile(chatListTemplate);
-  }
+    render(): Node {
+        return this.compile(chatListTemplate);
+    }
 }
 
 //language=hbs
@@ -38,40 +38,41 @@ const chatItemTemplate = `
 
     <div class='chat-item__right-block'>
         <span>
-          {{{date}}}
+            {{{date}}}
         </span>
         <span>
-        {{{countMessage}}}
+            {{{countMessage}}}
         </span>
     </div>
 `;
 
 export class ChatItem extends Block {
-  constructor(props: BlockProps = {}) {
-    super('li', {
-      ...props,
-    });
-  }
+    constructor(props: BlockProps = {}) {
+        super('li', {
+            ...props,
+        });
+    }
 
-  render(): Node {
-    return this.compile(chatItemTemplate);
-  }
+    render(): Node {
+        return this.compile(chatItemTemplate);
+    }
 }
 
 export const chatList = new ChatList({
-  items: chatListMock.map(item => {
-    const { userName, lastText, date, countMessage, lastTextIsMe } = item;
-    return new ChatItem({
-      avatarImage: new AvatarImage({
-        width: '20',
-        height: '20',
-        src: '/assets/images/noimage.jpeg',
-      }),
-      userName,
-      lastText,
-      date,
-      countMessage,
-      lastTextIsMe,
-    });
-  }),
+    items: chatListMock.map(item => {
+        const { userName, lastText, date, countMessage, lastTextIsMe } = item;
+
+        return new ChatItem({
+            avatarImage: new AvatarImage({
+                width: '20',
+                height: '20',
+                src: '/assets/images/noimage.jpeg',
+            }),
+            userName,
+            lastText,
+            date,
+            countMessage,
+            lastTextIsMe,
+        });
+    }),
 });
