@@ -8,18 +8,18 @@ const pageTemplate = `
 `;
 
 class IndexPage extends Block {
-  render() {
-    return this.compile(pageTemplate);
-  }
+    render() {
+        return this.compile(pageTemplate);
+    }
 }
 const indexPage = new IndexPage('div', {
-  attr: {
-    class: 'container',
-  },
+    attr: {
+        class: 'container',
+    },
 });
 
 const mainLayout = new MainLayout({
-  body: indexPage,
+    body: indexPage,
 });
 
 renderDOM('#app', mainLayout);

@@ -1,10 +1,10 @@
 export default (event: SubmitEvent) => {
-  const formData = new FormData(event.target as HTMLFormElement);
-  const data: Record<string, string> = {};
+    const formData = new FormData(event.target as HTMLFormElement);
+    const data: Record<string, string> = {};
 
-  formData.forEach((value, key) => {
-    data[key] = <string>value;
-  });
+    formData.forEach((value, key) => {
+        data[key] = <string>value;
+    });
 
-  return data;
+    return data;
 };

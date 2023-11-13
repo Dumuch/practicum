@@ -6,6 +6,7 @@ import { ProfileForm } from '../../components/forms/profileForm';
 import { AvatarImage } from '../../components/images/avatarImage';
 import { Link } from '../../components/links/defaultLink';
 import { appRoutes } from '../../constants/routes';
+import { Button } from '../../components/buttons/defaultButton';
 
 //language=hbs
 const pageTemplate = `
@@ -33,50 +34,52 @@ const pageTemplate = `
 `;
 
 class ProfilePage extends Block {
-  render() {
-    return this.compile(pageTemplate);
-  }
+    render() {
+        return this.compile(pageTemplate);
+    }
 }
 
 const profilePage = new ProfilePage('div', {
-  attr: {
-    class: 'container',
-  },
-  profileForm: new ProfileForm(),
-  avatarImage: new AvatarImage({
-    src: '/assets/images/noimage.jpeg',
-    alt: 'image',
-    width: '200',
-    height: '200',
     attr: {
-      class: 'profile-settings__avatar',
+        class: 'container',
     },
-  }),
-  changeProfileLink: new Link({
-    attr: {
-      class: 'profile-settings__link',
-      href: appRoutes.profile,
-    },
-    label: 'Изменить данные',
-  }),
-  changePasswordLink: new Link({
-    attr: {
-      class: 'profile-settings__link',
-      href: appRoutes.profile,
-    },
-    label: 'Изменить пароль',
-  }),
-  exitLink: new Link({
-    attr: {
-      class: 'link_alert profile-settings__link',
-      href: appRoutes.profile,
-    },
-    label: 'Выйти',
-  }),
+    profileForm: new ProfileForm(),
+    avatarImage: new AvatarImage({
+        src: '/assets/images/noimage.jpeg',
+        alt: 'image',
+        width: '200',
+        height: '200',
+        attr: {
+            class: 'profile-settings__avatar',
+        },
+    }),
+    changeProfileLink: new Button({
+        attr: {
+            form: 'profile-form',
+            class: 'button',
+            type: 'submit',
+        },
+
+        text: 'Сохранить данные',
+    }),
+    changePasswordLink: new Link({
+        attr: {
+            class: 'profile-settings__link',
+            href: appRoutes.profile,
+        },
+        label: 'Изменить пароль',
+    }),
+    exitLink: new Link({
+        attr: {
+            class: 'link_alert profile-settings__link',
+            href: appRoutes.profile,
+        },
+        label: 'Выйти',
+    }),
 });
 
 const mainLayout = new MainLayout({
-  body: profilePage,
+    body: profilePage,
 });
 
 renderDOM('#app', mainLayout);

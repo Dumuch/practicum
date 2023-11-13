@@ -15,17 +15,17 @@ const template = `
 `;
 
 export class MainLayout extends Block {
-  constructor(props: BlockProps = {}) {
-    super('div', {
-      attr: {
-        class: 'layout',
-      },
-      navigation: headerNavigations,
-      ...props,
-    });
-  }
+    constructor(props: BlockProps = {}) {
+        super('div', {
+            attr: {
+                class: 'layout',
+            },
+            navigation: headerNavigations,
+            ...props,
+        });
+    }
 
-  render(): Node {
-    return this.compile(template);
-  }
+    render(): Node {
+        return this.compile(template);
+    }
 }

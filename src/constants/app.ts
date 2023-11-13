@@ -1,4 +1,4 @@
 export const appConstants = {
-  appId: '#app',
-  attrDataBodyClass: 'data-body-class',
+    appId: '#app',
+    attrDataBodyClass: 'data-body-class',
 };

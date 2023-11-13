@@ -8,18 +8,18 @@ const pageTemplate = `
 `;
 
 class ErrorPage extends Block {
-  render() {
-    return this.compile(pageTemplate);
-  }
+    render() {
+        return this.compile(pageTemplate);
+    }
 }
 const errorPage = new ErrorPage('div', {
-  attr: {
-    class: 'container',
-  },
+    attr: {
+        class: 'container',
+    },
 });
 
 const mainLayout = new MainLayout({
-  body: errorPage,
+    body: errorPage,
 });
 
 renderDOM('#app', mainLayout);

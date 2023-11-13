@@ -1,4 +1,4 @@
-# sprint_1
+# sprint_2
 
 
 - Ссылка на **макет** https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?type=design&node-id=0-1&mode=design
@@ -37,6 +37,6 @@
 
 -`lint` - запуск EsLint
 
--`lint:fix` - запуск EsLint с атоматическим исправлением ошибок
+-`lint:fix` - запуск EsLint с исправлением ошибок
 
 -`stylelint` - запуск StyleLint

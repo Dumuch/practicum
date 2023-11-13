@@ -1,96 +1,80 @@
 const METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE',
 };
 
+type HttpMethod = (typeof METHODS)[keyof typeof METHODS];
+
 interface RequestOptions {
-  headers?: Record<string, string>;
-  data?: Record<string, any>;
-  timeout?: number;
-  method?: string
+    headers?: Record<string, string>;
+    method?: HttpMethod;
+    data?: Record<string, any>;
+    timeout?: number;
 }
 
 function queryStringify(data: Record<string, any>): string {
-  let str = '';
-  for (const key in data) {
-    str += `${key}=${data[key]}&`;
-  }
+    if (typeof data !== 'object') {
+        throw new Error('Data must be object');
+    }
 
-  if (str.length > 0) {
-    str = `?${str.substr(0, str.length - 1)}`;
-  }
-
-  return str;
+    const keys = Object.keys(data);
+    return keys.reduce((result, key, index) => {
+        return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
+    }, '?');
 }
 
 class HTTPTransport {
-  get(url: string, options: RequestOptions = { headers: { 'Content-Type': 'application/json' } }): Promise<XMLHttpRequest> {
-    let queryStr = '';
-    if (options.data) {
-      queryStr = queryStringify(options.data);
-    }
-    return this.request(url + queryStr, { ...options, method: METHODS.GET }, options.timeout);
-  }
+    get = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+        return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+    };
 
-  put(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
-  }
+    post = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+        return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+    };
 
-  post(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
-    const formData = new FormData();
-    if (options.data) {
-      for (const key in options.data) {
-        formData.append(key, options.data[key]);
-      }
-    }
+    put = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+        return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+    };
 
-    return this.request(url, { ...options, method: METHODS.POST }, options.timeout, formData);
-  }
+    delete = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+        return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+    };
 
-  delete(url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
-  }
+    request = (url: string, options: RequestOptions = {}, timeout: number = 5000): Promise<XMLHttpRequest> => {
+        const { headers = {}, method, data } = options;
 
-  request(url: string, options: RequestOptions, timeout = 1000, formData: FormData | null = null): Promise<XMLHttpRequest> {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
+        return new Promise<XMLHttpRequest>((resolve, reject) => {
+            if (!method) {
+                reject('No method');
+                return;
+            }
 
-      xhr.open(options.method!, url);
-      for (const key in options.headers) {
-        xhr.setRequestHeader(key, options.headers[key]);
-      }
+            const xhr = new XMLHttpRequest();
+            const isGet = method === METHODS.GET;
 
-      xhr.onerror = function () {
-        if (xhr.readyState === 3) {
-          // загрузка
-        }
-        if (xhr.readyState === 4) {
-          // запрос завершён
-          reject(xhr);
-        }
-      };
+            xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
 
-      xhr.onload = function () {
-        if (xhr.readyState === 4) {
-          resolve(xhr);
-        }
-      };
+            Object.keys(headers).forEach(key => {
+                xhr.setRequestHeader(key, headers[key]);
+            });
 
-      xhr.onloadend = function () {
-        if (xhr.readyState === 4) {
-          reject(xhr);
-        }
-      };
+            xhr.onload = function () {
+                resolve(xhr);
+            };
 
-      xhr.timeout = timeout;
+            xhr.onabort = reject;
+            xhr.onerror = reject;
 
-      if (formData) {
-        xhr.send(formData);
-      } else {
-        xhr.send();
-      }
-    });
-  }
+            xhr.timeout = timeout;
+            xhr.ontimeout = reject;
+
+            if (isGet || !data) {
+                xhr.send();
+            } else {
+                xhr.send(JSON.stringify(data)); // assuming data should be sent as JSON
+            }
+        });
+    };
 }

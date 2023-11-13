@@ -44,56 +44,56 @@ const pageTemplate = `
 `;
 
 class ChatPage extends Block {
-  render() {
-    return this.compile(pageTemplate);
-  }
+    render() {
+        return this.compile(pageTemplate);
+    }
 }
 
 const chatPage = new ChatPage('div', {
-  attr: {
-    class: 'chat-container',
-  },
-  linkProfile: new Link({
-    label: 'Profile',
     attr: {
-      href: appRoutes.profile,
-      class: 'chat-sidebar__header-link',
+        class: 'chat-container',
     },
-  }),
-  inputSearch: new SearchInput({
-    label: 'Поиск',
-    attr: {
-      class: 'chat-sidebar__header-input',
-    },
-  }),
-  chatList: chatList,
-  avatarImage: new AvatarImage({
-    src: '/assets/images/noimage.jpeg',
-    alt: 'image',
-    width: '100',
-    height: '100',
-    attr: {
-      class: 'user-info__avatar',
-    },
-  }),
-  userName: 'userName',
-  openMenuButton: new Button({
-    text: 'Открыть меню',
-  }),
-  chatContent: chatContent,
-  sendMessageForm: new SendMessageForm(),
+    linkProfile: new Link({
+        label: 'Profile',
+        attr: {
+            href: appRoutes.profile,
+            class: 'chat-sidebar__header-link',
+        },
+    }),
+    inputSearch: new SearchInput({
+        label: 'Поиск',
+        attr: {
+            class: 'chat-sidebar__header-input',
+        },
+    }),
+    chatList: chatList,
+    avatarImage: new AvatarImage({
+        src: '/assets/images/noimage.jpeg',
+        alt: 'image',
+        width: '100',
+        height: '100',
+        attr: {
+            class: 'user-info__avatar',
+        },
+    }),
+    userName: 'userName',
+    openMenuButton: new Button({
+        text: 'Открыть меню',
+    }),
+    chatContent: chatContent,
+    sendMessageForm: new SendMessageForm(),
 });
 
 const mainLayout = new MainLayout({
-  body: chatPage,
+    body: chatPage,
 });
 
 window.onload = () => {
-  const chatBody = document.querySelector('._chat-body__content');
+    const chatBody = document.querySelector('._chat-body__content');
 
-  if (chatBody) {
-    chatBody.scrollTo(0, chatBody.scrollHeight);
-  }
+    if (chatBody) {
+        chatBody.scrollTo(0, chatBody.scrollHeight);
+    }
 };
 
 renderDOM('#app', mainLayout);

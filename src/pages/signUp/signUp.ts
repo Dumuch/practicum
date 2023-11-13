@@ -12,28 +12,28 @@ const pageTemplate = `
 `;
 
 class SignUpPage extends Block {
-  render() {
-    return this.compile(pageTemplate);
-  }
+    render() {
+        return this.compile(pageTemplate);
+    }
 }
 
 const modal = new DefaultModal({
-  title: 'Регистрация',
-  attr: {
-    class: 'sign-up__modal',
-  },
-  body: new RegistrationForm(),
+    title: 'Регистрация',
+    attr: {
+        class: 'sign-up__modal',
+    },
+    body: new RegistrationForm(),
 });
 
 const signInPage = new SignUpPage('div', {
-  attr: {
-    class: 'container',
-  },
-  modal: modal,
+    attr: {
+        class: 'container',
+    },
+    modal: modal,
 });
 
 const mainLayout = new MainLayout({
-  body: signInPage,
+    body: signInPage,
 });
 
 renderDOM('#app', mainLayout);
