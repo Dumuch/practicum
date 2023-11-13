@@ -1,0 +1,47 @@
+@import "../../../assets/styles/helpers/variables";
+@import "../../../assets/styles/helpers/mixins";
+
+.profile-settings__fields {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+}
+
+.profile-settings-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $base-grey;
+
+  &.error {
+    flex-wrap: wrap;
+    border-bottom: none;
+
+    & .error-messages {
+      margin-top: 5px;
+      border-top: 1px solid $base-red;
+      width: 100%;
+    }
+
+    & .input {
+      border-bottom: none;
+    }
+  }
+
+  & .input__label {
+    position: relative;
+    font-size: 14px;
+    white-space: nowrap;
+    color: $base-black;
+  }
+
+  & .input {
+    @include reset-input;
+
+    text-align: right;
+
+    &:disabled {
+      color: $base-grey;
+    }
+  }
+}

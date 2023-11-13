@@ -1,0 +1,22 @@
+@import "../../../assets/styles/helpers/variables";
+
+.send-message-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.send-message-form__input-message {
+  position: relative;
+  flex-grow: 1;
+
+  &.error {
+    border: 1px solid $base-red;
+
+    & .error-messages {
+      position: absolute;
+      bottom: 100%;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import '../../../assets/styles/helpers/variables';
+@import '../../../assets/styles/helpers/mixins';
+
+.wrapper-input {
+  position: relative;
+  display: block;
+  padding: 20px 0 5px;
+  margin: 5px 0;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.input__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  color: $base-grey;
+}
+
+.input {
+  padding: 5px 0;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  border-radius: 0;
+  border-bottom: 2px solid $base-blue;
+  outline: none;
+
+  @include transition(border);
+
+  &:focus,
+  &:hover {
+    border-bottom-color: rgba($base-blue, 0.75);
+  }
+
+  .wrapper-input.error & {
+    border-bottom: 2px solid $base-red;
+  }
+}

@@ -1,0 +1,19 @@
+@import '../../../assets/styles/helpers/variables';
+@import '../../../assets/styles/helpers/mixins';
+
+.link {
+  text-decoration: none;
+  font-size: 14px;
+  color: $base-blue;
+
+  @include transition(color);
+
+
+  &_alert {
+    color: $base-red;
+  }
+
+  &:hover {
+    color: rgba($base-blue, 0.75);
+  }
+}

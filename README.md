@@ -1,4 +1,4 @@
-# sprint_1
+# sprint_2
 
 
 - Ссылка на **макет** https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?type=design&node-id=0-1&mode=design
@@ -11,6 +11,7 @@
 - Язык программирования JavaScript
 - Сервер разработки Vite.js
 - Основной сервер Node.js (Express.js)
+- Настроены EsLint, Prettier, Typescript, StyleLint
 
 **Список страниц**
 -
@@ -33,4 +34,9 @@
 -`npm run build` - сборка проекта
 
 -`npm run server` - запуск проекта
- 
+
+-`lint` - запуск EsLint
+
+-`lint:fix` - запуск EsLint с исправлением ошибок
+
+-`stylelint` - запуск StyleLint

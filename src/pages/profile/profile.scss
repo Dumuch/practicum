@@ -1,3 +1,6 @@
+@import '../../assets/styles/helpers/variables';
+@import '../../assets/styles/helpers/mixins';
+
 .profile-settings {
   margin-top: auto;
   margin-bottom: auto;
@@ -18,10 +21,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  inset: 0;
   opacity: 0;
   border-radius: 50%;
   background-color: rgba($base-black, 0.5);
@@ -39,40 +39,9 @@
   height: 150px;
 }
 
-.profile-settings__fields {
-  display: flex;
-  flex-direction: column;
-  min-width: 450px;
-}
-
-.profile-settings-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  border-bottom: 1px solid $base-grey;
-
-  & .input__label {
-    position: relative;
-    font-size: 14px;
-    white-space: nowrap;
-    color: $base-black;
-  }
-
-  & .input {
-    @include reset-input;
-
-    text-align: right;
-
-    &:disabled {
-      color: $base-grey;
-    }
-  }
-}
 
 .profile-settings__footer {
   margin-top: 20px;
-
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -80,8 +49,4 @@
 
 .profile-settings__link {
   border-bottom: 1px solid $base-grey;
-
-  &_alert {
-    color: $base-red;
-  }
 }
