@@ -4,15 +4,7 @@ import { Button } from '../../buttons/defaultButton';
 import { Link } from '../../links/defaultLink';
 import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
-import {
-    isCorrectLogin,
-    isCurrentPassword,
-    isCurrentName,
-    isMaxValue,
-    isMinValue,
-    isCurrentPhone,
-    isCurrentEmail,
-} from '../../../libs/validate';
+import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
 
 //language=hbs
@@ -32,22 +24,32 @@ const template = `
     </div>
 `;
 
-const validation: Record<string, (value: any) => boolean> = {
-    login: (value: string) => isMinValue(value, 3) || isMaxValue(value, 20) || isCorrectLogin(value),
-    password: (value: string) => isMinValue(value, 8) || isMaxValue(value, 40) || isCurrentPassword(value),
-
-    first_name: (value: string) => isCurrentName(value),
-    last_name: (value: string) => isCurrentName(value),
-
-    email: (value: string) => isCurrentEmail(value),
-    phone: (value: string) => isCurrentPhone(value),
-};
+const validator = new Validator({
+    login: [
+        'correctLogin',
+        {
+            minValue: 3,
+            maxValue: 20,
+        },
+    ],
+    password: [
+        'currentPassword',
+        {
+            minValue: 8,
+            maxValue: 40,
+        },
+    ],
+    first_name: ['currentName'],
+    last_name: ['currentName'],
+    email: ['currentEmail'],
+    phone: ['currentPhone'],
+});
 
 export class RegistrationForm extends Block {
     constructor() {
         super('form', {
             attr: {
-                class: 'sign-in-form',
+                class: 'sign-up-form',
             },
             inputFirstName: new DefaultInput({
                 name: 'first_name',
@@ -56,14 +58,14 @@ export class RegistrationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('first_name', element.value);
 
-                        if (validation.first_name(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('first_name')) {
+                            validator.visibleErrorMessage('first_name', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('first_name');
                     },
                 },
             }),
@@ -75,14 +77,14 @@ export class RegistrationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('second_name', element.value);
 
-                        if (validation.last_name(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('second_name')) {
+                            validator.visibleErrorMessage('second_name', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('second_name');
                     },
                 },
             }),
@@ -94,14 +96,14 @@ export class RegistrationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('login', element.value);
 
-                        if (validation.login(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('login')) {
+                            validator.visibleErrorMessage('login', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('login');
                     },
                 },
             }),
@@ -113,14 +115,14 @@ export class RegistrationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('email', element.value);
 
-                        if (validation.email(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('email')) {
+                            validator.visibleErrorMessage('email', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('email');
                     },
                 },
             }),
@@ -132,14 +134,14 @@ export class RegistrationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('password', element.value);
 
-                        if (validation.password(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('password')) {
+                            validator.visibleErrorMessage('password', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('password');
                     },
                 },
             }),
@@ -151,20 +153,23 @@ export class RegistrationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('phone', element.value);
 
-                        if (validation.phone(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('phone')) {
+                            validator.visibleErrorMessage('phone', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('phone');
                     },
                 },
             }),
 
             buttonSubmit: new Button({
                 text: 'Регистрация',
+                attr: {
+                    type: 'submit',
+                },
             }),
             link: new Link({
                 label: 'Авторизация',
@@ -173,16 +178,15 @@ export class RegistrationForm extends Block {
             events: {
                 submit: (event: SubmitEvent) => {
                     event.preventDefault();
-
                     const data = serializeFormData(event);
-                    let hasError = false;
+                    console.log(data);
+
                     Object.keys(data).forEach(key => {
-                        if (validation[key](data[key])) {
-                            hasError = true;
-                        }
+                        validator.validate(key, data[key]);
+                        validator.visibleErrorMessage(key, true);
                     });
 
-                    if (hasError) {
+                    if (validator.hasError()) {
                         console.error('В валидации есть ошибки');
                     } else {
                         console.log(data);

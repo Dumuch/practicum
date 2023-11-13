@@ -3,7 +3,7 @@ import { Button } from '../../buttons/defaultButton';
 import { ChatInput } from '../../inputs/chatInput';
 import './styles.scss';
 import serializeFormData from '../../../helpers/serializeFormData';
-import { hasForbiddenCharacters, isEmpty } from '../../../libs/validate';
+import { Validator } from '../../../libs/validate';
 
 //language=hbs
 const template = `
@@ -12,9 +12,9 @@ const template = `
     {{{submitButton}}}
 `;
 
-const validation: Record<string, (value: any) => boolean> = {
-    message: (value: string) => hasForbiddenCharacters(value) || isEmpty(value),
-};
+const validator = new Validator({
+    message: ['hasForbiddenCharacters', 'isEmpty'],
+});
 
 export class SendMessageForm extends Block {
     constructor() {
@@ -35,14 +35,14 @@ export class SendMessageForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('message', element.value);
 
-                        if (validation.message(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('message')) {
+                            validator.visibleErrorMessage('message', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('message');
                     },
                 },
             }),
@@ -57,14 +57,12 @@ export class SendMessageForm extends Block {
                     event.preventDefault();
 
                     const data = serializeFormData(event);
-                    let hasError = false;
                     Object.keys(data).forEach(key => {
-                        if (validation[key](data[key])) {
-                            hasError = true;
-                        }
+                        validator.validate(key, data[key]);
+                        validator.visibleErrorMessage(key, true);
                     });
 
-                    if (hasError) {
+                    if (validator.hasError()) {
                         console.error('В валидации есть ошибки');
                     } else {
                         console.log(data);

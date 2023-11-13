@@ -4,7 +4,7 @@ import { Button } from '../../buttons/defaultButton';
 import { Link } from '../../links/defaultLink';
 import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
-import { isCorrectLogin, isMaxValue, isMinValue, isCurrentPassword } from '../../../libs/validate';
+import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
 
 //language=hbs
@@ -18,10 +18,22 @@ const template = `
     </div>
 `;
 
-const validation: Record<string, (value: string) => boolean> = {
-    login: (value: string) => isMinValue(value, 3) || isMaxValue(value, 20) || isCorrectLogin(value),
-    password: (value: string) => isMinValue(value, 8) || isMaxValue(value, 40) || isCurrentPassword(value),
-};
+const validator = new Validator({
+    login: [
+        'correctLogin',
+        {
+            minValue: 3,
+            maxValue: 20,
+        },
+    ],
+    password: [
+        'currentPassword',
+        {
+            minValue: 8,
+            maxValue: 40,
+        },
+    ],
+});
 
 export class AuthorizationForm extends Block {
     constructor() {
@@ -36,14 +48,14 @@ export class AuthorizationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('login', element.value);
 
-                        if (validation.login(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('login')) {
+                            validator.visibleErrorMessage('login', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('login');
                     },
                 },
             }),
@@ -55,14 +67,14 @@ export class AuthorizationForm extends Block {
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
+                        validator.validate('password', element.value);
 
-                        if (validation.password(element.value)) {
-                            element?.parentElement?.classList.add('error');
+                        if (validator.hasError('password')) {
+                            validator.visibleErrorMessage('password', true);
                         }
                     },
-                    focus: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
-                        element?.parentElement?.classList.remove('error');
+                    focus: () => {
+                        validator.hideErrorMessage('password');
                     },
                 },
             }),
@@ -82,14 +94,12 @@ export class AuthorizationForm extends Block {
                     event.preventDefault();
 
                     const data = serializeFormData(event);
-                    let hasError = false;
                     Object.keys(data).forEach(key => {
-                        if (validation[key](data[key])) {
-                            hasError = true;
-                        }
+                        validator.validate(key, data[key]);
+                        validator.visibleErrorMessage(key, true);
                     });
 
-                    if (hasError) {
+                    if (validator.hasError()) {
                         console.error('В валидации есть ошибки');
                     } else {
                         console.log(data);

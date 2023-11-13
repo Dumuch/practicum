@@ -6,6 +6,7 @@ import { ProfileForm } from '../../components/forms/profileForm';
 import { AvatarImage } from '../../components/images/avatarImage';
 import { Link } from '../../components/links/defaultLink';
 import { appRoutes } from '../../constants/routes';
+import { Button } from '../../components/buttons/defaultButton';
 
 //language=hbs
 const pageTemplate = `
@@ -52,12 +53,14 @@ const profilePage = new ProfilePage('div', {
             class: 'profile-settings__avatar',
         },
     }),
-    changeProfileLink: new Link({
+    changeProfileLink: new Button({
         attr: {
-            class: 'profile-settings__link',
-            href: appRoutes.profile,
+            form: 'profile-form',
+            class: 'button',
+            type: 'submit',
         },
-        label: 'Изменить данные',
+
+        text: 'Сохранить данные',
     }),
     changePasswordLink: new Link({
         attr: {
