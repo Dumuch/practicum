@@ -5,7 +5,7 @@ import { resolve } from 'path';
 export default defineConfig({
   server: {
     port: 3000,
-    open: '/pages/signIn/signIn.html',
+    open: '/sign-in',
   },
   root: resolve(__dirname, 'src'),
   build: {
