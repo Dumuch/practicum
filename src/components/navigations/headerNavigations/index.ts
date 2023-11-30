@@ -28,7 +28,7 @@ const items = [
         child: new Link({
             label: 'Страница чата',
             attr: {
-                href: appRoutes.chat,
+                href: appRoutes.chats,
             },
         }),
     }),

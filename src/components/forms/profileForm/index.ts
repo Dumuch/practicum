@@ -3,17 +3,22 @@ import { DefaultInput } from '../../inputs/defaultInput';
 import './styles.scss';
 import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
+import connectStoreHOC from '../../../helpers/connectStoreHOC';
+import { IStore } from '../../../libs/store';
+import { UserController } from '../../../controllers/userContoller';
+import { IUpdateUserInfo } from '../../../types/user';
+import { appRoutes } from '../../../constants/routes';
 
 //language=hbs
 const template = `
-        {{{inputFirstName}}}
-        {{{inputSecondName}}}
-        
-        {{{inputLogin}}}
-        {{{inputDisplayName}}}
-    
-        {{{inputEmail}}}
-        {{{inputPhone}}}      
+    {{{inputFirstName}}}
+    {{{inputSecondName}}}
+
+    {{{inputLogin}}}
+    {{{inputDisplayName}}}
+
+    {{{inputEmail}}}
+    {{{inputPhone}}}      
 `;
 
 const validator = new Validator({
@@ -37,9 +42,9 @@ const validator = new Validator({
     phone: ['currentPhone'],
 });
 
-export class ProfileForm extends Block {
+class ProfileForm extends Block {
     constructor() {
-        super('form', {
+       super('form', {
             attr: {
                 id: 'profile-form',
                 class: 'profile-settings-form',
@@ -54,7 +59,7 @@ export class ProfileForm extends Block {
                 },
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('first_name', element.value);
 
                         if (validator.hasError('first_name')) {
@@ -77,7 +82,7 @@ export class ProfileForm extends Block {
                 },
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('second_name', element.value);
 
                         if (validator.hasError('second_name')) {
@@ -110,7 +115,7 @@ export class ProfileForm extends Block {
                 },
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('login', element.value);
 
                         if (validator.hasError('login')) {
@@ -133,7 +138,7 @@ export class ProfileForm extends Block {
                 },
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('email', element.value);
 
                         if (validator.hasError('email')) {
@@ -156,7 +161,7 @@ export class ProfileForm extends Block {
                 },
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('phone', element.value);
 
                         if (validator.hasError('phone')) {
@@ -170,12 +175,11 @@ export class ProfileForm extends Block {
             }),
 
             events: {
-                submit: (event: SubmitEvent) => {
+                submit: async (event: SubmitEvent) => {
                     event.preventDefault();
-
-                    const data = serializeFormData(event);
-                    Object.keys(data).forEach(key => {
-                        validator.validate(key, data[key]);
+                    const data = serializeFormData<IUpdateUserInfo>(event);
+                    Object.keys(data).forEach((key) => {
+                        validator.validate(key, data[key as keyof IUpdateUserInfo] );
                         validator.visibleErrorMessage(key, true);
                     });
 
@@ -184,12 +188,36 @@ export class ProfileForm extends Block {
                     } else {
                         console.log(data);
                     }
+
+                    if(!this.props.isLoading) {
+                        await UserController.updateUserInfo(data);
+                        // await UserController.updateUserPassword(data);
+                    }
+
                 },
             },
         });
     }
 
     render(): Node {
+        if (this.props.user) {
+            this._children['inputFirstName'].setProps({ value: this.props.user.first_name });
+            this._children['inputSecondName'].setProps({ value: this.props.user.second_name });
+            this._children['inputDisplayName'].setProps({ value: this.props.user.display_name ?? '' });
+            this._children['inputLogin'].setProps({ value: this.props.user.login });
+            this._children['inputEmail'].setProps({ value: this.props.user.email });
+            this._children['inputPhone'].setProps({ value: this.props.user.phone });
+        }
+
         return this.compile(template);
     }
 }
+
+function mapUserToProps(state: IStore) {
+    return {
+        isLoading: state.isLoading,
+        user: state?.user,
+    };
+}
+
+export default connectStoreHOC(mapUserToProps)(ProfileForm);

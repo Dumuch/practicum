@@ -15,10 +15,11 @@ export class Validator {
         });
     }
 
-    notEmpty() {
-        if (!this._validateValue) {
-            this._errors[this._inputName]['notEmpty'] = 'Значение не может быть пустым';
-        }
+    clear(): void {
+        Object.keys(this._values).forEach(key => {
+            this._errors[key] = {};
+            this.hideErrorMessage(key);
+        });
     }
 
     getErrorString() {
@@ -107,6 +108,15 @@ export class Validator {
             this._errors[this._inputName]['hasForbiddenCharacters'] = 'Сообщение не может содержать HTML теги';
         } else {
             delete this._errors[this._inputName]['hasForbiddenCharacters'];
+        }
+    }
+
+    notEmpty() {
+        if (!this._validateValue) {
+            this._errors[this._inputName]['notEmpty'] = 'Значение не может быть пустым';
+        } else {
+            delete this._errors[this._inputName]['notEmpty'];
+
         }
     }
 

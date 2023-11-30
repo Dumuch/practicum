@@ -1,3 +1,5 @@
+import { appConstants } from '../constants/app';
+
 const METHODS = {
     GET: 'GET',
     POST: 'POST',
@@ -5,11 +7,13 @@ const METHODS = {
     DELETE: 'DELETE',
 };
 
-type HttpMethod = (typeof METHODS)[keyof typeof METHODS];
+type HttpMethodKey = (typeof METHODS)[keyof typeof METHODS];
+
+type HTTPMethod = (url: string, options?: RequestOptions) => Promise<XMLHttpRequest>
 
 interface RequestOptions {
     headers?: Record<string, string>;
-    method?: HttpMethod;
+    method?: HttpMethodKey;
     data?: Record<string, any>;
     timeout?: number;
 }
@@ -25,42 +29,42 @@ function queryStringify(data: Record<string, any>): string {
     }, '?');
 }
 
-class HTTPTransport {
-    get = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+export class HTTPTransport {
+    static get: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
     };
 
-    post = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+    static post: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
     };
 
-    put = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+    static put: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
     };
 
-    delete = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
+    static delete: HTTPMethod = (url, options = {}) => {
         return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
     };
 
-    request = (url: string, options: RequestOptions = {}, timeout: number = 5000): Promise<XMLHttpRequest> => {
+    private static request = (url: string, options: RequestOptions = {}, timeout: number = 5000): Promise<XMLHttpRequest> => {
         const { headers = {}, method, data } = options;
 
         return new Promise<XMLHttpRequest>((resolve, reject) => {
             if (!method) {
-                reject('No method');
+                reject(Error('No method'));
                 return;
             }
 
             const xhr = new XMLHttpRequest();
             const isGet = method === METHODS.GET;
 
-            xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+            xhr.open(method, isGet && !!data ? `${appConstants.baseUrl + url}${queryStringify(data)}` : (appConstants.baseUrl + url));
 
             Object.keys(headers).forEach(key => {
                 xhr.setRequestHeader(key, headers[key]);
             });
 
-            xhr.onload = function () {
+            xhr.onload = function() {
                 resolve(xhr);
             };
 
@@ -68,12 +72,17 @@ class HTTPTransport {
             xhr.onerror = reject;
 
             xhr.timeout = timeout;
+            xhr.withCredentials = true;
+            xhr.responseType = 'json';
             xhr.ontimeout = reject;
 
             if (isGet || !data) {
                 xhr.send();
+            } else if(data instanceof FormData) {
+                xhr.send(data);
             } else {
-                xhr.send(JSON.stringify(data)); // assuming data should be sent as JSON
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(data));
             }
         });
     };

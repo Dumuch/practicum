@@ -13,7 +13,7 @@ const template = `
 `;
 
 const validator = new Validator({
-    message: ['hasForbiddenCharacters', 'isEmpty'],
+    message: ['hasForbiddenCharacters', 'notEmpty'],
 });
 
 export class SendMessageForm extends Block {
@@ -70,6 +70,11 @@ export class SendMessageForm extends Block {
                 },
             },
         });
+    }
+
+    componentUnMount() {
+        validator.clear();
+        super.componentUnMount();
     }
 
     render(): Node {

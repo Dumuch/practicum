@@ -6,6 +6,9 @@ import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
 import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
+import connectStoreHOC from '../../../helpers/connectStoreHOC';
+import { UserController } from '../../../controllers/userContoller';
+import { IStore } from '../../../libs/store';
 
 //language=hbs
 const template = `
@@ -45,7 +48,7 @@ const validator = new Validator({
     phone: ['currentPhone'],
 });
 
-export class RegistrationForm extends Block {
+class RegistrationForm extends Block {
     constructor() {
         super('form', {
             attr: {
@@ -54,10 +57,11 @@ export class RegistrationForm extends Block {
             inputFirstName: new DefaultInput({
                 name: 'first_name',
                 label: 'Имя',
+                value: 'Тестер',
                 placeholder: 'Введите имя',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('first_name', element.value);
 
                         if (validator.hasError('first_name')) {
@@ -73,10 +77,11 @@ export class RegistrationForm extends Block {
             inputSecondName: new DefaultInput({
                 name: 'second_name',
                 label: 'Фамилия',
+                value: 'Фамилия тестер',
                 placeholder: 'Введите фамилию',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('second_name', element.value);
 
                         if (validator.hasError('second_name')) {
@@ -93,9 +98,10 @@ export class RegistrationForm extends Block {
                 name: 'login',
                 label: 'Логин',
                 placeholder: 'Введите логин',
+                value: '1tester999',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('login', element.value);
 
                         if (validator.hasError('login')) {
@@ -112,9 +118,10 @@ export class RegistrationForm extends Block {
                 name: 'email',
                 label: 'Email',
                 placeholder: 'Введите электронную почту',
+                value: '1tester999@tester.com',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('email', element.value);
 
                         if (validator.hasError('email')) {
@@ -131,9 +138,10 @@ export class RegistrationForm extends Block {
                 name: 'password',
                 label: 'Пароль',
                 placeholder: 'Введите пароль',
+                value: 'Tester999@tester.com',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('password', element.value);
 
                         if (validator.hasError('password')) {
@@ -150,9 +158,10 @@ export class RegistrationForm extends Block {
                 name: 'phone',
                 label: 'Телефон',
                 placeholder: 'Введите номер телефона',
+                value: '89991232323',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('phone', element.value);
 
                         if (validator.hasError('phone')) {
@@ -173,23 +182,33 @@ export class RegistrationForm extends Block {
             }),
             link: new Link({
                 label: 'Авторизация',
-                href: appRoutes.signIn,
+                attr: {
+                    href: appRoutes.signIn,
+                },
+                events: {
+                    click: (e) => {
+                        e.preventDefault();
+                        this.props.router?.go(appRoutes.signIn);
+                    },
+                },
             }),
             events: {
-                submit: (event: SubmitEvent) => {
+                submit: async (event: SubmitEvent) => {
                     event.preventDefault();
+                    event.stopPropagation();
+
                     const data = serializeFormData(event);
-                    console.log(data);
 
                     Object.keys(data).forEach(key => {
                         validator.validate(key, data[key]);
                         validator.visibleErrorMessage(key, true);
                     });
 
-                    if (validator.hasError()) {
-                        console.error('В валидации есть ошибки');
-                    } else {
-                        console.log(data);
+                    if (!validator.hasError() && !this.props.isLoading) {
+                        const res = await UserController.createUser(data);
+                        if (res) {
+                            this.props.router?.go(appRoutes.signIn);
+                        }
                     }
                 },
             },
@@ -200,3 +219,11 @@ export class RegistrationForm extends Block {
         return this.compile(template);
     }
 }
+function mapUserToProps(state:IStore) {
+    return {
+        isLoading: state.isLoading,
+        router: state.router,
+        user: state.user,
+    };
+}
+export default connectStoreHOC(mapUserToProps)(RegistrationForm);

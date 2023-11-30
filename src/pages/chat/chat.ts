@@ -1,27 +1,17 @@
 import { Block } from '../../libs/block';
-import renderDOM from '../../helpers/renderDOM';
 import { MainLayout } from '../../layouts/mainLayout';
-import { Link } from '../../components/links/defaultLink';
-import { appRoutes } from '../../constants/routes';
-import { SearchInput } from '../../components/inputs/searchInput';
-import { chatList } from '../../widgets/chatList';
 import { AvatarImage } from '../../components/images/avatarImage';
 import { Button } from '../../components/buttons/defaultButton';
 import { chatContent } from '../../widgets/chatContent';
 import './styles.scss';
 import { SendMessageForm } from '../../components/forms/sendMessageForm';
+import { IStore } from '../../libs/store';
+import connectStoreHOC from '../../helpers/connectStoreHOC';
+import ChatSidebarHeader from '../../widgets/chatSidebarHeader';
 
 //language=hbs
 const pageTemplate = `
-    <div class='chat-sidebar'>
-        <div class='chat-sidebar__header'>
-            {{{linkProfile}}}
-            {{{inputSearch}}}
-        </div>
-        <div class='chat-list-wrapper'>
-            {{{chatList}}}
-        </div>
-    </div>
+    {{{chatSidebarHeader}}}
 
     <div class='chat-body'>
         <div class='chat-body__header'>
@@ -44,48 +34,46 @@ const pageTemplate = `
 `;
 
 class ChatPage extends Block {
+    constructor() {
+        super('div', {
+            attr: {
+                class: 'chat-container',
+            },
+            chatSidebarHeader: new ChatSidebarHeader(),
+
+            avatarImage: new AvatarImage({
+                src: '/assets/images/noimage.jpeg',
+                alt: 'image',
+                width: '100',
+                height: '100',
+                attr: {
+                    class: 'user-info__avatar',
+                },
+            }),
+            userName: 'userName',
+            openMenuButton: new Button({
+                text: 'Открыть меню',
+            }),
+            chatContent: chatContent,
+            sendMessageForm: new SendMessageForm(),
+        });
+    }
     render() {
         return this.compile(pageTemplate);
     }
 }
 
-const chatPage = new ChatPage('div', {
-    attr: {
-        class: 'chat-container',
-    },
-    linkProfile: new Link({
-        label: 'Profile',
-        attr: {
-            href: appRoutes.profile,
-            class: 'chat-sidebar__header-link',
-        },
-    }),
-    inputSearch: new SearchInput({
-        label: 'Поиск',
-        attr: {
-            class: 'chat-sidebar__header-input',
-        },
-    }),
-    chatList: chatList,
-    avatarImage: new AvatarImage({
-        src: '/assets/images/noimage.jpeg',
-        alt: 'image',
-        width: '100',
-        height: '100',
-        attr: {
-            class: 'user-info__avatar',
-        },
-    }),
-    userName: 'userName',
-    openMenuButton: new Button({
-        text: 'Открыть меню',
-    }),
-    chatContent: chatContent,
-    sendMessageForm: new SendMessageForm(),
-});
 
-const mainLayout = new MainLayout({
-    body: chatPage,
+function mapUserToProps(state:IStore) {
+    return {
+        router: state.router,
+    };
+}
+const ChatPageHOC = connectStoreHOC(mapUserToProps)(ChatPage);
+
+
+export const mainLayout = () => new MainLayout({
+    body: new ChatPageHOC(),
 });
 
 window.onload = () => {
@@ -95,5 +83,3 @@ window.onload = () => {
         chatBody.scrollTo(0, chatBody.scrollHeight);
     }
 };
-
-renderDOM('#app', mainLayout);

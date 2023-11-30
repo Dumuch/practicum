@@ -5,12 +5,12 @@ import { headerNavigations } from '../../components/navigations/headerNavigation
 const template = `
     <header>
         <nav class="site-nav">
-          {{{navigation}}}
+            {{{navigation}}}
         </nav>
     </header>
 
     <main>
-      {{{body}}}
+        {{{body}}}
     </main>
 `;
 
