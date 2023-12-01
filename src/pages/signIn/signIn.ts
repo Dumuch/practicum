@@ -46,6 +46,7 @@ const modal = new DefaultModal({
     attr: {
         class: 'sign-in__modal',
     },
+    isVisible: true,
     body: new AuthorizationForm(),
 });
 

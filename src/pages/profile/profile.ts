@@ -1,7 +1,7 @@
 import { Block, BlockProps } from '../../libs/block';
 import { MainLayout } from '../../layouts/mainLayout';
 import './profile.scss';
-import ProfileForm  from '../../components/forms/profileForm';
+import ProfileForm from '../../components/forms/profileForm';
 import { AvatarImage } from '../../components/images/avatarImage';
 import { Link } from '../../components/links/defaultLink';
 import { appRoutes } from '../../constants/routes';
@@ -12,6 +12,8 @@ import { IStore } from '../../libs/store';
 import PasswordForm from '../../components/forms/passwordForm';
 import { DefaultModal } from '../../components/modals/defaultModal';
 import AuthorizationForm from '../../components/forms/authorizationForm';
+import AvatarForm from '../../components/forms/avatarFrom';
+import { appConstants } from '../../constants/app';
 
 //language=hbs
 const pageTemplate = `
@@ -19,7 +21,7 @@ const pageTemplate = `
         <div class="profile-settings__header">
             <div class="profile-settings__avatar-wrapper">
                 {{{avatarImage}}}
-                <div class="profile-settings__avatar-hover">
+                <div class="profile-settings__avatar-hover _open-avatar-form-modal">
                     Поменять аватар
                 </div>
             </div>
@@ -28,18 +30,18 @@ const pageTemplate = `
         <div class="profile-settings__fields">
             {{{profileForm}}}
         </div>
-        
+
         <div class="profile-settings__footer">
             {{{changeProfileLink}}}
             {{{changePasswordLink}}}
             {{{exitLink}}}
         </div>
-
+        {{{avatarFormModal}}}
         {{{passwordFormModal}}}
     </div>
 `;
 
-const modal = new DefaultModal({
+const passwordFormModal = new DefaultModal({
     title: 'Смена пароля',
     attr: {
         class: 'change-password-modal',
@@ -48,13 +50,23 @@ const modal = new DefaultModal({
     body: new PasswordForm(),
 });
 
+const avatarFormModal = new DefaultModal({
+    title: 'Смена аватарки',
+    attr: {
+        class: 'change-avatar-modal',
+    },
+    isVisible: false,
+    body: new AvatarForm(),
+});
+
 class ProfilePage extends Block {
     constructor() {
         super('div', {
             attr: {
                 class: 'container',
             },
-            passwordFormModal: modal,
+            passwordFormModal: passwordFormModal,
+            avatarFormModal: avatarFormModal,
             profileForm: new ProfileForm(),
             avatarImage: new AvatarImage({
                 src: '/assets/images/noimage.jpeg',
@@ -83,9 +95,9 @@ class ProfilePage extends Block {
                 events: {
                     click: async (e) => {
                         e.preventDefault();
-                        this._children['passwordFormModal'].setProps({isVisible: true})
-                    }
-                }
+                        this._children['passwordFormModal'].setProps({ isVisible: true });
+                    },
+                },
             }),
             exitLink: new Link({
                 attr: {
@@ -98,12 +110,16 @@ class ProfilePage extends Block {
                         e.preventDefault();
                         await UserController.logOut();
                         window.location.reload();
-                    }
-                }
+                    },
+                },
             }),
         });
     }
+
     render() {
+        if (this.props.user) {
+            this._children['avatarImage'].setProps({ src: this.props.user.avatar ? (appConstants.baseUrl + '/resources/' + this.props.user.avatar) : '' });
+        }
         return this.compile(pageTemplate);
     }
 
@@ -111,12 +127,17 @@ class ProfilePage extends Block {
         super.componentDidMount();
         if (!this.props.user && !this.props.isLoading) {
             const res = await UserController.getUserInfo();
+            document.querySelector('._open-avatar-form-modal')?.addEventListener('click', () => {
+                this._children['avatarFormModal'].setProps({ isVisible: true });
+
+            });
             if (!res) {
-                this.props.router?.go(appRoutes.signIn)
+                this.props.router?.go(appRoutes.signIn);
             }
         }
     }
 }
+
 function mapUserToProps(state: IStore) {
     return {
         isLoading: state.isLoading,
@@ -124,7 +145,8 @@ function mapUserToProps(state: IStore) {
         router: state.router,
     };
 }
-const ProfilePagePageHOC = connectStoreHOC(mapUserToProps)(ProfilePage)
+
+const ProfilePagePageHOC = connectStoreHOC(mapUserToProps)(ProfilePage);
 
 export const mainLayout = () => new MainLayout({
     body: new ProfilePagePageHOC,

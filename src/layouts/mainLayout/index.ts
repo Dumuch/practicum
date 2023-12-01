@@ -1,5 +1,5 @@
 import { Block, BlockProps } from '../../libs/block';
-import { headerNavigations } from '../../components/navigations/headerNavigations';
+import { headerNavigations } from '../../widgets/navigations/headerNavigations';
 
 //language=hbs
 const template = `

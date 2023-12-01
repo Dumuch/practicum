@@ -33,6 +33,10 @@ export interface IUpdateUserPassword {
     newPassword: string;
 }
 
+export interface IUpdateUserAvatar {
+    avatar: File;
+}
+
 export interface ISignInUser {
     login: string;
     password: string;

@@ -46,6 +46,7 @@ const modal = new DefaultModal({
     attr: {
         class: 'sign-up__modal',
     },
+    isVisible: true,
     body: new RegistrationForm(),
 });
 
