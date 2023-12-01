@@ -57,10 +57,10 @@ export class SendMessageForm extends Block {
                     event.preventDefault();
 
                     const data = serializeFormData(event);
-                    Object.keys(data).forEach(key => {
-                        validator.validate(key, data[key]);
-                        validator.visibleErrorMessage(key, true);
-                    });
+                    // Object.keys(data).forEach(key => {
+                    //     validator.validate(key, data[key]);
+                    //     validator.visibleErrorMessage(key, true);
+                    // });
 
                     if (validator.hasError()) {
                         console.error('В валидации есть ошибки');

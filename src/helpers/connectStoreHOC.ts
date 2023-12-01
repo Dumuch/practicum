@@ -12,7 +12,6 @@ export default (mapStateToProps: (state: IStore) => any) => {
 
                 store.on(StoreEvents.Updated, () => {
                     const newState = mapStateToProps(store.getState());
-
                     if (!isEqual(state, newState)) {
                         this.setProps({ ...newState });
                     }

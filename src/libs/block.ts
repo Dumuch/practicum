@@ -24,6 +24,14 @@ interface IGlobalState {
     user?: IUserInfo;
 }
 
+interface IPropsDefault {
+    attr: {
+        class: string;
+    }
+}
+
+type IProps =Record<string, string> & IGlobalState & IPropsDefault
+
 export class Block {
     static EVENTS = {
         INIT: 'init',
@@ -35,7 +43,7 @@ export class Block {
 
     private _element: HTMLElement | undefined;
     private readonly _meta: { tagName: string };
-    protected props: Record<string, string> & IGlobalState;
+    protected props: IProps;
     private readonly eventBus: () => EventBus;
 
     _children: Record<string, Block>;
@@ -57,7 +65,7 @@ export class Block {
         this._list = <Record<string, Block[]>> this._makePropsProxy(list);
 
         this._events = <Record<string, () => void>> this._makePropsProxy(events);
-        this.props = <Record<string, string>> this._makePropsProxy({ ...props, _id: this._id });
+        this.props = <IProps> this._makePropsProxy({ ...props, _id: this._id });
 
         this.eventBus = () => eventBus;
         this._registerEvents(this.eventBus());
@@ -166,7 +174,6 @@ export class Block {
         const oldValue = { ...this.props };
 
         const { children, props, list } = this.getChildren(nextProps);
-
         if (Object.values(children).length) {
             Object.assign(this._children, children);
         }

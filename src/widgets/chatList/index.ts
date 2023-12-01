@@ -1,19 +1,21 @@
 import { Block, BlockProps } from '../../libs/block';
-import chatListMock from '../../mocks/chatListMock';
 import './styles.scss';
 import { AvatarImage } from '../../components/images/avatarImage';
+import { IStore } from '../../libs/store';
+import connectStoreHOC from '../../helpers/connectStoreHOC';
+import { IChat } from '../../types/chat';
+import { ChatController } from '../../controllers/chatController';
 
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
 
-export class ChatList extends Block {
-    constructor(props: BlockProps = {}) {
+class ChatList extends Block {
+    constructor() {
         super('ul', {
             attr: {
                 class: 'chat-list',
             },
-            ...props,
-        });
+         });
     }
 
     render(): Node {
@@ -46,7 +48,7 @@ const chatItemTemplate = `
     </div>
 `;
 
-export class ChatItem extends Block {
+class ChatItem extends Block {
     constructor(props: BlockProps = {}) {
         super('li', {
             ...props,
@@ -58,9 +60,9 @@ export class ChatItem extends Block {
     }
 }
 
-export const chatList = new ChatList({
-    items: chatListMock.map(item => {
-        const { userName, lastText, date, countMessage, lastTextIsMe } = item;
+const chatList = (allChats: IChat[]) => {
+    return allChats.map(item =>{
+        const { avatar,last_message,created_by, title, unread_count, id } = item;
 
         return new ChatItem({
             avatarImage: new AvatarImage({
@@ -68,11 +70,30 @@ export const chatList = new ChatList({
                 height: '20',
                 src: '/assets/images/noimage.jpeg',
             }),
-            userName,
-            lastText,
-            date,
-            countMessage,
-            lastTextIsMe,
+            userName: '',
+            lastText: last_message ?? '',
+            date: '',
+            countMessage: unread_count.toString(),
+            lastTextIsMe: last_message ?? '',
+            events: {
+                click: async (e) => {
+                    e.preventDefault();
+                    const data = await ChatController.getCurrentChatById(id);
+                    console.log(data);
+                },
+            },
         });
-    }),
-});
+    })
+}
+
+
+function mapUserToProps(state: IStore) {
+    return {
+        router: state.router,
+        isLoading: state.isLoading,
+        items: chatList(state.allChats)
+    };
+}
+
+export default connectStoreHOC(mapUserToProps)(ChatList);
+

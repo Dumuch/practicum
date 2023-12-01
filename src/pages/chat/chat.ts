@@ -7,11 +7,11 @@ import './styles.scss';
 import { SendMessageForm } from '../../components/forms/sendMessageForm';
 import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
-import ChatSidebarHeader from '../../widgets/chatSidebarHeader';
+import ChatSidebar from '../../widgets/chatSidebar';
 
 //language=hbs
 const pageTemplate = `
-    {{{chatSidebarHeader}}}
+    {{{ChatSidebar}}}
 
     <div class='chat-body'>
         <div class='chat-body__header'>
@@ -39,7 +39,7 @@ class ChatPage extends Block {
             attr: {
                 class: 'chat-container',
             },
-            chatSidebarHeader: new ChatSidebarHeader(),
+            ChatSidebar: new ChatSidebar(),
 
             avatarImage: new AvatarImage({
                 src: '/assets/images/noimage.jpeg',
@@ -67,6 +67,7 @@ class ChatPage extends Block {
 function mapUserToProps(state:IStore) {
     return {
         router: state.router,
+        currentChat: state.currentChat,
     };
 }
 const ChatPageHOC = connectStoreHOC(mapUserToProps)(ChatPage);

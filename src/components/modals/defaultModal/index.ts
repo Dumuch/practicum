@@ -30,6 +30,7 @@ export class DefaultModal extends Block {
             };
             this.setProps({ isVisible: false });
 
+
             this.props.attr.class = this.props.attr.class + ' modal_open';
             document.addEventListener('closemodal', closeModal);
         }

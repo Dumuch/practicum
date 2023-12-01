@@ -1,6 +1,13 @@
 import store from '../libs/store';
 import { UserAPI } from '../api/userApi';
-import { ICreateUser, ISignInUser, IUpdateUserAvatar, IUpdateUserInfo, IUpdateUserPassword } from '../types/user';
+import {
+    ICreateUser,
+    ISignInUser,
+    IUpdateUserAvatar,
+    IUpdateUserInfo,
+    IUpdateUserPassword,
+    IUserInfo,
+} from '../types/user';
 
 export class UserController {
     public static async createUser(values: ICreateUser) {
@@ -52,5 +59,13 @@ export class UserController {
         await UserAPI.logOut();
         store.set('isLoading', false);
         store.set('user', null)
+    }
+
+
+    public static async findUser(login: string) {
+        store.set('isLoading', true);
+        const data = await UserAPI.findByLogin(login);
+        store.set('isLoading', false);
+        return data as IUserInfo[]
     }
 }

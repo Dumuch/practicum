@@ -58,4 +58,13 @@ export class UserAPI extends HTTPTransport {
         return res.response;
     }
 
+
+
+    static async findByLogin(login: string) {
+        const res = await this.post('/user/search', {data: {login}});
+        if (res.status === 200) {
+            return res.response.length > 0 ? res.response : null
+        }
+        return null;
+    }
 }
