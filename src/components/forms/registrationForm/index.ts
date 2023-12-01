@@ -9,6 +9,7 @@ import serializeFormData from '../../../helpers/serializeFormData';
 import connectStoreHOC from '../../../helpers/connectStoreHOC';
 import { UserController } from '../../../controllers/userContoller';
 import { IStore } from '../../../libs/store';
+import { ICreateUser } from '../../../types/user';
 
 //language=hbs
 const template = `
@@ -197,10 +198,10 @@ class RegistrationForm extends Block {
                     event.preventDefault();
                     event.stopPropagation();
 
-                    const data = serializeFormData(event);
+                    const data = serializeFormData<ICreateUser>(event);
 
                     Object.keys(data).forEach(key => {
-                        validator.validate(key, data[key]);
+                        validator.validate(key, data[key as keyof ICreateUser]);
                         validator.visibleErrorMessage(key, true);
                     });
 

@@ -18,7 +18,7 @@ const template = `
     {{{inputDisplayName}}}
 
     {{{inputEmail}}}
-    {{{inputPhone}}}      
+    {{{inputPhone}}}          
 `;
 
 const validator = new Validator({
@@ -191,7 +191,6 @@ class ProfileForm extends Block {
 
                     if(!this.props.isLoading) {
                         await UserController.updateUserInfo(data);
-                        // await UserController.updateUserPassword(data);
                     }
 
                 },
