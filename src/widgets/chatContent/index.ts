@@ -64,27 +64,9 @@ class CurrentMessage extends Block {
 
 
 function mapUserToProps(state: IStore) {
-    console.log(state);
     return {
         router: state.router,
         items: []
-        // items: state.currentChat?.map(item => {
-        //     const { id, created_by, title, unread_count, avatar, last_message } = item;
-        //
-        //     return new ChatMessage({
-        //         date: created_by.toString(),
-        //         items: []
-        //         // items: last_message?.content?.map(message => {
-        //         //     return new CurrentMessage({
-        //         //         attr: {
-        //         //             class: message.isMine ? 'chat-message_sender' : '',
-        //         //         },
-        //         //         body: message.body,
-        //         //         date: message.date,
-        //         //     });
-        //         // }),
-        //     });
-        // }),
     };
 }
 

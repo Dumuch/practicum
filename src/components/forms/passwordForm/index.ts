@@ -123,8 +123,6 @@ class PasswordForm extends Block {
 
                     if (validator.hasError()) {
                         console.error('В валидации есть ошибки');
-                    } else {
-                        console.log(data);
                     }
 
                     if(!this.props.isLoading) {

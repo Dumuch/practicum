@@ -3,6 +3,7 @@ import makeUUID from '../helpers/makeUUID';
 import Handlebars, { log } from 'handlebars';
 import { Router } from './router';
 import { IUserInfo } from '../types/user';
+import { ICurrentChat } from '../types/chat';
 
 interface BlockAttr {
     attr?: Record<string, string>;
@@ -22,6 +23,7 @@ export type BlockProps = BlockKeyValue & BlockAttr & BlockEvents;
 interface IGlobalState {
     router?: Router;
     user?: IUserInfo;
+    currentChat?: ICurrentChat
 }
 
 interface IPropsDefault {

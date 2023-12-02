@@ -64,8 +64,6 @@ export class SendMessageForm extends Block {
 
                     if (validator.hasError()) {
                         console.error('В валидации есть ошибки');
-                    } else {
-                        console.log(data);
                     }
                 },
             },

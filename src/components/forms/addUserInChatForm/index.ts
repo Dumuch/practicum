@@ -1,10 +1,8 @@
 import { Block } from '../../../libs/block';
 import { DefaultInput } from '../../inputs/defaultInput';
-import serializeFormData from '../../../helpers/serializeFormData';
 import connectStoreHOC from '../../../helpers/connectStoreHOC';
 import { IStore } from '../../../libs/store';
 import { UserController } from '../../../controllers/userContoller';
-import { IUpdateUserAvatar } from '../../../types/user';
 import { Button } from '../../buttons/defaultButton';
 import { Link } from '../../links/defaultLink';
 import './styles.scss';
@@ -26,6 +24,12 @@ const template = `
         {{{buttonClose}}}
     </div>
 `;
+
+const closeModal = (input: HTMLInputElement) => {
+    const event = new Event('closemodal', { bubbles: true });
+    document.dispatchEvent(event);
+    input.value = '';
+};
 
 class AddUserInChatForm extends Block {
     constructor() {
@@ -88,8 +92,7 @@ class AddUserInChatForm extends Block {
                 events: {
                     click: async (e) => {
                         e.preventDefault();
-                        let event = new Event('closemodal', { bubbles: true });
-                        document.dispatchEvent(event);
+                        closeModal(this._children['inputLogin'].element?.querySelector('input')!)
                     },
                 },
             }),
@@ -103,12 +106,10 @@ class AddUserInChatForm extends Block {
                         return;
                     }
 
-                    await ChatController.addUsersToChat([Number(this.props.userId)], res.id)
+                    await ChatController.addUsersToChat([Number(this.props.userId)], res.id);
                     await ChatController.getAllChats();
 
-                    const event = new Event("closemodal", {bubbles: true});
-                    document.dispatchEvent(event);
-
+                    closeModal(this._children['inputLogin'].element?.querySelector('input')!)
                 },
             },
         });

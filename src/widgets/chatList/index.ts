@@ -79,7 +79,6 @@ const chatList = (allChats: IChat[]) => {
                 click: async (e) => {
                     e.preventDefault();
                     const data = await ChatController.getCurrentChatById(id);
-                    console.log(data);
                 },
             },
         });

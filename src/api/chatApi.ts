@@ -49,4 +49,12 @@ export class ChatAPI extends HTTPTransport {
         }
         return null;
     }
+
+    static async remove(chatId: number) {
+        const res = await this.delete('/chats', { data: { chatId } });
+        if (res.status === 200) {
+            return res.response;
+        }
+        return null;
+    }
 }

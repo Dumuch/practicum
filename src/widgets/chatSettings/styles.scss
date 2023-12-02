@@ -1,0 +1,57 @@
+@import "../../assets/styles/helpers/variables";
+@import "../../assets/styles/helpers/mixins";
+
+.chat-settings__add-user {
+  margin-bottom: 10px;
+}
+
+
+.chat-settings__search-user-list {
+  margin-top: -5px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+  overflow: auto;
+  gap: 5px;
+  border: 1px solid $base-grey;
+  border-top: none;
+
+  & a {
+    cursor: pointer;
+  }
+}
+
+.chat-settings__added-users {
+  & .chat-settings__added-users-title {
+    font-size: 12px;
+    color: $base-grey;
+  }
+  margin-bottom: 10px;
+}
+
+.chat-settings__added-users-list {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+  overflow: auto;
+  gap: 5px;
+
+  & span {
+    font-size: 14px;
+  }
+
+  & button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    @include transition;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

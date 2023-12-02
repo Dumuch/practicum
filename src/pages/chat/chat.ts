@@ -9,33 +9,39 @@ import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
 import ChatSidebar from '../../widgets/chatSidebar';
 import { DefaultModal } from '../../components/modals/defaultModal';
-import AddUserInChatForm from '../../components/forms/addUserInChatForm';
 import ChatSettings from '../../widgets/chatSettings';
 import { ChatController } from '../../controllers/chatController';
-import { ICurrentChat } from '../../types/chat';
 
 //language=hbs
 const pageTemplate = `
-    {{{ChatSidebar}}}
+    {{{chatSidebar}}}
 
     <div class='chat-body'>
-        <div class='chat-body__header'>
-            <div class='user-info'>
-                {{{avatarImage}}}
-                <span class='user-info__name'>
-                    {{{userName}}}
-                </span>
+        {{#if currentChat}}
+            <div class='chat-body__header'>
+                <div class='user-info'>
+                    {{{avatarImage}}}
+                    <span class='user-info__name'>
+                        {{{userName}}}
+                    </span>
+                </div>
+                {{{openMenuButton}}}
             </div>
-            {{{openMenuButton}}}
-        </div>
-        <div class='chat-body__content _chat-body__content'>
-            {{{chatContent}}}
-        </div>
+            <div class='chat-body__content _chat-body__content'>
+                {{{chatContent}}}
+            </div>
 
-        <div class='chat-body__footer'>
-            {{{sendMessageForm}}}
-        </div>
+            <div class='chat-body__footer'>
+                {{{sendMessageForm}}}
+            </div>
+        {{else}}
+            <div class='chat-body__header'>
+                <p>Выберите чат</p>
+            </div>
+        {{/if}}
+
     </div>
+
     {{{settingsChatModal}}}
 `;
 
@@ -45,8 +51,7 @@ class ChatPage extends Block {
             attr: {
                 class: 'chat-container',
             },
-            ChatSidebar: new ChatSidebar(),
-
+            chatSidebar: new ChatSidebar(),
             avatarImage: new AvatarImage({
                 src: '/assets/images/noimage.jpeg',
                 alt: 'image',
@@ -65,7 +70,7 @@ class ChatPage extends Block {
                 events: {
                     click: async (e) => {
                         e.preventDefault();
-                        this.props.currentChat?.chatId && await ChatController.getUsersCurrentChat(Number(this.props.currentChat.chatId))
+                        await ChatController.getUsersCurrentChat(Number(this.props.currentChat!.chatId))
                         this._children['settingsChatModal'].setProps({ isVisible: true });
                     },
                 },

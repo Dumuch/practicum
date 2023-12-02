@@ -36,7 +36,7 @@ export class ChatController {
         store.set('isLoading', true);
         const data = await ChatAPI.getUsersCurrentChat(chatId);
         store.set('isLoading', false);
-        store.set('currentChat', {...store.getState().currentChat, users: data });
+        store.set('currentChat', { ...store.getState().currentChat, users: data });
 
         return data;
     }
@@ -45,6 +45,14 @@ export class ChatController {
         store.set('isLoading', true);
         const data = await ChatAPI.deleteUsers(ids, chatId);
         store.set('isLoading', false);
+        return data;
+    }
+
+    public static async deleteChat(chatId: number) {
+        store.set('isLoading', true);
+        const data = await ChatAPI.remove(chatId);
+        store.set('isLoading', false);
+        store.set('currentChat', null);
         return data;
     }
 

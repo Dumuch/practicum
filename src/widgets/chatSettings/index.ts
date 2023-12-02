@@ -1,17 +1,13 @@
-import { Block } from '../../libs/block';
+import { Block, BlockProps } from '../../libs/block';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
 import { IStore } from '../../libs/store';
 import { Link } from '../../components/links/defaultLink';
-import { appRoutes } from '../../constants/routes';
-import { SearchInput } from '../../components/inputs/searchInput';
-import ChatList from '../chatList';
 import { UserController } from '../../controllers/userContoller';
 import { ChatController } from '../../controllers/chatController';
 import { Button } from '../../components/buttons/defaultButton';
-import { DefaultModal } from '../../components/modals/defaultModal';
-import AddUserInChatForm from '../../components/forms/addUserInChatForm';
 import { DefaultInput } from '../../components/inputs/defaultInput';
 import { IUserInfo } from '../../types/user';
+import './styles.scss';
 
 //language=hbs
 const template = `
@@ -24,9 +20,16 @@ const template = `
         
         {{{buttonSearchUser}}}
     </div>
-    <div class='chat-list-wrapper'>
-        {{{addedUserList}}}
+    <div class='chat-settings__added-users'>
+        <span class='chat-settings__added-users-title'>Участники чата</span>
+        <div class='chat-settings__added-users-list'>
+            {{{addedUserList}}}
+        </div>
     </div>
+    {{{buttonDeleteChat}}}
+    
+    {{{buttonCloseModal}}}
+    
 `;
 
 class ChatSettings extends Block {
@@ -62,13 +65,40 @@ class ChatSettings extends Block {
                                             e.preventDefault();
                                             input!.value = '';
                                             this.setProps({ searchUserList: [], userId: item.id.toString() });
-                                            await ChatController.addUsersToChat([Number(item.id)], this.props.currentChat?.chatId)
-                                            await ChatController.getUsersCurrentChat(Number(this.props.currentChat.chatId))
+                                            await ChatController.addUsersToChat([Number(item.id)], this.props.currentChat!.chatId.toString());
+                                            await ChatController.getUsersCurrentChat(Number(this.props.currentChat!.chatId))
                                         },
                                     },
                                 });
                             }),
                         });
+                    },
+                },
+            }),
+            buttonDeleteChat: new Button({
+                text: 'Удалить чат',
+                attr: {
+                    type: 'button',
+                },
+                events: {
+                    click: async () => {
+                        await ChatController.deleteChat(this.props.currentChat!.chatId)
+                        await ChatController.getAllChats();
+
+                        const event = new Event("closemodal", {bubbles: true});
+                        document.dispatchEvent(event);
+                    },
+                },
+            }),
+            buttonCloseModal: new Button({
+                text: 'Закрыть',
+                attr: {
+                    type: 'button',
+                },
+                events: {
+                    click: async () => {
+                        const event = new Event("closemodal", {bubbles: true});
+                        document.dispatchEvent(event);
                     },
                 },
             }),
@@ -86,17 +116,28 @@ class ChatSettings extends Block {
     }
 }
 
-const addedUserList = (users: Omit<IUserInfo, 'display_name'>[], chatId: string) => {
-    return users.map(user => {
-        return new Link({
+const addedUserList = (users: Omit<IUserInfo, 'display_name'>[], chatId: string, currentUserId: number) => {
+    class UserItem extends Block {
+        constructor(props: BlockProps = {}) {
+            super('div', { ...props });
+
+        }
+
+        render(): Node {
+            return this.compile(`<span>{{{label}}}</span><button>❌</button>`);
+        }
+    }
+
+    return users.filter(user => user.id !== currentUserId).map(user => {
+        return new UserItem({
             label: user.login,
             events: {
                 click: async (e) => {
                     e.preventDefault();
-                    await ChatController.deleteUsersCurrentChat([user.id], chatId)
-                    await ChatController.getUsersCurrentChat(Number(chatId))
-                    // input!.value = item.login;
-                    // this.setProps({ searchUserList: [], userId: item.id.toString() });
+                    if (e.target.tagName === 'button') {
+                        await ChatController.deleteUsersCurrentChat([user.id], chatId)
+                        await ChatController.getUsersCurrentChat(Number(chatId))
+                    }
                 },
             },
         });
@@ -105,10 +146,11 @@ const addedUserList = (users: Omit<IUserInfo, 'display_name'>[], chatId: string)
 
 function mapUserToProps(state: IStore) {
     return {
+        user: state.user,
         currentChat: state.currentChat,
         router: state.router,
         isLoading: state.isLoading,
-        addedUserList: addedUserList(state.currentChat?.users ?? [], state.currentChat?.chatId.toString() ?? '')
+        addedUserList: addedUserList(state.currentChat?.users ?? [], state.currentChat?.chatId.toString() ?? '', state.user?.id ?? 0)
     };
 }
 
