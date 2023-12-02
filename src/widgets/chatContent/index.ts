@@ -1,16 +1,17 @@
 import { Block, BlockProps } from '../../libs/block';
 import chatContentMocks from '../../mocks/chatContentMocks';
 import './styles.scss';
+import { IStore } from '../../libs/store';
+import connectStoreHOC from '../../helpers/connectStoreHOC';
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
 
-export class ChatContent extends Block {
-    constructor(props: BlockProps = {}) {
+class ChatContent extends Block {
+    constructor() {
         super('ul', {
             attr: {
                 class: 'message-list-group',
             },
-            ...props,
         });
     }
 
@@ -61,21 +62,35 @@ class CurrentMessage extends Block {
     }
 }
 
-export const chatContent = new ChatContent({
-    items: chatContentMocks.map(item => {
-        const { date, messages } = item;
 
-        return new ChatMessage({
-            date,
-            items: messages.map(message => {
-                return new CurrentMessage({
-                    attr: {
-                        class: message.isMine ? 'chat-message_sender' : '',
-                    },
-                    body: message.body,
-                    date: message.date,
-                });
-            }),
-        });
-    }),
+function mapUserToProps(state: IStore) {
+    console.log(state);
+    return {
+        router: state.router,
+        items: []
+        // items: state.currentChat?.map(item => {
+        //     const { id, created_by, title, unread_count, avatar, last_message } = item;
+        //
+        //     return new ChatMessage({
+        //         date: created_by.toString(),
+        //         items: []
+        //         // items: last_message?.content?.map(message => {
+        //         //     return new CurrentMessage({
+        //         //         attr: {
+        //         //             class: message.isMine ? 'chat-message_sender' : '',
+        //         //         },
+        //         //         body: message.body,
+        //         //         date: message.date,
+        //         //     });
+        //         // }),
+        //     });
+        // }),
+    };
+}
+
+const ChatContentHOC = connectStoreHOC(mapUserToProps)(ChatContent);
+
+
+export const chatContent = new ChatContentHOC({
+    items: [],
 });

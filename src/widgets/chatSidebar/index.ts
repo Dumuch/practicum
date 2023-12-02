@@ -9,7 +9,6 @@ import { UserController } from '../../controllers/userContoller';
 import { ChatController } from '../../controllers/chatController';
 import { Button } from '../../components/buttons/defaultButton';
 import { DefaultModal } from '../../components/modals/defaultModal';
-import PasswordForm from '../../components/forms/passwordForm';
 import AddUserInChatForm from '../../components/forms/addUserInChatForm';
 
 //language=hbs

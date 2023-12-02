@@ -14,7 +14,7 @@ export interface IStore {
     user: IUserInfo | null,
     router: Router | null,
     allChats: IChat[],
-    currentChat: ICurrentChat[] | null
+    currentChat: ICurrentChat | null
 }
 
 class Store extends EventBus {

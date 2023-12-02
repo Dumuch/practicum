@@ -21,7 +21,7 @@ export class ChatController {
         store.set('isLoading', true);
         const data = await ChatAPI.getCurrentChatById(id);
         store.set('isLoading', false);
-        store.set('currentChat', data);
+        store.set('currentChat', { chatId: id, items: data });
         return data;
     }
 

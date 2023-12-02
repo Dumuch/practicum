@@ -9,10 +9,15 @@ export interface IChat {
     unread_count: number;
 }
 
-export interface ICurrentChat extends Omit<IChat, 'last_message'> {
+export interface ICurrentChatItems extends Omit<IChat, 'last_message'> {
     last_message: {
         user: Omit<IUserInfo, 'display_name' | 'id'>,
         time: string;
         content: string;
     } | null
+}
+
+export interface ICurrentChat  {
+    chatId: number;
+    items: ICurrentChatItems[]
 }
