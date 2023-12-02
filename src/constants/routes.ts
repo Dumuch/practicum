@@ -1,8 +1,8 @@
 export const appRoutes = {
     signIn: '/sign-in',
     signUp: '/sign-up',
-    chats: '/chats',
-    profile: '/profile',
+    chats: '/messenger',
+    profile: '/settings',
     index: '/',
     error404: '/404',
     error500: '/500',

@@ -32,4 +32,20 @@ export class ChatController {
         return data;
     }
 
+    public static async getUsersCurrentChat(chatId: number) {
+        store.set('isLoading', true);
+        const data = await ChatAPI.getUsersCurrentChat(chatId);
+        store.set('isLoading', false);
+        store.set('currentChat', {...store.getState().currentChat, users: data });
+
+        return data;
+    }
+
+    public static async deleteUsersCurrentChat(ids: number[], chatId: string) {
+        store.set('isLoading', true);
+        const data = await ChatAPI.deleteUsers(ids, chatId);
+        store.set('isLoading', false);
+        return data;
+    }
+
 }

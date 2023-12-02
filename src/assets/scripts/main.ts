@@ -11,6 +11,7 @@ import store from '../../libs/store';
 const router = new Router("#app");
 
 router
+    .use(appRoutes.index, SignInPage)
     .use(appRoutes.signIn, SignInPage)
     .use(appRoutes.signUp, SignUpPage)
     .use(appRoutes.error404, Error404Page)

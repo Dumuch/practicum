@@ -33,4 +33,20 @@ export class ChatAPI extends HTTPTransport {
         }
         return null;
     }
+
+    static async getUsersCurrentChat(chatId: number) {
+        const res = await this.get(`/chats/${chatId}/users`);
+        if (res.status === 200) {
+            return res.response;
+        }
+        return null;
+    }
+
+    static async deleteUsers(ids: number[], chatId:string){
+        const res = await this.delete('/chats/users', { data: { users: ids, chatId } });
+        if (res.status === 200) {
+            return res.response;
+        }
+        return null;
+    }
 }

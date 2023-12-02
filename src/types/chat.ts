@@ -19,5 +19,6 @@ export interface ICurrentChatItems extends Omit<IChat, 'last_message'> {
 
 export interface ICurrentChat  {
     chatId: number;
+    users: Omit<IUserInfo, 'display_name'>[],
     items: ICurrentChatItems[]
 }

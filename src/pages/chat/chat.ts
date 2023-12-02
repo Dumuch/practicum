@@ -8,6 +8,11 @@ import { SendMessageForm } from '../../components/forms/sendMessageForm';
 import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
 import ChatSidebar from '../../widgets/chatSidebar';
+import { DefaultModal } from '../../components/modals/defaultModal';
+import AddUserInChatForm from '../../components/forms/addUserInChatForm';
+import ChatSettings from '../../widgets/chatSettings';
+import { ChatController } from '../../controllers/chatController';
+import { ICurrentChat } from '../../types/chat';
 
 //language=hbs
 const pageTemplate = `
@@ -31,6 +36,7 @@ const pageTemplate = `
             {{{sendMessageForm}}}
         </div>
     </div>
+    {{{settingsChatModal}}}
 `;
 
 class ChatPage extends Block {
@@ -53,9 +59,27 @@ class ChatPage extends Block {
             userName: 'userName',
             openMenuButton: new Button({
                 text: 'Открыть меню',
+                attr: {
+                    type: 'button',
+                },
+                events: {
+                    click: async (e) => {
+                        e.preventDefault();
+                        this.props.currentChat?.chatId && await ChatController.getUsersCurrentChat(Number(this.props.currentChat.chatId))
+                        this._children['settingsChatModal'].setProps({ isVisible: true });
+                    },
+                },
             }),
             chatContent: chatContent,
             sendMessageForm: new SendMessageForm(),
+            settingsChatModal: new DefaultModal({
+                title: 'Настройки чата',
+                attr: {
+                    class: 'settings-chat-modal',
+                },
+                isVisible: false,
+                body: new ChatSettings(),
+            })
         });
     }
     render() {
