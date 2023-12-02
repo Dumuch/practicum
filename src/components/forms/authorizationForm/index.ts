@@ -20,6 +20,9 @@ const template = `
         {{{buttonSubmit}}}
         {{{link}}}
     </div>
+    {{#if errorMessage}}
+        <span class='error-messages sign-in-form__error-message'>{{{errorMessage}}}</span>
+    {{/if}}
 `;
 
 const validator = new Validator({
@@ -53,7 +56,7 @@ class AuthorizationForm extends Block {
                 value: '1tester123999',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('login', element.value);
 
                         if (validator.hasError('login')) {
@@ -71,9 +74,10 @@ class AuthorizationForm extends Block {
                 label: 'Пароль',
                 placeholder: 'Введите пароль',
                 value: 'Tester999@tester.com',
+                type: 'password',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement>event.currentTarget;
+                        const element = <HTMLInputElement> event.currentTarget;
                         validator.validate('password', element.value);
 
                         if (validator.hasError('password')) {
@@ -101,8 +105,8 @@ class AuthorizationForm extends Block {
                     click: (e) => {
                         e.preventDefault();
                         this.props?.router?.go(appRoutes.signUp);
-                    }
-                }
+                    },
+                },
             }),
             events: {
                 submit: async (event: SubmitEvent) => {
@@ -117,10 +121,15 @@ class AuthorizationForm extends Block {
                     if (!validator.hasError() && !this.props.isLoading) {
                         const res = await UserController.signIn(data);
                         if (res) {
-                            const res = await UserController.getUserInfo()
+                            const res = await UserController.getUserInfo();
                             if (res) {
-                                this.props.router?.go(appRoutes.chats)
+                                this.props.router?.go(appRoutes.chats);
                             }
+                        } else {
+                            this.setProps({ errorMessage: 'Данные некорректны, попробуйте еще раз' });
+                            setTimeout(() => {
+                                this.setProps({ errorMessage: '' });
+                            }, 2500);
                         }
                     }
 
@@ -135,11 +144,12 @@ class AuthorizationForm extends Block {
     }
 }
 
-function mapUserToProps(state:IStore) {
+function mapUserToProps(state: IStore) {
     return {
         router: state.router,
         isLoading: state.isLoading,
         first_name: state?.user?.first_name,
     };
 }
+
 export default connectStoreHOC(mapUserToProps)(AuthorizationForm);

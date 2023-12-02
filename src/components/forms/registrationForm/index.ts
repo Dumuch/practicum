@@ -26,6 +26,10 @@ const template = `
         {{{buttonSubmit}}}
         {{{link}}}
     </div>
+
+    {{#if errorMessage}}
+        <span class='error-messages sign-up-form__error-message'>{{{errorMessage}}}</span>
+    {{/if}}
 `;
 
 const validator = new Validator({
@@ -209,6 +213,11 @@ class RegistrationForm extends Block {
                         const res = await UserController.createUser(data);
                         if (res) {
                             this.props.router?.go(appRoutes.signIn);
+                        } else {
+                            this.setProps({ errorMessage: 'Данные некорректны, попробуйте еще раз' });
+                            setTimeout(() => {
+                                this.setProps({ errorMessage: '' });
+                            }, 2500);
                         }
                     }
                 },
