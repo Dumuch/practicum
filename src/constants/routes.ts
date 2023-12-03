@@ -1,5 +1,5 @@
 export const appRoutes = {
-    signIn: '/sign-in',
+    signIn: '/',
     signUp: '/sign-up',
     chats: '/messenger',
     profile: '/settings',

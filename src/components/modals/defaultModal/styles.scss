@@ -7,10 +7,7 @@
   width: 100%;
   background-color: rgba($base-grey, 0.75);
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
 
   &.modal_open {
     display: block;

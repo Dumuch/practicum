@@ -61,12 +61,17 @@ class ChatSettings extends Block {
                                 return new Link({
                                     label: item.login,
                                     events: {
-                                        click: async (e) => {
+                                        click: async e => {
                                             e.preventDefault();
                                             input!.value = '';
                                             this.setProps({ searchUserList: [], userId: item.id.toString() });
-                                            await ChatController.addUsersToChat([Number(item.id)], this.props.currentChat!.chatId.toString());
-                                            await ChatController.getUsersCurrentChat(Number(this.props.currentChat!.chatId));
+                                            await ChatController.addUsersToChat(
+                                                [Number(item.id)],
+                                                this.props.currentChat!.chatId.toString(),
+                                            );
+                                            await ChatController.getUsersCurrentChat(
+                                                Number(this.props.currentChat!.chatId),
+                                            );
                                         },
                                     },
                                 });
@@ -102,13 +107,11 @@ class ChatSettings extends Block {
                     },
                 },
             }),
-
         });
     }
 
     async componentDidMount() {
         super.componentDidMount();
-
     }
 
     render(): Node {
@@ -120,7 +123,6 @@ const addedUserList = (users: Omit<IUserInfo, 'display_name'>[], chatId: string,
     class UserItem extends Block {
         constructor(props: BlockProps = {}) {
             super('div', { ...props });
-
         }
 
         render(): Node {
@@ -128,21 +130,23 @@ const addedUserList = (users: Omit<IUserInfo, 'display_name'>[], chatId: string,
         }
     }
 
-    return users.filter(user => user.id !== currentUserId).map(user => {
-        return new UserItem({
-            label: user.login,
-            events: {
-                click: async (e) => {
-                    e.preventDefault();
-                    if (e.target.tagName === 'button') {
-                        await ChatController.deleteUsersCurrentChat([user.id], chatId);
-                        await ChatController.getUsersCurrentChat(Number(chatId));
-                        store.set('currentChat', null);
-                    }
+    return users
+        .filter(user => user.id !== currentUserId)
+        .map(user => {
+            return new UserItem({
+                label: user.login,
+                events: {
+                    click: async e => {
+                        e.preventDefault();
+                        if (e.target.tagName === 'button') {
+                            await ChatController.deleteUsersCurrentChat([user.id], chatId);
+                            await ChatController.getUsersCurrentChat(Number(chatId));
+                            store.set('currentChat', null);
+                        }
+                    },
                 },
-            },
+            });
         });
-    });
 };
 
 function mapUserToProps(state: IStore) {
@@ -151,7 +155,11 @@ function mapUserToProps(state: IStore) {
         currentChat: state.currentChat,
         router: state.router,
         isLoading: state.isLoading,
-        addedUserList: addedUserList(state.currentChat?.users ?? [], state.currentChat?.chatId.toString() ?? '', state.user?.id ?? 0),
+        addedUserList: addedUserList(
+            state.currentChat?.users ?? [],
+            state.currentChat?.chatId.toString() ?? '',
+            state.user?.id ?? 0,
+        ),
     };
 }
 

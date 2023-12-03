@@ -65,7 +65,7 @@ class RegistrationForm extends Block {
                 placeholder: 'Введите имя',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('first_name', element.value);
 
                         if (validator.hasError('first_name')) {
@@ -84,7 +84,7 @@ class RegistrationForm extends Block {
                 placeholder: 'Введите фамилию',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('second_name', element.value);
 
                         if (validator.hasError('second_name')) {
@@ -103,7 +103,7 @@ class RegistrationForm extends Block {
                 placeholder: 'Введите логин',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('login', element.value);
 
                         if (validator.hasError('login')) {
@@ -122,7 +122,7 @@ class RegistrationForm extends Block {
                 placeholder: 'Введите электронную почту',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('email', element.value);
 
                         if (validator.hasError('email')) {
@@ -141,7 +141,7 @@ class RegistrationForm extends Block {
                 placeholder: 'Введите пароль',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('password', element.value);
 
                         if (validator.hasError('password')) {
@@ -160,7 +160,7 @@ class RegistrationForm extends Block {
                 placeholder: 'Введите номер телефона',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('phone', element.value);
 
                         if (validator.hasError('phone')) {
@@ -185,7 +185,7 @@ class RegistrationForm extends Block {
                     href: appRoutes.signIn,
                 },
                 events: {
-                    click: (e) => {
+                    click: e => {
                         e.preventDefault();
                         this.props.router?.go(appRoutes.signIn);
                     },
@@ -223,7 +223,7 @@ class RegistrationForm extends Block {
         return this.compile(template);
     }
 }
-function mapUserToProps(state:IStore) {
+function mapUserToProps(state: IStore) {
     return {
         isLoading: state.isLoading,
         router: state.router,

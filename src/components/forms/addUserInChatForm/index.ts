@@ -64,7 +64,7 @@ class AddUserInChatForm extends Block {
                                         type: 'button',
                                     },
                                     events: {
-                                        click: (e) => {
+                                        click: e => {
                                             e.preventDefault();
                                             input!.value = item.login;
                                             this.setProps({ items: [], userId: item.id.toString() });
@@ -90,9 +90,10 @@ class AddUserInChatForm extends Block {
                     type: 'button',
                 },
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
-                        closeModal(this._children['inputLogin'].element?.querySelector('input')!)
+                        const input = this._children['inputLogin'].element?.querySelector('input');
+                        input && closeModal(input);
                     },
                 },
             }),
@@ -109,7 +110,8 @@ class AddUserInChatForm extends Block {
                     await ChatController.addUsersToChat([Number(this.props.userId)], res.id);
                     await ChatController.getAllChats();
 
-                    closeModal(this._children['inputLogin'].element?.querySelector('input')!)
+                    const input = this._children['inputLogin'].element?.querySelector('input');
+                    input && closeModal(input);
                 },
             },
         });

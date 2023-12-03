@@ -3,7 +3,7 @@ import store, { IStore, StoreEvents } from '../libs/store';
 import isEqual from './isEqual';
 
 export default (mapStateToProps: (state: IStore) => any) => {
-    return function(Component: typeof Block) {
+    return function (Component: typeof Block) {
         return class extends Component {
             constructor(...props: any) {
                 let state = mapStateToProps(store.getState());
@@ -21,4 +21,4 @@ export default (mapStateToProps: (state: IStore) => any) => {
             }
         };
     };
-}
+};

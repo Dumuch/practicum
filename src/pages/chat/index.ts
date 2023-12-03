@@ -1,1 +1,1 @@
-export {mainLayout as ChatsPage} from './chat'
+export { mainLayout as ChatsPage } from './chat';

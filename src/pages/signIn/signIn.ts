@@ -20,14 +20,14 @@ class SignInPage extends Block {
     componentDidMount() {
         super.componentDidMount();
         if (this.props.user) {
-            this.props.router?.go(appRoutes.chats)
+            this.props.router?.go(appRoutes.chats);
         } else {
-            !this.props.isLoading && UserController.getUserInfo().then(() => {
-                if (this.props.user) {
-                    this.props.router?.go(appRoutes.chats)
-                }
-            });
-
+            !this.props.isLoading &&
+                UserController.getUserInfo().then(() => {
+                    if (this.props.user) {
+                        this.props.router?.go(appRoutes.chats);
+                    }
+                });
         }
     }
 }
@@ -40,7 +40,7 @@ function mapUserToProps(state: IStore) {
     };
 }
 
-const SignInPageHOC = connectStoreHOC(mapUserToProps)(SignInPage)
+const SignInPageHOC = connectStoreHOC(mapUserToProps)(SignInPage);
 const modal = new DefaultModal({
     title: 'Авторизация',
     attr: {
@@ -50,7 +50,6 @@ const modal = new DefaultModal({
     body: new AuthorizationForm(),
 });
 
-
 const signInPage = new SignInPageHOC('div', {
     attr: {
         class: 'container',
@@ -58,7 +57,7 @@ const signInPage = new SignInPageHOC('div', {
     modal: modal,
 });
 
-export const mainLayout = () => new MainLayout({
-    body: signInPage,
-});
-
+export const mainLayout = () =>
+    new MainLayout({
+        body: signInPage,
+    });

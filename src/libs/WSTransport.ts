@@ -8,7 +8,6 @@ export const WSTransportEvents = {
 };
 
 export class WSTransport extends EventBus {
-
     private socket?: WebSocket;
     private pingInterval?: ReturnType<typeof setInterval>;
     private readonly pingIntervalTime = 30000;
@@ -41,7 +40,6 @@ export class WSTransport extends EventBus {
                 this.off(WSTransportEvents.Error, reject);
                 resolve();
             });
-
         });
     }
 
@@ -78,9 +76,9 @@ export class WSTransport extends EventBus {
                     return;
                 }
                 this.emit(WSTransportEvents.Message, data);
-            } catch {
+            } catch (err) {
+                console.error(err);
             }
         });
     }
-
 }

@@ -63,6 +63,4 @@ export class ChatController {
         store.set('currentChat', { ...store.getState().currentChat, token: data });
         return data;
     }
-
-
 }

@@ -3,7 +3,7 @@ import './signUp.scss';
 import { Block } from '../../libs/block';
 import { MainLayout } from '../../layouts/mainLayout';
 import { DefaultModal } from '../../components/modals/defaultModal';
-import RegistrationForm  from '../../components/forms/registrationForm';
+import RegistrationForm from '../../components/forms/registrationForm';
 import { appRoutes } from '../../constants/routes';
 import { UserController } from '../../controllers/userContoller';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
@@ -22,11 +22,11 @@ class SignUpPage extends Block {
     componentDidMount() {
         super.componentDidMount();
         if (this.props.user) {
-            this.props.router?.go(appRoutes.chats)
+            this.props.router?.go(appRoutes.chats);
         } else {
             UserController.getUserInfo().then(() => {
                 if (this.props.user) {
-                    this.props.router?.go(appRoutes.chats)
+                    this.props.router?.go(appRoutes.chats);
                 }
             });
         }
@@ -38,8 +38,7 @@ function mapUserToProps(state: IStore) {
         user: state?.user,
     };
 }
-const SignUpPageHOC = connectStoreHOC(mapUserToProps)(SignUpPage)
-
+const SignUpPageHOC = connectStoreHOC(mapUserToProps)(SignUpPage);
 
 const modal = new DefaultModal({
     title: 'Регистрация',
@@ -57,7 +56,7 @@ const signInPage = new SignUpPageHOC('div', {
     modal: modal,
 });
 
-export const mainLayout = () => new MainLayout({
-    body: signInPage,
-});
-
+export const mainLayout = () =>
+    new MainLayout({
+        body: signInPage,
+    });

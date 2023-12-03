@@ -1,7 +1,6 @@
 import './styles.scss';
 import { Block, BlockProps } from '../../../libs/block';
 
-
 //language=hbs
 const template = `
     <div class='modal'>
@@ -29,7 +28,6 @@ export class DefaultModal extends Block {
                 document.removeEventListener('closemodal', closeModal);
             };
             this.setProps({ isVisible: false });
-
 
             this.props.attr.class = this.props.attr.class + ' modal_open';
             document.addEventListener('closemodal', closeModal);

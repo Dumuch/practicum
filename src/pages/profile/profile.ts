@@ -1,4 +1,4 @@
-import { Block, BlockProps } from '../../libs/block';
+import { Block } from '../../libs/block';
 import { MainLayout } from '../../layouts/mainLayout';
 import './profile.scss';
 import ProfileForm from '../../components/forms/profileForm';
@@ -11,7 +11,6 @@ import { UserController } from '../../controllers/userContoller';
 import { IStore } from '../../libs/store';
 import PasswordForm from '../../components/forms/passwordForm';
 import { DefaultModal } from '../../components/modals/defaultModal';
-import AuthorizationForm from '../../components/forms/authorizationForm';
 import AvatarForm from '../../components/forms/avatarFrom';
 import { appConstants } from '../../constants/app';
 
@@ -93,7 +92,7 @@ class ProfilePage extends Block {
                 },
                 label: 'Изменить пароль',
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
                         this._children['passwordFormModal'].setProps({ isVisible: true });
                     },
@@ -106,7 +105,7 @@ class ProfilePage extends Block {
                 },
                 label: 'Выйти',
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
                         await UserController.logOut();
                         window.location.reload();
@@ -118,7 +117,9 @@ class ProfilePage extends Block {
 
     render() {
         if (this.props.user) {
-            this._children['avatarImage'].setProps({ src: this.props.user.avatar ? (appConstants.baseUrl + '/resources/' + this.props.user.avatar) : '' });
+            this._children['avatarImage'].setProps({
+                src: this.props.user.avatar ? appConstants.baseUrl + '/resources/' + this.props.user.avatar : '',
+            });
         }
         return this.compile(pageTemplate);
     }
@@ -129,7 +130,6 @@ class ProfilePage extends Block {
             const res = await UserController.getUserInfo();
             document.querySelector('._open-avatar-form-modal')?.addEventListener('click', () => {
                 this._children['avatarFormModal'].setProps({ isVisible: true });
-
             });
             if (!res) {
                 this.props.router?.go(appRoutes.signIn);
@@ -148,6 +148,7 @@ function mapUserToProps(state: IStore) {
 
 const ProfilePagePageHOC = connectStoreHOC(mapUserToProps)(ProfilePage);
 
-export const mainLayout = () => new MainLayout({
-    body: new ProfilePagePageHOC,
-});
+export const mainLayout = () =>
+    new MainLayout({
+        body: new ProfilePagePageHOC(),
+    });

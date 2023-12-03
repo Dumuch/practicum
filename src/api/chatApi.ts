@@ -1,7 +1,6 @@
 import { HTTPTransport } from '../libs/fetch';
 
 export class ChatAPI extends HTTPTransport {
-
     static async getAll() {
         const res = await this.get('/chats');
         if (res.status === 200) {
@@ -26,7 +25,7 @@ export class ChatAPI extends HTTPTransport {
         return null;
     }
 
-    static async addUsers(ids: number[], chatId:string){
+    static async addUsers(ids: number[], chatId: string) {
         const res = await this.put('/chats/users', { data: { users: ids, chatId } });
         if (res.status === 200) {
             return res.response;
@@ -42,7 +41,7 @@ export class ChatAPI extends HTTPTransport {
         return null;
     }
 
-    static async deleteUsers(ids: number[], chatId:string){
+    static async deleteUsers(ids: number[], chatId: string) {
         const res = await this.delete('/chats/users', { data: { users: ids, chatId } });
         if (res.status === 200) {
             return res.response;
@@ -65,5 +64,4 @@ export class ChatAPI extends HTTPTransport {
         }
         return null;
     }
-
 }

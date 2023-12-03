@@ -86,7 +86,7 @@ export class Router {
 
     start(): void {
         window.onpopstate = (event: PopStateEvent) => {
-            const windowState = event.currentTarget as Window
+            const windowState = event.currentTarget as Window;
             this._onRoute(windowState.location.pathname);
         };
         this._onRoute(window.location.pathname);
@@ -99,6 +99,7 @@ export class Router {
             this._currentRoute.leave();
         }
         if (!route) {
+            window.location.pathname = '404';
             route = this.getRoute('error')!;
         }
         this._currentRoute = route;
@@ -110,7 +111,7 @@ export class Router {
     }
 
     go(pathname: string): void {
-        this.history?.pushState({}, "", pathname);
+        this.history?.pushState({}, '', pathname);
         this._onRoute(pathname);
     }
 

@@ -58,14 +58,13 @@ export class UserController {
         store.set('isLoading', true);
         await UserAPI.logOut();
         store.set('isLoading', false);
-        store.set('user', null)
+        store.set('user', null);
     }
-
 
     public static async findUser(login: string) {
         store.set('isLoading', true);
         const data = await UserAPI.findByLogin(login);
         store.set('isLoading', false);
-        return data as IUserInfo[]
+        return data as IUserInfo[];
     }
 }

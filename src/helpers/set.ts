@@ -3,8 +3,8 @@ type Indexed<T = any> = {
 };
 
 function merge(lhs: Indexed, rhs: Indexed): Indexed {
-    for (let p in rhs) {
-        if (!rhs.hasOwnProperty(p)) {
+    for (const p in rhs) {
+        if (!Object.prototype.hasOwnProperty.call(rhs, p)) {
             continue;
         }
 
@@ -14,7 +14,7 @@ function merge(lhs: Indexed, rhs: Indexed): Indexed {
             } else {
                 lhs[p] = rhs[p];
             }
-        } catch(e) {
+        } catch (e) {
             lhs[p] = rhs[p];
         }
     }
@@ -27,13 +27,11 @@ export default (object: Indexed | unknown, path: string, value: unknown): Indexe
         return object;
     }
 
-    if (typeof path !== 'string') {
-        throw new Error('path must be string');
-    }
-
-    const result = path.split('.').reduceRight<Indexed>((acc, key) => ({
-        [key]: acc,
-    }), value as any);
+    const result = path.split('.').reduceRight<Indexed>(
+        (acc, key) => ({
+            [key]: acc,
+        }),
+        value as any,
+    );
     return merge(object as Indexed, result);
-}
-
+};

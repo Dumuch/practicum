@@ -17,6 +17,7 @@ const errorPage = new ErrorPage('div', {
     },
 });
 
-export const mainLayout = () => new MainLayout({
-    body: errorPage,
-});
+export const mainLayout = () =>
+    new MainLayout({
+        body: errorPage,
+    });

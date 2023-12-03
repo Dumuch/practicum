@@ -28,7 +28,7 @@ class AvatarForm extends Block {
             inputAvatar: new DefaultInput({
                 name: 'avatar',
                 label: 'Аватарка',
-                type: 'file'
+                type: 'file',
             }),
 
             buttonSubmit: new Button({
@@ -44,25 +44,24 @@ class AvatarForm extends Block {
                     type: 'button',
                 },
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
 
-                        let event = new Event("closemodal", {bubbles: true});
+                        const event = new Event('closemodal', { bubbles: true });
                         document.dispatchEvent(event);
-                    }
-                }
+                    },
+                },
             }),
 
             events: {
                 submit: async (event: SubmitEvent) => {
                     event.preventDefault();
                     const data = serializeFormData<IUpdateUserAvatar>(event);
-                    if(!this.props.isLoading) {
+                    if (!this.props.isLoading) {
                         await UserController.updateUserAvatar(data);
-                        let event = new Event("closemodal", {bubbles: true});
+                        const event = new Event('closemodal', { bubbles: true });
                         document.dispatchEvent(event);
                     }
-
                 },
             },
         });

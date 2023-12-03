@@ -1,1 +1,1 @@
-export {mainLayout as ProfilePage} from './profile'
+export { mainLayout as ProfilePage } from './profile';

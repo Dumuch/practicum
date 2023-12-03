@@ -1,5 +1,4 @@
 import { Block, BlockProps } from '../../libs/block';
-import chatContentMocks from '../../mocks/chatContentMocks';
 import './styles.scss';
 import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
@@ -63,24 +62,22 @@ class CurrentMessage extends Block {
     }
 }
 
-
-
 function mapUserToProps(state: IStore) {
-    const groupByDate:Record<string, ICurrentChatItem[]> = {};
+    const groupByDate: Record<string, ICurrentChatItem[]> = {};
 
     state.currentChat?.items.forEach(item => {
-            const date = new Date(item.time)
+        const date = new Date(item.time);
         if (groupByDate[date.toLocaleDateString()]) {
-            groupByDate[date.toLocaleDateString()].push(item)
+            groupByDate[date.toLocaleDateString()].push(item);
         } else {
-            groupByDate[date.toLocaleDateString()] = [item]
+            groupByDate[date.toLocaleDateString()] = [item];
         }
-    })
+    });
     return {
         router: state.router,
         isLoading: state.isLoading,
         items: Object.keys(groupByDate).map(key => {
-            const items = groupByDate[key]
+            const items = groupByDate[key];
             return new ChatMessage({
                 date: key,
                 items: items.map(message => {
@@ -97,9 +94,6 @@ function mapUserToProps(state: IStore) {
     };
 }
 
-
-
 const ChatContentHOC = connectStoreHOC(mapUserToProps)(ChatContent);
-
 
 export const chatContent = new ChatContentHOC();

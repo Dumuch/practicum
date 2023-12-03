@@ -4,7 +4,7 @@ import { AvatarImage } from '../../components/images/avatarImage';
 import { Button } from '../../components/buttons/defaultButton';
 import { chatContent } from '../../widgets/chatContent';
 import './styles.scss';
-import  SendMessageForm  from '../../components/forms/sendMessageForm';
+import SendMessageForm from '../../components/forms/sendMessageForm';
 import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
 import ChatSidebar from '../../widgets/chatSidebar';
@@ -68,9 +68,9 @@ class ChatPage extends Block {
                     type: 'button',
                 },
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
-                        await ChatController.getUsersCurrentChat(Number(this.props.currentChat!.chatId))
+                        await ChatController.getUsersCurrentChat(Number(this.props.currentChat!.chatId));
                         this._children['settingsChatModal'].setProps({ isVisible: true });
                     },
                 },
@@ -84,7 +84,7 @@ class ChatPage extends Block {
                 },
                 isVisible: false,
                 body: new ChatSettings(),
-            })
+            }),
         });
     }
     render() {
@@ -92,8 +92,7 @@ class ChatPage extends Block {
     }
 }
 
-
-function mapUserToProps(state:IStore) {
+function mapUserToProps(state: IStore) {
     return {
         router: state.router,
         currentChat: state.currentChat,
@@ -101,7 +100,7 @@ function mapUserToProps(state:IStore) {
 }
 const ChatPageHOC = connectStoreHOC(mapUserToProps)(ChatPage);
 
-
-export const mainLayout = () => new MainLayout({
-    body: new ChatPageHOC(),
-});
+export const mainLayout = () =>
+    new MainLayout({
+        body: new ChatPageHOC(),
+    });

@@ -50,10 +50,10 @@ class PasswordForm extends Block {
                 attr: {
                     class: 'profile-settings-field',
                 },
-                type: "password",
+                type: 'password',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('oldPassword', element.value);
 
                         if (validator.hasError('oldPassword')) {
@@ -72,10 +72,10 @@ class PasswordForm extends Block {
                 attr: {
                     class: 'profile-settings-field',
                 },
-                type: "password",
+                type: 'password',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('newPassword', element.value);
 
                         if (validator.hasError('newPassword')) {
@@ -101,30 +101,29 @@ class PasswordForm extends Block {
                     type: 'button',
                 },
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
 
-                        let event = new Event("closemodal", {bubbles: true});
+                        const event = new Event('closemodal', { bubbles: true });
                         document.dispatchEvent(event);
-                    }
-                }
+                    },
+                },
             }),
 
             events: {
                 submit: async (event: SubmitEvent) => {
                     event.preventDefault();
                     const data = serializeFormData<IUpdateUserPassword>(event);
-                    Object.keys(data).forEach((key) => {
-                        validator.validate(key, data[key as keyof IUpdateUserPassword] );
+                    Object.keys(data).forEach(key => {
+                        validator.validate(key, data[key as keyof IUpdateUserPassword]);
                         validator.visibleErrorMessage(key, true);
                     });
 
-                    if(!validator.hasError() && !this.props.isLoading) {
+                    if (!validator.hasError() && !this.props.isLoading) {
                         await UserController.updateUserPassword(data);
-                        let event = new Event("closemodal", {bubbles: true});
+                        const event = new Event('closemodal', { bubbles: true });
                         document.dispatchEvent(event);
                     }
-
                 },
             },
         });

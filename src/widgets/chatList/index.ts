@@ -63,7 +63,7 @@ class ChatItem extends Block {
 
 const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number, currentUserLogin?: string) => {
     return allChats.map(item => {
-        const { avatar, last_message, created_by, title, unread_count, id } = item;
+        const { last_message, unread_count, id } = item;
         return new ChatItem({
             attr: {
                 class: `${id === currentChat?.chatId ? 'active' : ''}`,
@@ -77,9 +77,9 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
             lastText: last_message?.content ? JSON.parse(last_message.content).message : '',
             date: '',
             countMessage: unread_count.toString(),
-            lastTextIsMe: last_message?.user.login ===  currentUserLogin,
+            lastTextIsMe: last_message?.user.login === currentUserLogin,
             events: {
-                click: async (e) => {
+                click: async e => {
                     e.preventDefault();
 
                     if (currentChat?.chatId === id) {
@@ -96,18 +96,17 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
                     const chatBody = document.querySelector('._chat-body__content');
                     let lastScrollTop = 0;
 
-                    const uniqItems:Record<string, ICurrentChatItem> = {};
+                    const uniqItems: Record<string, ICurrentChatItem> = {};
 
                     socket.on(WSTransportEvents.Message, async (data: any) => {
                         if (Array.isArray(data)) {
                             data.forEach(i => {
-                                uniqItems[i.id] = i
-                            })
+                                uniqItems[i.id] = i;
+                            });
 
-                            store.set('currentChat', {  ...currentChat, items: Object.values(uniqItems).reverse() });
+                            store.set('currentChat', { ...currentChat, items: Object.values(uniqItems).reverse() });
 
-
-                            const list = document.querySelector('._message-list-group')
+                            const list = document.querySelector('._message-list-group');
 
                             if (list && chatBody) {
                                 chatBody.scrollTo(0, chatBody.scrollHeight - lastScrollTop);
@@ -132,21 +131,22 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
                     });
 
                     store.set('socket', socket);
-                    const list = document.querySelector('._message-list-group')
+                    const list = document.querySelector('._message-list-group');
 
-                    list && chatBody && chatBody.addEventListener('scroll', () => {
-                        if (chatBody.scrollTop < 100 && hasAnyMessages) {
-                            contentOffset += 10;
-                            lastScrollTop = chatBody.scrollHeight;
+                    list &&
+                        chatBody &&
+                        chatBody.addEventListener('scroll', () => {
+                            if (chatBody.scrollTop < 100 && hasAnyMessages) {
+                                contentOffset += 10;
+                                lastScrollTop = chatBody.scrollHeight;
 
-                            socket.send({
-                                content: contentOffset.toString(),
-                                type: 'get old',
-                            });
-                            hasAnyMessages = false
-                        }
-                    })
-
+                                socket.send({
+                                    content: contentOffset.toString(),
+                                    type: 'get old',
+                                });
+                                hasAnyMessages = false;
+                            }
+                        });
 
                     socket.send({
                         content: contentOffset.toString(),
@@ -158,9 +158,6 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
     });
 };
 
-
-
-
 function mapUserToProps(state: IStore) {
     return {
         user: state.user,
@@ -171,4 +168,3 @@ function mapUserToProps(state: IStore) {
 }
 
 export default connectStoreHOC(mapUserToProps)(ChatList);
-

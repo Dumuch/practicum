@@ -4,7 +4,7 @@ import { ChatInput } from '../../inputs/chatInput';
 import './styles.scss';
 import serializeFormData from '../../../helpers/serializeFormData';
 import { Validator } from '../../../libs/validate';
-import store, { IStore } from '../../../libs/store';
+import { IStore } from '../../../libs/store';
 import connectStoreHOC from '../../../helpers/connectStoreHOC';
 import { ISendMessage } from '../../../types/chat';
 import { WSTransportEvents } from '../../../libs/WSTransport';
@@ -19,8 +19,6 @@ const template = `
 const validator = new Validator({
     message: ['hasForbiddenCharacters', 'notEmpty'],
 });
-
-
 
 class SendMessageForm extends Block {
     constructor() {
@@ -40,7 +38,7 @@ class SendMessageForm extends Block {
                 name: 'message',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('message', element.value);
 
                         if (validator.hasError('message')) {
@@ -85,7 +83,6 @@ class SendMessageForm extends Block {
                         };
 
                         this.props.socket?.on(WSTransportEvents.Message, scrollToBottom);
-
                     }
                 },
             },
@@ -110,5 +107,3 @@ function mapUserToProps(state: IStore) {
 }
 
 export default connectStoreHOC(mapUserToProps)(SendMessageForm);
-
-

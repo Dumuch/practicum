@@ -1,3 +1,3 @@
 export const appConstants = {
-    baseUrl: 'https://ya-praktikum.tech/api/v2'
+    baseUrl: 'https://ya-praktikum.tech/api/v2',
 };

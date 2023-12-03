@@ -38,7 +38,7 @@ class ChatSidebar extends Block {
                     class: 'chat-sidebar__header-link',
                 },
                 events: {
-                    click: (e) => {
+                    click: e => {
                         e.preventDefault();
                         this.props.router?.go(appRoutes.profile);
                     },
@@ -53,7 +53,7 @@ class ChatSidebar extends Block {
             createChat: new Button({
                 text: 'Создать чат',
                 events: {
-                    click: async (e) => {
+                    click: async e => {
                         e.preventDefault();
                         this._children['addUserInChatModal'].setProps({ isVisible: true });
                     },
@@ -67,7 +67,7 @@ class ChatSidebar extends Block {
                 },
                 isVisible: false,
                 body: new AddUserInChatForm(),
-            })
+            }),
         });
     }
 

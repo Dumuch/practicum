@@ -1,1 +1,1 @@
-export {mainLayout as Error404Page} from './404'
+export { mainLayout as Error404Page } from './404';

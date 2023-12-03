@@ -42,7 +42,6 @@ const validator = new Validator({
     ],
 });
 
-
 class AuthorizationForm extends Block {
     constructor() {
         super('form', {
@@ -55,7 +54,7 @@ class AuthorizationForm extends Block {
                 placeholder: 'Введите логин',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('login', element.value);
 
                         if (validator.hasError('login')) {
@@ -75,7 +74,7 @@ class AuthorizationForm extends Block {
                 type: 'password',
                 events: {
                     blur: (event: FocusEvent) => {
-                        const element = <HTMLInputElement> event.currentTarget;
+                        const element = <HTMLInputElement>event.currentTarget;
                         validator.validate('password', element.value);
 
                         if (validator.hasError('password')) {
@@ -100,7 +99,7 @@ class AuthorizationForm extends Block {
                     href: appRoutes.signUp,
                 },
                 events: {
-                    click: (e) => {
+                    click: e => {
                         e.preventDefault();
                         this.props?.router?.go(appRoutes.signUp);
                     },
@@ -130,11 +129,9 @@ class AuthorizationForm extends Block {
                             }, 2500);
                         }
                     }
-
                 },
             },
         });
-
     }
 
     render(): Node {

@@ -1,6 +1,6 @@
 import { EventBus } from './eventBus';
 import makeUUID from '../helpers/makeUUID';
-import Handlebars, { log } from 'handlebars';
+import Handlebars from 'handlebars';
 import { Router } from './router';
 import { IUserInfo } from '../types/user';
 import { ICurrentChat } from '../types/chat';
@@ -24,17 +24,17 @@ export type BlockProps = BlockKeyValue & BlockAttr & BlockEvents;
 interface IGlobalState {
     router?: Router;
     user?: IUserInfo;
-    currentChat?: ICurrentChat
+    currentChat?: ICurrentChat;
     socket?: WSTransport;
 }
 
 interface IPropsDefault {
     attr: {
         class: string;
-    }
+    };
 }
 
-type IProps =Record<string, string> & IGlobalState & IPropsDefault
+type IProps = Record<string, string> & IGlobalState & IPropsDefault;
 
 export class Block {
     static EVENTS = {
@@ -65,11 +65,11 @@ export class Block {
             tagName,
         };
 
-        this._children = <Record<string, Block>> this._makePropsProxy(children);
-        this._list = <Record<string, Block[]>> this._makePropsProxy(list);
+        this._children = <Record<string, Block>>this._makePropsProxy(children);
+        this._list = <Record<string, Block[]>>this._makePropsProxy(list);
 
-        this._events = <Record<string, () => void>> this._makePropsProxy(events);
-        this.props = <IProps> this._makePropsProxy({ ...props, _id: this._id });
+        this._events = <Record<string, () => void>>this._makePropsProxy(events);
+        this.props = <IProps>this._makePropsProxy({ ...props, _id: this._id });
 
         this.eventBus = () => eventBus;
         this._registerEvents(this.eventBus());
@@ -92,7 +92,7 @@ export class Block {
     init() {
         this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-        this.dispatchComponentDidMount()
+        this.dispatchComponentDidMount();
     }
 
     _componentDidMount() {
@@ -102,7 +102,6 @@ export class Block {
             child.componentDidMount();
         });
     }
-
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -227,17 +226,17 @@ export class Block {
         if (propsAndChildren.events) {
             Object.keys(propsAndChildren.events).forEach(key => {
                 if (propsAndChildren.events) {
-                    events[key] = <() => void> propsAndChildren.events[key];
+                    events[key] = <() => void>propsAndChildren.events[key];
                 }
             });
         }
         Object.keys(propsAndChildren).forEach(key => {
             if (propsAndChildren[key] instanceof Block) {
-                children[key] = <Block> propsAndChildren[key];
+                children[key] = <Block>propsAndChildren[key];
             } else if (Array.isArray(propsAndChildren[key])) {
-                list[key] = <Block[]> propsAndChildren[key];
+                list[key] = <Block[]>propsAndChildren[key];
             } else {
-                props[key] = <string> propsAndChildren[key];
+                props[key] = <string>propsAndChildren[key];
             }
         });
 
@@ -294,7 +293,7 @@ export class Block {
 
         Object.values(this._children).forEach(child => {
             child._componentUnMount();
-            child.init()
+            child.init();
         });
     }
 

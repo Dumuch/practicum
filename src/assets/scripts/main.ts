@@ -8,10 +8,9 @@ import { ChatsPage } from '../../pages/chat';
 import { ProfilePage } from '../../pages/profile';
 import store from '../../libs/store';
 
-const router = new Router("#app");
+const router = new Router('#app');
 
 router
-    .use(appRoutes.index, SignInPage)
     .use(appRoutes.signIn, SignInPage)
     .use(appRoutes.signUp, SignUpPage)
     .use(appRoutes.error404, Error404Page)
@@ -21,4 +20,4 @@ router
     .error(Error404Page)
     .start();
 
-store.set('router', router)
+store.set('router', router);

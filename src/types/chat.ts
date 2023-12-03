@@ -1,4 +1,4 @@
-import { IUpdateUserPassword, IUserInfo } from './user';
+import { IUserInfo } from './user';
 
 export interface IChat {
     avatar: null | string;
@@ -31,7 +31,6 @@ export interface ICurrentChat {
     token?: string;
 }
 
-
 export interface ISendMessage {
-    message: string
+    message: string;
 }

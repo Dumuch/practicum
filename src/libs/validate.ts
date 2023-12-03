@@ -116,7 +116,6 @@ export class Validator {
             this._errors[this._inputName]['notEmpty'] = 'Значение не может быть пустым';
         } else {
             delete this._errors[this._inputName]['notEmpty'];
-
         }
     }
 
