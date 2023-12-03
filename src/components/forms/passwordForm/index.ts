@@ -51,7 +51,6 @@ class PasswordForm extends Block {
                     class: 'profile-settings-field',
                 },
                 type: "password",
-                value: "Tester999@tester.com",
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;
@@ -74,7 +73,6 @@ class PasswordForm extends Block {
                     class: 'profile-settings-field',
                 },
                 type: "password",
-                value: "Tester999@tester.com",
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;

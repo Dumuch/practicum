@@ -62,7 +62,6 @@ class RegistrationForm extends Block {
             inputFirstName: new DefaultInput({
                 name: 'first_name',
                 label: 'Имя',
-                value: 'Тестер',
                 placeholder: 'Введите имя',
                 events: {
                     blur: (event: FocusEvent) => {
@@ -82,7 +81,6 @@ class RegistrationForm extends Block {
             inputSecondName: new DefaultInput({
                 name: 'second_name',
                 label: 'Фамилия',
-                value: 'Фамилия тестер',
                 placeholder: 'Введите фамилию',
                 events: {
                     blur: (event: FocusEvent) => {
@@ -103,7 +101,6 @@ class RegistrationForm extends Block {
                 name: 'login',
                 label: 'Логин',
                 placeholder: 'Введите логин',
-                value: '1tester999',
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;
@@ -123,7 +120,6 @@ class RegistrationForm extends Block {
                 name: 'email',
                 label: 'Email',
                 placeholder: 'Введите электронную почту',
-                value: '1tester999@tester.com',
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;
@@ -143,7 +139,6 @@ class RegistrationForm extends Block {
                 name: 'password',
                 label: 'Пароль',
                 placeholder: 'Введите пароль',
-                value: 'Tester999@tester.com',
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;
@@ -163,7 +158,6 @@ class RegistrationForm extends Block {
                 name: 'phone',
                 label: 'Телефон',
                 placeholder: 'Введите номер телефона',
-                value: '89991232323',
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;

@@ -53,7 +53,6 @@ class AuthorizationForm extends Block {
                 name: 'login',
                 label: 'Логин',
                 placeholder: 'Введите логин',
-                value: '1tester123999',
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement> event.currentTarget;
@@ -73,7 +72,6 @@ class AuthorizationForm extends Block {
                 name: 'password',
                 label: 'Пароль',
                 placeholder: 'Введите пароль',
-                value: 'Tester999@tester.com',
                 type: 'password',
                 events: {
                     blur: (event: FocusEvent) => {
