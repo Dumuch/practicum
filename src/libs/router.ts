@@ -105,7 +105,6 @@ export class Router {
         try {
             route.render();
         } catch {
-            console.log(route);
             this.getRoute('error')?.render();
         }
     }

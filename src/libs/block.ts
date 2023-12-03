@@ -4,6 +4,7 @@ import Handlebars, { log } from 'handlebars';
 import { Router } from './router';
 import { IUserInfo } from '../types/user';
 import { ICurrentChat } from '../types/chat';
+import { WSTransport } from './WSTransport';
 
 interface BlockAttr {
     attr?: Record<string, string>;
@@ -24,6 +25,7 @@ interface IGlobalState {
     router?: Router;
     user?: IUserInfo;
     currentChat?: ICurrentChat
+    socket?: WSTransport;
 }
 
 interface IPropsDefault {

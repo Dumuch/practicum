@@ -15,6 +15,10 @@
     gap: 10px;
     transition: 0.2s;
 
+    &.active {
+      border-bottom: 1px solid $base-blue;
+    }
+
     &:hover {
       opacity: 0.75;
       cursor: pointer;

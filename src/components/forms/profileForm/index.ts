@@ -183,13 +183,10 @@ class ProfileForm extends Block {
                         validator.visibleErrorMessage(key, true);
                     });
 
-                    if (validator.hasError()) {
-                        console.error('В валидации есть ошибки');
-                    }
-
-                    if(!this.props.isLoading) {
+                    if (!validator.hasError() && !this.props.isLoading) {
                         await UserController.updateUserInfo(data);
                     }
+
 
                 },
             },

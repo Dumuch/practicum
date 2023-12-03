@@ -57,4 +57,13 @@ export class ChatAPI extends HTTPTransport {
         }
         return null;
     }
+
+    static async getToken(chatId: number) {
+        const res = await this.post(`/chats/token/${chatId}`);
+        if (res.status === 200) {
+            return res.response.token;
+        }
+        return null;
+    }
+
 }

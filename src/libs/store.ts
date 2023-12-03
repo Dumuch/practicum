@@ -3,28 +3,31 @@ import { EventBus } from './eventBus';
 import { IUserInfo } from '../types/user';
 import { Router } from './router';
 import { IChat, ICurrentChat } from '../types/chat';
+import { WSTransport } from './WSTransport';
 
 export enum StoreEvents {
     Updated = 'updated',
 }
 
 export interface IStore {
-    isLoading: boolean,
-    isFetchUser: boolean,
-    user: IUserInfo | null,
-    router: Router | null,
-    allChats: IChat[],
-    currentChat: ICurrentChat | null
+    isLoading: boolean;
+    isFetchUser: boolean;
+    user: IUserInfo | null;
+    router: Router | null;
+    allChats: IChat[];
+    currentChat: ICurrentChat | null;
+    socket: WSTransport | null;
 }
 
 class Store extends EventBus {
-    private state:IStore = {
+    private state: IStore = {
         isLoading: false,
         isFetchUser: false,
         user: null,
         router: null,
         allChats: [],
-        currentChat: null
+        currentChat: null,
+        socket: null,
     };
 
     public getState() {

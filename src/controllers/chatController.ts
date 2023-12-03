@@ -21,7 +21,7 @@ export class ChatController {
         store.set('isLoading', true);
         const data = await ChatAPI.getCurrentChatById(id);
         store.set('isLoading', false);
-        store.set('currentChat', { chatId: id, items: data });
+        store.set('currentChat', { ...store.getState().currentChat, chatId: id, items: [] });
         return data;
     }
 
@@ -55,5 +55,14 @@ export class ChatController {
         store.set('currentChat', null);
         return data;
     }
+
+    public static async getChatToken(chatId: number) {
+        store.set('isLoading', true);
+        const data = await ChatAPI.getToken(chatId);
+        store.set('isLoading', false);
+        store.set('currentChat', { ...store.getState().currentChat, token: data });
+        return data;
+    }
+
 
 }

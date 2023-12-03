@@ -1,10 +1,11 @@
 import { Block, BlockProps } from '../../libs/block';
 import './styles.scss';
 import { AvatarImage } from '../../components/images/avatarImage';
-import { IStore } from '../../libs/store';
+import store, { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
-import { IChat } from '../../types/chat';
+import { IChat, ICurrentChat, ICurrentChatItem } from '../../types/chat';
 import { ChatController } from '../../controllers/chatController';
+import { WSTransport, WSTransportEvents } from '../../libs/WSTransport';
 
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
@@ -15,7 +16,7 @@ class ChatList extends Block {
             attr: {
                 class: 'chat-list',
             },
-         });
+        });
     }
 
     render(): Node {
@@ -60,37 +61,112 @@ class ChatItem extends Block {
     }
 }
 
-const chatList = (allChats: IChat[]) => {
-    return allChats.map(item =>{
-        const { avatar,last_message,created_by, title, unread_count, id } = item;
-
+const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number, currentUserLogin?: string) => {
+    return allChats.map(item => {
+        const { avatar, last_message, created_by, title, unread_count, id } = item;
         return new ChatItem({
+            attr: {
+                class: `${id === currentChat?.chatId ? 'active' : ''}`,
+            },
             avatarImage: new AvatarImage({
                 width: '20',
                 height: '20',
                 src: '/assets/images/noimage.jpeg',
             }),
             userName: '',
-            lastText: last_message ?? '',
+            lastText: last_message?.content ? JSON.parse(last_message.content).message : '',
             date: '',
             countMessage: unread_count.toString(),
-            lastTextIsMe: last_message ?? '',
+            lastTextIsMe: last_message?.user.login ===  currentUserLogin,
             events: {
                 click: async (e) => {
                     e.preventDefault();
-                    const data = await ChatController.getCurrentChatById(id);
+
+                    if (currentChat?.chatId === id) {
+                        return;
+                    }
+                    await ChatController.getCurrentChatById(id);
+                    const token = await ChatController.getChatToken(id);
+                    let contentOffset = 0;
+                    let hasAnyMessages = true;
+                    let startChat = false;
+
+                    const socket = new WSTransport(`wss://ya-praktikum.tech/ws/chats/${userId}/${id}/${token}`);
+                    await socket.connect();
+                    const chatBody = document.querySelector('._chat-body__content');
+                    let lastScrollTop = 0;
+
+                    const uniqItems:Record<string, ICurrentChatItem> = {};
+
+                    socket.on(WSTransportEvents.Message, async (data: any) => {
+                        if (Array.isArray(data)) {
+                            data.forEach(i => {
+                                uniqItems[i.id] = i
+                            })
+
+                            store.set('currentChat', {  ...currentChat, items: Object.values(uniqItems).reverse() });
+
+
+                            const list = document.querySelector('._message-list-group')
+
+                            if (list && chatBody) {
+                                chatBody.scrollTo(0, chatBody.scrollHeight - lastScrollTop);
+                            }
+
+                            if (!startChat && chatBody) {
+                                chatBody.scrollTo(0, chatBody.scrollHeight);
+                                startChat = true;
+                            } else {
+                                await ChatController.getAllChats();
+                            }
+
+                            if (data.length === 20) {
+                                hasAnyMessages = true;
+                            }
+                        } else {
+                            socket.send({
+                                content: '0',
+                                type: 'get old',
+                            });
+                        }
+                    });
+
+                    store.set('socket', socket);
+                    const list = document.querySelector('._message-list-group')
+
+                    list && chatBody && chatBody.addEventListener('scroll', () => {
+                        if (chatBody.scrollTop < 100 && hasAnyMessages) {
+                            contentOffset += 10;
+                            lastScrollTop = chatBody.scrollHeight;
+
+                            socket.send({
+                                content: contentOffset.toString(),
+                                type: 'get old',
+                            });
+                            hasAnyMessages = false
+                        }
+                    })
+
+
+                    socket.send({
+                        content: contentOffset.toString(),
+                        type: 'get old',
+                    });
                 },
             },
         });
-    })
-}
+    });
+};
+
+
 
 
 function mapUserToProps(state: IStore) {
     return {
+        user: state.user,
         router: state.router,
         isLoading: state.isLoading,
-        items: chatList(state.allChats)
+        items: chatList(state.allChats, state?.currentChat ?? undefined, state.user?.id, state.user?.login),
     };
 }
 

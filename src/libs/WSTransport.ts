@@ -1,7 +1,6 @@
 import { EventBus } from './eventBus';
-import { WebSocket } from 'vite';
 
-const WSTransportEvents = {
+export const WSTransportEvents = {
     Error: 'error',
     Connected: 'connected',
     Close: 'close',
@@ -32,7 +31,7 @@ export class WSTransport extends EventBus {
         if (this.socket) {
             throw new Error('Socket already connected');
         }
-        this.socket = new WebSocket(this.url);
+        this.socket = new WebSocket(this.url ?? '');
         this.subscribe(this.socket);
         this.setupPing();
 
@@ -72,13 +71,12 @@ export class WSTransport extends EventBus {
         socket.addEventListener('error', () => {
             this.emit(WSTransportEvents.Error);
         });
-        socket.addEventListener('message', (message: any) => {
+        socket.addEventListener('message', ({ data: message }: any) => {
             try {
                 const data = JSON.parse(message);
                 if (['pong', 'user connected'].includes(data?.type)) {
                     return;
                 }
-
                 this.emit(WSTransportEvents.Message, data);
             } catch {
             }

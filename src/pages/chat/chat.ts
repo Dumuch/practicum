@@ -4,7 +4,7 @@ import { AvatarImage } from '../../components/images/avatarImage';
 import { Button } from '../../components/buttons/defaultButton';
 import { chatContent } from '../../widgets/chatContent';
 import './styles.scss';
-import { SendMessageForm } from '../../components/forms/sendMessageForm';
+import  SendMessageForm  from '../../components/forms/sendMessageForm';
 import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
 import ChatSidebar from '../../widgets/chatSidebar';
@@ -105,11 +105,3 @@ const ChatPageHOC = connectStoreHOC(mapUserToProps)(ChatPage);
 export const mainLayout = () => new MainLayout({
     body: new ChatPageHOC(),
 });
-
-window.onload = () => {
-    const chatBody = document.querySelector('._chat-body__content');
-
-    if (chatBody) {
-        chatBody.scrollTo(0, chatBody.scrollHeight);
-    }
-};
