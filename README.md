@@ -2,7 +2,7 @@
 
 
 - Ссылка на **макет** https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?type=design&node-id=0-1&mode=design
-- Ссылка на **Netlify** https://deploy--radiant-starlight-11ca30.netlify.app/pages/signin/signin
+- Ссылка на **Netlify** https://deploy--radiant-starlight-11ca30.netlify.app
 
 **Технологии**
 -
