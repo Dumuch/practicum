@@ -13,6 +13,16 @@
   align-items: center;
   border-bottom: 1px solid $base-grey;
 
+  & .input {
+    @include reset-input;
+
+    text-align: right;
+
+    &:disabled {
+      color: $base-grey;
+    }
+  }
+
   &.error {
     flex-wrap: wrap;
     border-bottom: none;
@@ -33,15 +43,5 @@
     font-size: 14px;
     white-space: nowrap;
     color: $base-black;
-  }
-
-  & .input {
-    @include reset-input;
-
-    text-align: right;
-
-    &:disabled {
-      color: $base-grey;
-    }
   }
 }

@@ -1,5 +1,4 @@
 import { Block } from '../../libs/block';
-import renderDOM from '../../helpers/renderDOM';
 import { MainLayout } from '../../layouts/mainLayout';
 
 //language=hbs
@@ -18,8 +17,6 @@ const indexPage = new IndexPage('div', {
     },
 });
 
-const mainLayout = new MainLayout({
+export const mainLayout = new MainLayout({
     body: indexPage,
 });
-
-renderDOM('#app', mainLayout);

@@ -1,4 +1,4 @@
-export default (event: SubmitEvent) => {
+export default <T>(event: SubmitEvent) => {
     const formData = new FormData(event.target as HTMLFormElement);
     const data: Record<string, string> = {};
 
@@ -6,5 +6,5 @@ export default (event: SubmitEvent) => {
         data[key] = <string>value;
     });
 
-    return data;
+    return data as T;
 };

@@ -1,6 +1,10 @@
 import { EventBus } from './eventBus';
 import makeUUID from '../helpers/makeUUID';
 import Handlebars from 'handlebars';
+import { Router } from './router';
+import { IUserInfo } from '../types/user';
+import { ICurrentChat } from '../types/chat';
+import { WSTransport } from './WSTransport';
 
 interface BlockAttr {
     attr?: Record<string, string>;
@@ -17,17 +21,33 @@ type BlockKeyValue = Record<
 
 export type BlockProps = BlockKeyValue & BlockAttr & BlockEvents;
 
+interface IGlobalState {
+    router?: Router;
+    user?: IUserInfo;
+    currentChat?: ICurrentChat;
+    socket?: WSTransport;
+}
+
+interface IPropsDefault {
+    attr: {
+        class: string;
+    };
+}
+
+type IProps = Record<string, string> & IGlobalState & IPropsDefault;
+
 export class Block {
     static EVENTS = {
         INIT: 'init',
         FLOW_CDM: 'flow:component-did-mount',
         FLOW_CDU: 'flow:component-did-update',
         FLOW_RENDER: 'flow:render',
+        FLOW_UNM: 'flow:component-un-mount',
     };
 
     private _element: HTMLElement | undefined;
     private readonly _meta: { tagName: string };
-    protected props: Record<string, string>;
+    protected props: IProps;
     private readonly eventBus: () => EventBus;
 
     _children: Record<string, Block>;
@@ -49,10 +69,9 @@ export class Block {
         this._list = <Record<string, Block[]>>this._makePropsProxy(list);
 
         this._events = <Record<string, () => void>>this._makePropsProxy(events);
-        this.props = <Record<string, string>>this._makePropsProxy({ ...props, _id: this._id });
+        this.props = <IProps>this._makePropsProxy({ ...props, _id: this._id });
 
         this.eventBus = () => eventBus;
-
         this._registerEvents(this.eventBus());
         this.eventBus().emit(Block.EVENTS.INIT);
     }
@@ -61,6 +80,7 @@ export class Block {
         eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+        eventBus.on(Block.EVENTS.FLOW_UNM, this._componentUnMount.bind(this));
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
@@ -72,16 +92,16 @@ export class Block {
     init() {
         this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+        this.dispatchComponentDidMount();
     }
 
     _componentDidMount() {
-        this.componentDidMount();
+        this.addEvents();
+
         Object.values(this._children).forEach(child => {
-            child.dispatchComponentDidMount();
+            child.componentDidMount();
         });
     }
-
-    componentDidMount() {}
 
     dispatchComponentDidMount() {
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -114,11 +134,9 @@ export class Block {
 
     _render() {
         const block = this.render();
-        this.removeEvents();
         this._element!.innerHTML = '';
         this._element!.appendChild(block);
         this.addAttribute();
-        this.addEvents();
     }
 
     render(): Node {
@@ -139,7 +157,6 @@ export class Block {
 
     addAttribute() {
         const { attr = {} } = this.props;
-
         Object.entries(attr).forEach(([key, value]) => {
             if (typeof value === 'string') {
                 this._element!.setAttribute(key, value);
@@ -160,7 +177,6 @@ export class Block {
         const oldValue = { ...this.props };
 
         const { children, props, list } = this.getChildren(nextProps);
-
         if (Object.values(children).length) {
             Object.assign(this._children, children);
         }
@@ -241,11 +257,8 @@ export class Block {
 
         const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
         fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
-        // console.log(template, fragment.innerHTML)
-
         Object.values(this._children).forEach(child => {
             const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
-
             if (stub) {
                 stub.replaceWith(child.getContent());
             }
@@ -275,7 +288,21 @@ export class Block {
         }
     }
 
+    _componentUnMount() {
+        this.removeEvents();
+
+        Object.values(this._children).forEach(child => {
+            child._componentUnMount();
+            child.init();
+        });
+    }
+
+    componentDidMount() {}
+    componentUnMount() {}
+
     hide() {
+        this.eventBus().emit(Block.EVENTS.FLOW_UNM);
+
         const content = this.getContent();
         if (content) {
             content.style.display = 'none';

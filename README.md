@@ -12,17 +12,16 @@
 - Сервер разработки Vite.js
 - Основной сервер Node.js (Express.js)
 - Настроены EsLint, Prettier, Typescript, StyleLint
+- Добавлен WebSocket для работы с чатом 
 
 **Список страниц**
 -
 
-- http://localhost:3000/pages/index/index.html
-- http://localhost:3000/pages/chat/chat.html
-- http://localhost:3000/pages/signIn/signIn.html
-- http://localhost:3000/pages/signUp/signUp.html
-- http://localhost:3000/pages/profile/profile.html
-- http://localhost:3000/pages/404/404.html
-- http://localhost:3000/pages/500/500.html
+- http://localhost:3000/
+- http://localhost:3000/messenger
+- http://localhost:3000/sign-up
+- http://localhost:3000/settings
+- http://localhost:3000/404
 
 
 **Основные комманды**

@@ -1,4 +1,3 @@
 export const appConstants = {
-    appId: '#app',
-    attrDataBodyClass: 'data-body-class',
+    baseUrl: 'https://ya-praktikum.tech/api/v2',
 };

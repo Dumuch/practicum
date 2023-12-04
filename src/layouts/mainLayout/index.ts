@@ -1,16 +1,16 @@
 import { Block, BlockProps } from '../../libs/block';
-import { headerNavigations } from '../../components/navigations/headerNavigations';
+import { headerNavigations } from '../../widgets/navigations/headerNavigations';
 
 //language=hbs
 const template = `
     <header>
         <nav class="site-nav">
-          {{{navigation}}}
+            {{{navigation}}}
         </nav>
     </header>
 
     <main>
-      {{{body}}}
+        {{{body}}}
     </main>
 `;
 
