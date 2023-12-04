@@ -11,12 +11,14 @@ class IndexPage extends Block {
         return this.compile(pageTemplate);
     }
 }
+
 const indexPage = new IndexPage('div', {
     attr: {
         class: 'container',
     },
 });
 
-export const mainLayout = new MainLayout({
-    body: indexPage,
-});
+export const mainLayout = () =>
+    new MainLayout({
+        body: indexPage,
+    });

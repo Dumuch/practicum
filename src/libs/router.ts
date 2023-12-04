@@ -99,7 +99,6 @@ export class Router {
             this._currentRoute.leave();
         }
         if (!route) {
-            window.location.pathname = '404';
             route = this.getRoute('error')!;
         }
         this._currentRoute = route;
