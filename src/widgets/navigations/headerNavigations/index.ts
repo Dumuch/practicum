@@ -10,6 +10,14 @@ const template = `
 `;
 
 export class HeaderNavigations extends Block {
+    constructor() {
+        super('ul', {
+            attr: {
+                class: 'site-nav-list',
+            },
+            items,
+        });
+    }
     render() {
         return this.compile(template);
     }
@@ -78,14 +86,3 @@ const items = [
         }),
     }),
 ];
-
-export const headerNavigations = new HeaderNavigations('ul', {
-    attr: {
-        class: 'site-nav-list',
-    },
-    items,
-    // events: {
-    //   click: () => {
-    //   },
-    // },
-});
