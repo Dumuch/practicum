@@ -40,7 +40,7 @@ class AddUserInChatForm extends Block {
             },
             inputLogin: new DefaultInput({
                 name: 'login',
-                label: 'Поиск по логину',
+                label: 'Вы можете добавить другого участника в чат',
                 placeholder: 'Введите логин',
             }),
 
@@ -85,9 +85,10 @@ class AddUserInChatForm extends Block {
             }),
 
             buttonClose: new Button({
-                text: 'Закрыть',
+                text: 'Отмена',
                 attr: {
                     type: 'button',
+                    class: 'button button_border',
                 },
                 events: {
                     click: async e => {

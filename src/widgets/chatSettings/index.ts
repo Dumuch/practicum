@@ -40,7 +40,7 @@ class ChatSettings extends Block {
             },
             inputLogin: new DefaultInput({
                 name: 'login',
-                label: 'Поиск по логину',
+                label: 'Добавить участника чата',
                 placeholder: 'Введите логин',
             }),
 
@@ -84,6 +84,7 @@ class ChatSettings extends Block {
                 text: 'Удалить чат',
                 attr: {
                     type: 'button',
+                    class: 'button button_error',
                 },
                 events: {
                     click: async () => {
@@ -99,6 +100,7 @@ class ChatSettings extends Block {
                 text: 'Закрыть',
                 attr: {
                     type: 'button',
+                    class: 'button button_border',
                 },
                 events: {
                     click: async () => {

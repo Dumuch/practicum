@@ -18,3 +18,13 @@
     cursor: pointer;
   }
 }
+
+.button_error {
+  background-color: $base-red;
+}
+
+.button_border {
+  border: 1px solid $base-blue;
+  background-color: transparent;
+  color: $base-blue;
+}
