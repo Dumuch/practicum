@@ -10,6 +10,7 @@ import { ChatController } from '../../controllers/chatController';
 import { Button } from '../../components/buttons/defaultButton';
 import { DefaultModal } from '../../components/modals/defaultModal';
 import AddUserInChatForm from '../../components/forms/addUserInChatForm';
+import './styles.scss';
 
 //language=hbs
 const template = `
@@ -19,9 +20,14 @@ const template = `
         {{{createChat}}}
     </div>
     <div class='chat-list-wrapper'>
-        {{{chatList}}}
+        {{#if hasChatList }}
+            {{{chatList}}}
+        {{else}}
+            <p>Чаты еще не созданы.</p>
+        {{/if}}
+
     </div>
-    
+
     {{{addUserInChatModal}}}
 `;
 
@@ -52,6 +58,9 @@ class ChatSidebar extends Block {
             }),
             createChat: new Button({
                 text: 'Создать чат',
+                attr: {
+                    class: 'button chat-sidebar__add-chat-button',
+                },
                 events: {
                     click: async e => {
                         e.preventDefault();
@@ -61,7 +70,7 @@ class ChatSidebar extends Block {
             }),
             chatList: new ChatList(),
             addUserInChatModal: new DefaultModal({
-                title: 'Добавить пользователя в чат',
+                title: 'Создать чат',
                 attr: {
                     class: 'add-user-in-chat-modal',
                 },
@@ -92,6 +101,7 @@ function mapUserToProps(state: IStore) {
     return {
         router: state.router,
         isLoading: state.isLoading,
+        hasChatList: state.allChats.length > 0,
     };
 }
 

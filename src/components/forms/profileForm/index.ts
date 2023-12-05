@@ -51,8 +51,6 @@ class ProfileForm extends Block {
             inputFirstName: new DefaultInput({
                 name: 'first_name',
                 label: 'Имя',
-                placeholder: 'Иван',
-                value: 'Иван',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -74,8 +72,6 @@ class ProfileForm extends Block {
             inputSecondName: new DefaultInput({
                 name: 'second_name',
                 label: 'Фамилия',
-                placeholder: 'Иванов',
-                value: 'Иванов',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -97,8 +93,6 @@ class ProfileForm extends Block {
             inputDisplayName: new DefaultInput({
                 name: 'display_name',
                 label: 'Имя в чате',
-                placeholder: 'Иван',
-                value: 'Иван',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -107,8 +101,6 @@ class ProfileForm extends Block {
             inputLogin: new DefaultInput({
                 name: 'login',
                 label: 'Логин',
-                placeholder: 'ivan',
-                value: 'ivan',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -130,8 +122,6 @@ class ProfileForm extends Block {
             inputEmail: new DefaultInput({
                 name: 'email',
                 label: 'Email',
-                placeholder: 'test@test.com',
-                value: 'test@test.com',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -153,8 +143,6 @@ class ProfileForm extends Block {
             inputPhone: new DefaultInput({
                 name: 'phone',
                 label: 'Телефон',
-                placeholder: '+7 (900) 123 12 12',
-                value: '+7 (900) 123 12 12',
                 attr: {
                     class: 'profile-settings-field',
                 },
