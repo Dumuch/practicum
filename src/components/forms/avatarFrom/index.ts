@@ -61,6 +61,7 @@ class AvatarForm extends Block {
                         await UserController.updateUserAvatar(data);
                         const event = new Event('closemodal', { bubbles: true });
                         document.dispatchEvent(event);
+                        await UserController.getUserInfo();
                     }
                 },
             },

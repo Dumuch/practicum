@@ -4,8 +4,8 @@ import { resolve } from 'path';
 
 export default defineConfig({
   server: {
-    port: 3007,
-    open: '/sign-in',
+    port: 3000,
+    open: '/',
   },
   root: resolve(__dirname, 'src'),
   build: {
