@@ -293,7 +293,6 @@ export class Block {
 
         Object.values(this._children).forEach(child => {
             child._componentUnMount();
-            child.init();
         });
     }
 
