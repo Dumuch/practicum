@@ -13,6 +13,7 @@ import PasswordForm from '../../components/forms/passwordForm';
 import { DefaultModal } from '../../components/modals/defaultModal';
 import AvatarForm from '../../components/forms/avatarFrom';
 import { appConstants } from '../../constants/app';
+import { Wrapper } from '../../components/wrapper';
 
 //language=hbs
 const pageTemplate = `
@@ -20,9 +21,7 @@ const pageTemplate = `
         <div class="profile-settings__header">
             <div class="profile-settings__avatar-wrapper">
                 {{{avatarImage}}}
-                <div class="profile-settings__avatar-hover _open-avatar-form-modal">
-                    Поменять аватар
-                </div>
+                {{{wrapperTextAvatar}}}
             </div>
         </div>
 
@@ -98,6 +97,17 @@ class ProfilePage extends Block {
                     },
                 },
             }),
+            wrapperTextAvatar: new Wrapper('div', {
+                attr: {
+                    class: 'profile-settings__avatar-hover',
+                },
+                child: 'Поменять аватар',
+                events: {
+                    click: () => {
+                        this._children['avatarFormModal'].setProps({ isVisible: true });
+                    },
+                },
+            }),
             exitLink: new Link({
                 attr: {
                     class: 'link_alert profile-settings__link',
@@ -116,9 +126,9 @@ class ProfilePage extends Block {
     }
 
     render() {
-        if (this.props.user) {
+        if (this.props.user?.avatar) {
             this._children['avatarImage'].setProps({
-                src: this.props.user.avatar ? appConstants.baseUrl + '/resources/' + this.props.user.avatar : '',
+                src: appConstants.baseUrl + '/resources/' + this.props.user.avatar,
             });
         }
         return this.compile(pageTemplate);
@@ -128,11 +138,9 @@ class ProfilePage extends Block {
         super.componentDidMount();
         if (!this.props.user && !this.props.isLoading) {
             const res = await UserController.getUserInfo();
-            document.querySelector('._open-avatar-form-modal')?.addEventListener('click', () => {
-                this._children['avatarFormModal'].setProps({ isVisible: true });
-            });
             if (!res) {
                 this.props.router?.go(appRoutes.signIn);
+                return;
             }
         }
     }
@@ -143,6 +151,15 @@ function mapUserToProps(state: IStore) {
         isLoading: state.isLoading,
         user: state?.user,
         router: state.router,
+        avatarImage: new AvatarImage({
+            src: state.user?.avatar ?? '/assets/images/noimage.jpeg',
+            alt: 'image',
+            width: '200',
+            height: '200',
+            attr: {
+                class: 'profile-settings__avatar',
+            },
+        }),
     };
 }
 

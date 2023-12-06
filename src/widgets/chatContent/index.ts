@@ -3,6 +3,7 @@ import './styles.scss';
 import { IStore } from '../../libs/store';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
 import { ICurrentChatItem } from '../../types/chat';
+import getLastMessageFromContent from '../../helpers/getLastMessageFromContent';
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
 
@@ -85,7 +86,7 @@ function mapUserToProps(state: IStore) {
                         attr: {
                             class: message.user_id === state.user?.id ? 'chat-message_sender' : '',
                         },
-                        body: JSON.parse(message.content).message,
+                        body: getLastMessageFromContent(message?.content),
                         date: new Date(message.time).toLocaleTimeString(),
                     });
                 }),

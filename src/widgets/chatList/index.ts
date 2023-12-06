@@ -6,6 +6,7 @@ import connectStoreHOC from '../../helpers/connectStoreHOC';
 import { IChat, ICurrentChat, ICurrentChatItem } from '../../types/chat';
 import { ChatController } from '../../controllers/chatController';
 import { WSTransport, WSTransportEvents } from '../../libs/WSTransport';
+import getLastMessageFromContent from '../../helpers/getLastMessageFromContent';
 
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
@@ -74,7 +75,7 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
                 src: '/assets/images/noimage.jpeg',
             }),
             userName: '',
-            lastText: last_message?.content ? JSON.parse(last_message.content).message : '',
+            lastText: getLastMessageFromContent(last_message?.content),
             date: '',
             countMessage: unread_count.toString(),
             lastTextIsMe: last_message?.user.login === currentUserLogin,
