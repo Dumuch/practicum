@@ -38,7 +38,7 @@ class ChatSidebar extends Block {
                 class: 'chat-sidebar',
             },
             linkProfile: new Link({
-                label: 'Profile',
+                label: 'Профиль',
                 attr: {
                     href: appRoutes.profile,
                     class: 'chat-sidebar__header-link',

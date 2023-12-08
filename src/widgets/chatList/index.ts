@@ -7,6 +7,7 @@ import { IChat, ICurrentChat, ICurrentChatItem } from '../../types/chat';
 import { ChatController } from '../../controllers/chatController';
 import { WSTransport, WSTransportEvents } from '../../libs/WSTransport';
 import getLastMessageFromContent from '../../helpers/getLastMessageFromContent';
+import { appConstants } from '../../constants/app';
 
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
@@ -64,7 +65,7 @@ class ChatItem extends Block {
 
 const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number, currentUserLogin?: string) => {
     return allChats.map(item => {
-        const { last_message, unread_count, id } = item;
+        const { last_message, unread_count, id, title, avatar } = item;
         return new ChatItem({
             attr: {
                 class: `${id === currentChat?.chatId ? 'active' : ''}`,
@@ -72,13 +73,14 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
             avatarImage: new AvatarImage({
                 width: '20',
                 height: '20',
-                src: '/assets/images/noimage.jpeg',
+                src: avatar ? appConstants.baseUrl + '/resources' + avatar : '/assets/images/noimage.jpeg',
             }),
             userName: '',
             lastText: getLastMessageFromContent(last_message?.content),
-            date: '',
+            date: title,
             countMessage: unread_count.toString(),
-            lastTextIsMe: last_message?.user.login === currentUserLogin,
+            lastTextIsMe:
+                last_message?.user.login === currentUserLogin && getLastMessageFromContent(last_message?.content),
             events: {
                 click: async e => {
                     e.preventDefault();
@@ -87,7 +89,7 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
                         return;
                     }
                     await ChatController.getCurrentChatById(id);
-                    const token = await ChatController.getChatToken(id);
+                    const { token } = await ChatController.getChatToken(id);
                     let contentOffset = 0;
                     let hasAnyMessages = true;
                     let startChat = false;

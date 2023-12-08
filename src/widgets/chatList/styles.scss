@@ -49,6 +49,7 @@
     flex-shrink: 0;
     justify-content: space-between;
     font-size: 13px;
+    align-items: flex-end;
 
     & span:first-of-type {
       color: $base-grey;

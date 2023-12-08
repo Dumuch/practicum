@@ -30,7 +30,17 @@ function queryStringify(data: Record<string, any>): string {
 }
 
 export class HTTPTransport {
+    static checkResponse = (res: XMLHttpRequest) => {
+        if (res.status === 200) {
+            return res.response ?? true;
+        }
+        return null;
+    };
+
     static get: HTTPMethod = (url, options = {}) => {
+        if (options.data) {
+            url = url + queryStringify(options?.data)
+        }
         return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
     };
 
@@ -58,7 +68,7 @@ export class HTTPTransport {
             const xhr = new XMLHttpRequest();
             const isGet = method === METHODS.GET;
 
-            xhr.open(method, isGet && !!data ? `${appConstants.baseUrl + url}${queryStringify(data)}` : (appConstants.baseUrl + url));
+            xhr.open(method, appConstants.baseUrl + url);
 
             Object.keys(headers).forEach(key => {
                 xhr.setRequestHeader(key, headers[key]);
@@ -78,7 +88,7 @@ export class HTTPTransport {
 
             if (isGet || !data) {
                 xhr.send();
-            } else if(data instanceof FormData) {
+            } else if (data instanceof FormData) {
                 xhr.send(data);
             } else {
                 xhr.setRequestHeader('Content-Type', 'application/json');

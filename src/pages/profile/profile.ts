@@ -18,6 +18,10 @@ import { Wrapper } from '../../components/wrapper';
 //language=hbs
 const pageTemplate = `
     <div class="profile-settings">
+        <div class='profile-settings__link-to-chat'>
+            « {{{linkToChat}}}
+        </div>
+        
         <div class="profile-settings__header">
             <div class="profile-settings__avatar-wrapper">
                 {{{avatarImage}}}
@@ -119,6 +123,19 @@ class ProfilePage extends Block {
                         e.preventDefault();
                         await UserController.logOut();
                         window.location.reload();
+                    },
+                },
+            }),
+            linkToChat: new Link({
+                label: 'Обратно в Чат',
+                attr: {
+                    href: appRoutes.chats,
+                    class: 'chat-sidebar__header-link',
+                },
+                events: {
+                    click: e => {
+                        e.preventDefault();
+                        this.props.router?.go(appRoutes.chats);
                     },
                 },
             }),

@@ -164,7 +164,7 @@ export class Validator {
         const startsWithUpperCaseCyrillic = /^[А-Я]/.test(this._validateValue);
         const currentStr = this._validateValue.replace(/[а-яa-z-]/gi, '').length === 0;
 
-        if (startsWithUpperCaseLatin || !startsWithUpperCaseCyrillic || !currentStr) {
+        if ((!startsWithUpperCaseLatin && !startsWithUpperCaseCyrillic) || !currentStr) {
             this._errors[this._inputName]['currentName'] =
                 'Строка должна быть с заглавной буквы, может включать в себя только дефис';
         } else {
