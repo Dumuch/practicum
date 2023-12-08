@@ -1,6 +1,6 @@
 import { Block, BlockProps } from '../../libs/block';
 import connectStoreHOC from '../../helpers/connectStoreHOC';
-import store, { IStore } from '../../libs/store';
+import { IStore } from '../../libs/store';
 import { Link } from '../../components/links/defaultLink';
 import { UserController } from '../../controllers/userContoller';
 import { ChatController } from '../../controllers/chatController';
@@ -140,10 +140,9 @@ const addedUserList = (users: Omit<IUserInfo, 'display_name'>[], chatId: string,
                 events: {
                     click: async e => {
                         e.preventDefault();
-                        if (e.target.tagName === 'button') {
+                        if (e.target.tagName.toLowerCase() === 'button') {
                             await ChatController.deleteUsersCurrentChat([user.id], chatId);
                             await ChatController.getUsersCurrentChat(Number(chatId));
-                            store.set('currentChat', null);
                         }
                     },
                 },

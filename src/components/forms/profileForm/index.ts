@@ -172,6 +172,7 @@ class ProfileForm extends Block {
 
                     if (!validator.hasError() && !this.props.isLoading) {
                         await UserController.updateUserInfo(data);
+                        await UserController.getUserInfo();
                     }
                 },
             },
