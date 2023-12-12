@@ -22,7 +22,6 @@ export class Link extends Block {
                 },
             };
         }
-
         super('a', {
             ...props,
             ...currentProps,

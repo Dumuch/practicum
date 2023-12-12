@@ -15,10 +15,11 @@ export class Validator {
         });
     }
 
-    notEmpty() {
-        if (!this._validateValue) {
-            this._errors[this._inputName]['notEmpty'] = 'Значение не может быть пустым';
-        }
+    clear(): void {
+        Object.keys(this._values).forEach(key => {
+            this._errors[key] = {};
+            this.hideErrorMessage(key);
+        });
     }
 
     getErrorString() {
@@ -110,6 +111,14 @@ export class Validator {
         }
     }
 
+    notEmpty() {
+        if (!this._validateValue) {
+            this._errors[this._inputName]['notEmpty'] = 'Значение не может быть пустым';
+        } else {
+            delete this._errors[this._inputName]['notEmpty'];
+        }
+    }
+
     maxValue(max: number) {
         if (this._validateValue.length > max) {
             this._errors[this._inputName]['maxValue'] = 'Длина текста не может быть больше ' + max;
@@ -155,7 +164,7 @@ export class Validator {
         const startsWithUpperCaseCyrillic = /^[А-Я]/.test(this._validateValue);
         const currentStr = this._validateValue.replace(/[а-яa-z-]/gi, '').length === 0;
 
-        if (startsWithUpperCaseLatin || !startsWithUpperCaseCyrillic || !currentStr) {
+        if ((!startsWithUpperCaseLatin && !startsWithUpperCaseCyrillic) || !currentStr) {
             this._errors[this._inputName]['currentName'] =
                 'Строка должна быть с заглавной буквы, может включать в себя только дефис';
         } else {

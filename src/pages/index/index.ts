@@ -1,5 +1,4 @@
 import { Block } from '../../libs/block';
-import renderDOM from '../../helpers/renderDOM';
 import { MainLayout } from '../../layouts/mainLayout';
 
 //language=hbs
@@ -12,14 +11,14 @@ class IndexPage extends Block {
         return this.compile(pageTemplate);
     }
 }
+
 const indexPage = new IndexPage('div', {
     attr: {
         class: 'container',
     },
 });
 
-const mainLayout = new MainLayout({
-    body: indexPage,
-});
-
-renderDOM('#app', mainLayout);
+export const mainLayout = () =>
+    new MainLayout({
+        body: indexPage,
+    });

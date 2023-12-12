@@ -3,17 +3,21 @@ import { DefaultInput } from '../../inputs/defaultInput';
 import './styles.scss';
 import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
+import connectStoreHOC from '../../../helpers/connectStoreHOC';
+import { IStore } from '../../../libs/store';
+import { UserController } from '../../../controllers/userContoller';
+import { IUpdateUserInfo } from '../../../types/user';
 
 //language=hbs
 const template = `
-        {{{inputFirstName}}}
-        {{{inputSecondName}}}
-        
-        {{{inputLogin}}}
-        {{{inputDisplayName}}}
-    
-        {{{inputEmail}}}
-        {{{inputPhone}}}      
+    {{{inputFirstName}}}
+    {{{inputSecondName}}}
+
+    {{{inputLogin}}}
+    {{{inputDisplayName}}}
+
+    {{{inputEmail}}}
+    {{{inputPhone}}}          
 `;
 
 const validator = new Validator({
@@ -37,7 +41,7 @@ const validator = new Validator({
     phone: ['currentPhone'],
 });
 
-export class ProfileForm extends Block {
+class ProfileForm extends Block {
     constructor() {
         super('form', {
             attr: {
@@ -47,8 +51,6 @@ export class ProfileForm extends Block {
             inputFirstName: new DefaultInput({
                 name: 'first_name',
                 label: 'Имя',
-                placeholder: 'Иван',
-                value: 'Иван',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -70,8 +72,6 @@ export class ProfileForm extends Block {
             inputSecondName: new DefaultInput({
                 name: 'second_name',
                 label: 'Фамилия',
-                placeholder: 'Иванов',
-                value: 'Иванов',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -93,8 +93,6 @@ export class ProfileForm extends Block {
             inputDisplayName: new DefaultInput({
                 name: 'display_name',
                 label: 'Имя в чате',
-                placeholder: 'Иван',
-                value: 'Иван',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -103,8 +101,6 @@ export class ProfileForm extends Block {
             inputLogin: new DefaultInput({
                 name: 'login',
                 label: 'Логин',
-                placeholder: 'ivan',
-                value: 'ivan',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -126,8 +122,6 @@ export class ProfileForm extends Block {
             inputEmail: new DefaultInput({
                 name: 'email',
                 label: 'Email',
-                placeholder: 'test@test.com',
-                value: 'test@test.com',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -149,8 +143,6 @@ export class ProfileForm extends Block {
             inputPhone: new DefaultInput({
                 name: 'phone',
                 label: 'Телефон',
-                placeholder: '+7 (900) 123 12 12',
-                value: '+7 (900) 123 12 12',
                 attr: {
                     class: 'profile-settings-field',
                 },
@@ -170,19 +162,17 @@ export class ProfileForm extends Block {
             }),
 
             events: {
-                submit: (event: SubmitEvent) => {
+                submit: async (event: SubmitEvent) => {
                     event.preventDefault();
-
-                    const data = serializeFormData(event);
+                    const data = serializeFormData<IUpdateUserInfo>(event);
                     Object.keys(data).forEach(key => {
-                        validator.validate(key, data[key]);
+                        validator.validate(key, data[key as keyof IUpdateUserInfo]);
                         validator.visibleErrorMessage(key, true);
                     });
 
-                    if (validator.hasError()) {
-                        console.error('В валидации есть ошибки');
-                    } else {
-                        console.log(data);
+                    if (!validator.hasError() && !this.props.isLoading) {
+                        await UserController.updateUserInfo(data);
+                        await UserController.getUserInfo();
                     }
                 },
             },
@@ -190,6 +180,24 @@ export class ProfileForm extends Block {
     }
 
     render(): Node {
+        if (this.props.user) {
+            this._children['inputFirstName'].setProps({ value: this.props.user.first_name });
+            this._children['inputSecondName'].setProps({ value: this.props.user.second_name });
+            this._children['inputDisplayName'].setProps({ value: this.props.user.display_name ?? '' });
+            this._children['inputLogin'].setProps({ value: this.props.user.login });
+            this._children['inputEmail'].setProps({ value: this.props.user.email });
+            this._children['inputPhone'].setProps({ value: this.props.user.phone });
+        }
+
         return this.compile(template);
     }
 }
+
+function mapUserToProps(state: IStore) {
+    return {
+        isLoading: state.isLoading,
+        user: state?.user,
+    };
+}
+
+export default connectStoreHOC(mapUserToProps)(ProfileForm);

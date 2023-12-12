@@ -1,8 +1,8 @@
 import { Block } from '../../../libs/block';
-import { Link } from '../../links/defaultLink';
+import { Link } from '../../../components/links/defaultLink';
 import { appRoutes } from '../../../constants/routes';
 import './style.scss';
-import { Wrapper } from '../../wrapper';
+import { Wrapper } from '../../../components/wrapper';
 
 //language=hbs
 const template = `
@@ -10,6 +10,14 @@ const template = `
 `;
 
 export class HeaderNavigations extends Block {
+    constructor() {
+        super('ul', {
+            attr: {
+                class: 'site-nav-list',
+            },
+            items,
+        });
+    }
     render() {
         return this.compile(template);
     }
@@ -28,7 +36,7 @@ const items = [
         child: new Link({
             label: 'Страница чата',
             attr: {
-                href: appRoutes.chat,
+                href: appRoutes.chats,
             },
         }),
     }),
@@ -78,14 +86,3 @@ const items = [
         }),
     }),
 ];
-
-export const headerNavigations = new HeaderNavigations('ul', {
-    attr: {
-        class: 'site-nav-list',
-    },
-    items,
-    // events: {
-    //   click: () => {
-    //   },
-    // },
-});

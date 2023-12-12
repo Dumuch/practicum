@@ -1,16 +1,18 @@
 import { Block, BlockProps } from '../../libs/block';
-import chatContentMocks from '../../mocks/chatContentMocks';
 import './styles.scss';
+import { IStore } from '../../libs/store';
+import connectStoreHOC from '../../helpers/connectStoreHOC';
+import { ICurrentChatItem } from '../../types/chat';
+import getLastMessageFromContent from '../../helpers/getLastMessageFromContent';
 //language=hbs
 const chatListTemplate = `{{{items}}}`;
 
-export class ChatContent extends Block {
-    constructor(props: BlockProps = {}) {
+class ChatContent extends Block {
+    constructor() {
         super('ul', {
             attr: {
-                class: 'message-list-group',
+                class: 'message-list-group _message-list-group',
             },
-            ...props,
         });
     }
 
@@ -61,21 +63,38 @@ class CurrentMessage extends Block {
     }
 }
 
-export const chatContent = new ChatContent({
-    items: chatContentMocks.map(item => {
-        const { date, messages } = item;
+function mapUserToProps(state: IStore) {
+    const groupByDate: Record<string, ICurrentChatItem[]> = {};
 
-        return new ChatMessage({
-            date,
-            items: messages.map(message => {
-                return new CurrentMessage({
-                    attr: {
-                        class: message.isMine ? 'chat-message_sender' : '',
-                    },
-                    body: message.body,
-                    date: message.date,
-                });
-            }),
-        });
-    }),
-});
+    state.currentChat?.items.forEach(item => {
+        const date = new Date(item.time);
+        if (groupByDate[date.toLocaleDateString()]) {
+            groupByDate[date.toLocaleDateString()].push(item);
+        } else {
+            groupByDate[date.toLocaleDateString()] = [item];
+        }
+    });
+    return {
+        router: state.router,
+        isLoading: state.isLoading,
+        items: Object.keys(groupByDate).map(key => {
+            const items = groupByDate[key];
+            return new ChatMessage({
+                date: key,
+                items: items.map(message => {
+                    return new CurrentMessage({
+                        attr: {
+                            class: message.user_id === state.user?.id ? 'chat-message_sender' : '',
+                        },
+                        body: getLastMessageFromContent(message?.content),
+                        date: new Date(message.time).toLocaleTimeString(),
+                    });
+                }),
+            });
+        }),
+    };
+}
+
+const ChatContentHOC = connectStoreHOC(mapUserToProps)(ChatContent);
+
+export const chatContent = new ChatContentHOC();

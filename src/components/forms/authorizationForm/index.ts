@@ -6,6 +6,10 @@ import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
 import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
+import connectStoreHOC from '../../../helpers/connectStoreHOC';
+import { UserController } from '../../../controllers/userContoller';
+import { IStore } from '../../../libs/store';
+import { ISignInUser } from '../../../types/user';
 
 //language=hbs
 const template = `
@@ -16,6 +20,9 @@ const template = `
         {{{buttonSubmit}}}
         {{{link}}}
     </div>
+    {{#if errorMessage}}
+        <span class='error-messages sign-in-form__error-message'>{{{errorMessage}}}</span>
+    {{/if}}
 `;
 
 const validator = new Validator({
@@ -35,7 +42,7 @@ const validator = new Validator({
     ],
 });
 
-export class AuthorizationForm extends Block {
+class AuthorizationForm extends Block {
     constructor() {
         super('form', {
             attr: {
@@ -64,6 +71,7 @@ export class AuthorizationForm extends Block {
                 name: 'password',
                 label: 'Пароль',
                 placeholder: 'Введите пароль',
+                type: 'password',
                 events: {
                     blur: (event: FocusEvent) => {
                         const element = <HTMLInputElement>event.currentTarget;
@@ -87,22 +95,39 @@ export class AuthorizationForm extends Block {
             }),
             link: new Link({
                 label: 'Регистрация',
-                href: appRoutes.signUp,
+                attr: {
+                    href: appRoutes.signUp,
+                },
+                events: {
+                    click: e => {
+                        e.preventDefault();
+                        this.props?.router?.go(appRoutes.signUp);
+                    },
+                },
             }),
             events: {
-                submit: (event: SubmitEvent) => {
+                submit: async (event: SubmitEvent) => {
                     event.preventDefault();
+                    event.stopPropagation();
+                    const data = serializeFormData<ISignInUser>(event);
 
-                    const data = serializeFormData(event);
                     Object.keys(data).forEach(key => {
-                        validator.validate(key, data[key]);
+                        validator.validate(key, data[key as keyof ISignInUser]);
                         validator.visibleErrorMessage(key, true);
                     });
-
-                    if (validator.hasError()) {
-                        console.error('В валидации есть ошибки');
-                    } else {
-                        console.log(data);
+                    if (!validator.hasError() && !this.props.isLoading) {
+                        const res = await UserController.signIn(data);
+                        if (res) {
+                            const res = await UserController.getUserInfo();
+                            if (res) {
+                                this.props.router?.go(appRoutes.chats);
+                            }
+                        } else {
+                            this.setProps({ errorMessage: 'Данные некорректны, попробуйте еще раз' });
+                            setTimeout(() => {
+                                this.setProps({ errorMessage: '' });
+                            }, 2500);
+                        }
                     }
                 },
             },
@@ -113,3 +138,13 @@ export class AuthorizationForm extends Block {
         return this.compile(template);
     }
 }
+
+function mapUserToProps(state: IStore) {
+    return {
+        router: state.router,
+        isLoading: state.isLoading,
+        first_name: state?.user?.first_name,
+    };
+}
+
+export default connectStoreHOC(mapUserToProps)(AuthorizationForm);

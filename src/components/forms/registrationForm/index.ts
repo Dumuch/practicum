@@ -6,6 +6,10 @@ import { appRoutes } from '../../../constants/routes';
 import './styles.scss';
 import { Validator } from '../../../libs/validate';
 import serializeFormData from '../../../helpers/serializeFormData';
+import connectStoreHOC from '../../../helpers/connectStoreHOC';
+import { UserController } from '../../../controllers/userContoller';
+import { IStore } from '../../../libs/store';
+import { ICreateUser } from '../../../types/user';
 
 //language=hbs
 const template = `
@@ -22,6 +26,10 @@ const template = `
         {{{buttonSubmit}}}
         {{{link}}}
     </div>
+
+    {{#if errorMessage}}
+        <span class='error-messages sign-up-form__error-message'>{{{errorMessage}}}</span>
+    {{/if}}
 `;
 
 const validator = new Validator({
@@ -45,7 +53,7 @@ const validator = new Validator({
     phone: ['currentPhone'],
 });
 
-export class RegistrationForm extends Block {
+class RegistrationForm extends Block {
     constructor() {
         super('form', {
             attr: {
@@ -173,23 +181,38 @@ export class RegistrationForm extends Block {
             }),
             link: new Link({
                 label: 'Авторизация',
-                href: appRoutes.signIn,
+                attr: {
+                    href: appRoutes.signIn,
+                },
+                events: {
+                    click: e => {
+                        e.preventDefault();
+                        this.props.router?.go(appRoutes.signIn);
+                    },
+                },
             }),
             events: {
-                submit: (event: SubmitEvent) => {
+                submit: async (event: SubmitEvent) => {
                     event.preventDefault();
-                    const data = serializeFormData(event);
-                    console.log(data);
+                    event.stopPropagation();
+
+                    const data = serializeFormData<ICreateUser>(event);
 
                     Object.keys(data).forEach(key => {
-                        validator.validate(key, data[key]);
+                        validator.validate(key, data[key as keyof ICreateUser]);
                         validator.visibleErrorMessage(key, true);
                     });
 
-                    if (validator.hasError()) {
-                        console.error('В валидации есть ошибки');
-                    } else {
-                        console.log(data);
+                    if (!validator.hasError() && !this.props.isLoading) {
+                        const res = await UserController.createUser(data);
+                        if (res) {
+                            this.props.router?.go(appRoutes.signIn);
+                        } else {
+                            this.setProps({ errorMessage: 'Данные некорректны, попробуйте еще раз' });
+                            setTimeout(() => {
+                                this.setProps({ errorMessage: '' });
+                            }, 2500);
+                        }
                     }
                 },
             },
@@ -200,3 +223,11 @@ export class RegistrationForm extends Block {
         return this.compile(template);
     }
 }
+function mapUserToProps(state: IStore) {
+    return {
+        isLoading: state.isLoading,
+        router: state.router,
+        user: state.user,
+    };
+}
+export default connectStoreHOC(mapUserToProps)(RegistrationForm);

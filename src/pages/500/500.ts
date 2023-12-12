@@ -1,5 +1,4 @@
 import { Block } from '../../libs/block';
-import renderDOM from '../../helpers/renderDOM';
 import { MainLayout } from '../../layouts/mainLayout';
 
 //language=hbs
@@ -18,8 +17,7 @@ const errorPage = new ErrorPage('div', {
     },
 });
 
-const mainLayout = new MainLayout({
-    body: errorPage,
-});
-
-renderDOM('#app', mainLayout);
+export const mainLayout = () =>
+    new MainLayout({
+        body: errorPage,
+    });

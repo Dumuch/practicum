@@ -1,6 +1,19 @@
 @import '../../../assets/styles/helpers/variables';
 @import '../../../assets/styles/helpers/mixins';
 
+
+.modal-wrapper {
+  display: none;
+  width: 100%;
+  background-color: rgba($base-grey, 0.75);
+  position: absolute;
+  inset: 0;
+
+  &.modal_open {
+    display: block;
+  }
+}
+
 .modal {
   padding: 30px 20px;
   display: flex;
@@ -10,6 +23,11 @@
   border-radius: 20px;
   min-width: 400px;
   box-shadow: 5px 5px 20px -3px rgb(34 60 80 / 24%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
 
 .modal__title {

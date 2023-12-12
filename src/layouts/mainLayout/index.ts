@@ -1,16 +1,15 @@
 import { Block, BlockProps } from '../../libs/block';
-import { headerNavigations } from '../../components/navigations/headerNavigations';
 
 //language=hbs
 const template = `
     <header>
         <nav class="site-nav">
-          {{{navigation}}}
+            {{{navigation}}}
         </nav>
     </header>
 
     <main>
-      {{{body}}}
+        {{{body}}}
     </main>
 `;
 
@@ -20,7 +19,6 @@ export class MainLayout extends Block {
             attr: {
                 class: 'layout',
             },
-            navigation: headerNavigations,
             ...props,
         });
     }
