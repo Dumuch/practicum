@@ -1,4 +1,8 @@
 {
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
   "noImplicitAny": true,
   "noUnusedLocals": true,
   "noUnusedParameters": true,
@@ -28,9 +32,10 @@
   },
   "include": [
     "**/*.ts",
+    "**/*.test.ts",
     "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }
