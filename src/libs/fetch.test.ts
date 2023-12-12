@@ -18,7 +18,7 @@ describe('Тесты HTTPTransport', () => {
     });
 
     it('Корректный URL при GET запросе с параметрами', async () => {
-        // await HTTPTransport.get('/endpoint', {data: {a: 1, b:2}});
+        await HTTPTransport.get('/endpoint', {data: {a: 1, b:2}});
         expect(request).calledWithMatch('/endpoint?a=1&b=2', {data: {a: 1, b:2}, method: 'GET'});
     });
 
