@@ -19,11 +19,6 @@
     "pre-commit": "npm run test && npm run lint:fix && npm run stylelint",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test & npm run lint:fix & npm run stylelint"
-    }
-  },
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/jsdom": "^21.1.6",
