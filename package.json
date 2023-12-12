@@ -16,11 +16,11 @@
     "lint:fix": "eslint --fix .",
     "stylelint": "npx stylelint src/**/*.scss",
     "test": "mocha",
-    "pre-commit": "npm-run-all test lint:fix stylelint"
+    "pre-commit": "npm run test && npm run lint:fix && npm run stylelint"
   },
   "husky": {
     "hooks": {
-
+      "pre-commit": "npm run test & npm run lint:fix & npm run stylelint"
     }
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "stylelint-config-standard-scss": "^11.1.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.3",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5"
   },
   "dependencies": {

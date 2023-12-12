@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { Block } from './block';
-import { JSDOM } from 'jsdom';
 
 class TestBlock extends Block {
     getProps() {
