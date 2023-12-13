@@ -34,3 +34,7 @@ export interface ICurrentChat {
 export interface ISendMessage {
     message: string;
 }
+
+export interface IUpdateChatAvatar {
+    avatar: File;
+}

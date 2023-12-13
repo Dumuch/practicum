@@ -19,6 +19,9 @@
     "pre-commit": "npm run test && npm run lint:fix && npm run stylelint",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*": "npm run pre-commit"
+  },
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/jsdom": "^21.1.6",
@@ -33,6 +36,7 @@
     "express": "^4.18.2",
     "husky": "^8.0.3",
     "jsdom": "^23.0.1",
+    "lint-staged": "^15.2.0",
     "mocha": "^10.2.0",
     "prettier": "^3.0.3",
     "sass": "^1.69.5",

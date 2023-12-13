@@ -1,13 +1,13 @@
 import { expect, use } from 'chai';
 import sinonChai from 'sinon-chai';
-import { createSandbox } from 'sinon';
+import Sinon, { createSandbox } from 'sinon';
 import { Block } from './block';
 import { Router } from './router';
 
 use(sinonChai);
 
 describe('Тестирование Router', () => {
-    let sandbox: any;
+    let sandbox: Sinon.SinonSandbox;
     let router: Router;
 
     beforeEach(() => {

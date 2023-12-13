@@ -101,7 +101,7 @@ const chatList = (allChats: IChat[], currentChat?: ICurrentChat, userId?: number
 
                     const uniqItems: Record<string, ICurrentChatItem> = {};
 
-                    socket.on(WSTransportEvents.Message, async (data: any) => {
+                    socket.on(WSTransportEvents.Message, async (data: ICurrentChatItem[] | undefined) => {
                         if (Array.isArray(data)) {
                             data.forEach(i => {
                                 uniqItems[i.id] = i;

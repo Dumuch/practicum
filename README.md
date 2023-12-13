@@ -15,6 +15,7 @@
 - Добавлен WebSocket для работы с чатом 
 - Для тестов применяются Mocha, Sinon, Chai
 - Добавлен Husky на хук Pre-commit(test, lint:fix, stylelint)
+- Настроен lint-staged (Pre-commit отрабатывает только на измененных файлах)
 
 **Список страниц**
 -
