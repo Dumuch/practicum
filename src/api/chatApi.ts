@@ -1,4 +1,5 @@
 import { HTTPTransport } from '../libs/fetch';
+import { IUpdateChatAvatar } from '../types/chat';
 
 export class ChatAPI extends HTTPTransport {
     static async getAll() {
@@ -38,6 +39,15 @@ export class ChatAPI extends HTTPTransport {
 
     static async getToken(chatId: number) {
         const res = await this.post(`/chats/token/${chatId}`);
+        return this.checkResponse(res);
+    }
+
+    static async updateAvatar(chatId: number, value: IUpdateChatAvatar) {
+        const formData = new FormData();
+        formData.append('avatar', value.avatar);
+        formData.append('chatId', chatId.toString());
+
+        const res = await this.put('/chats/avatar', { data: formData });
         return this.checkResponse(res);
     }
 }

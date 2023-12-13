@@ -23,7 +23,7 @@ describe('Тестирование компонента Block', () => {
     it('Корректно рендерится', () => {
         const content = block.render();
         expect(content).to.exist;
-        expect((content as any).tagName).to.equal('DIV'); // Type assertion
+        expect((content as HTMLElement).tagName).to.equal('DIV'); // Type assertion
     });
 
     it('Пропсы обновляются', () => {

@@ -1,5 +1,6 @@
 import store from '../libs/store';
 import { ChatAPI } from '../api/chatApi';
+import { IUpdateChatAvatar } from '../types/chat';
 
 export class ChatController {
     public static async getAllChats() {
@@ -101,6 +102,18 @@ export class ChatController {
             const data = await ChatAPI.getToken(chatId);
             store.set('currentChat', { ...store.getState().currentChat, token: data.token });
             return data;
+        } catch {
+            return null;
+        } finally {
+            store.set('isLoading', false);
+        }
+    }
+
+    public static async updateChatAvatar(value: IUpdateChatAvatar) {
+        store.set('isLoading', true);
+        const chatId = store.getState().currentChat?.chatId;
+        try {
+            return chatId && ChatAPI.updateAvatar(chatId, value);
         } catch {
             return null;
         } finally {
