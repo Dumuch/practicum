@@ -5,7 +5,7 @@ import isEqual from './isEqual';
 export default (mapStateToProps: (state: IStore) => any) => {
     return function (Component: typeof Block) {
         return class extends Component {
-            constructor(...props: any) {
+            constructor(...props: any[]) {
                 let state = mapStateToProps(store.getState());
                 const [tagName, allProps] = props;
                 super(tagName, { ...allProps, ...state });

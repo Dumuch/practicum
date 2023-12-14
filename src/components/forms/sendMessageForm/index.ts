@@ -6,7 +6,7 @@ import serializeFormData from '../../../helpers/serializeFormData';
 import { Validator } from '../../../libs/validate';
 import { IStore } from '../../../libs/store';
 import connectStoreHOC from '../../../helpers/connectStoreHOC';
-import { ISendMessage } from '../../../types/chat';
+import { ICurrentChatItem, ISendMessage } from '../../../types/chat';
 import { WSTransportEvents } from '../../../libs/WSTransport';
 
 //language=hbs
@@ -74,8 +74,8 @@ class SendMessageForm extends Block {
                             type: 'message',
                         });
 
-                        const scrollToBottom = (e: any) => {
-                            if (Array.isArray(e)) {
+                        const scrollToBottom = (messages: ICurrentChatItem[]) => {
+                            if (Array.isArray(messages)) {
                                 const chatBody = document.querySelector('._chat-body__content');
                                 chatBody && chatBody.scrollTo(0, chatBody.scrollHeight);
                                 this.props.socket?.off(WSTransportEvents.Message, scrollToBottom);

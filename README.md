@@ -1,4 +1,4 @@
-# sprint_3
+# sprint_4
 
 
 - Ссылка на **макет** https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?type=design&node-id=0-1&mode=design
@@ -13,6 +13,9 @@
 - Основной сервер Node.js (Express.js)
 - Настроены EsLint, Prettier, Typescript, StyleLint
 - Добавлен WebSocket для работы с чатом 
+- Для тестов применяются Mocha, Sinon, Chai
+- Добавлен Husky на хук Pre-commit(test, lint:fix, stylelint)
+- Настроен lint-staged (Pre-commit отрабатывает только на измененных файлах)
 
 **Список страниц**
 -
@@ -34,8 +37,10 @@
 
 -`npm run server` - запуск проекта
 
--`lint` - запуск EsLint
+-`npm run lint` - запуск EsLint
 
--`lint:fix` - запуск EsLint с исправлением ошибок
+-`npm run lint:fix` - запуск EsLint с исправлением ошибок
 
--`stylelint` - запуск StyleLint
+-`npm run stylelint` - запуск StyleLint
+
+-`npm run test` - запуск тестов

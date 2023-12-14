@@ -57,7 +57,7 @@ export class Validator {
         return false;
     }
 
-    validate(valueName: string, value: any) {
+    validate(valueName: string, value?: string | number) {
         const currentObjectValidation = this._values[valueName];
         this._validateValue = value;
         this._inputName = valueName;

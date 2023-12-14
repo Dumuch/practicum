@@ -14,18 +14,39 @@
     "start": "npm run build && npm run server",
     "lint": "eslint . ",
     "lint:fix": "eslint --fix .",
-    "stylelint": "npx stylelint src/**/*.scss"
+    "stylelint": "npx stylelint src/**/*.scss",
+    "test": "mocha",
+    "pre-commit": "npm run test && npm run lint:fix && npm run stylelint",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*": "npm run pre-commit"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/jsdom": "^21.1.6",
+    "@types/mocha": "^10.0.6",
+    "@types/sinon": "^17.0.2",
+    "@types/sinon-chai": "^3.2.12",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "chai": "^4.3.10",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "express": "^4.18.2",
+    "husky": "^8.0.3",
+    "jsdom": "^23.0.1",
+    "lint-staged": "^15.2.0",
+    "mocha": "^10.2.0",
     "prettier": "^3.0.3",
     "sass": "^1.69.5",
+    "sinon": "^17.0.1",
+    "sinon-chai": "^3.7.0",
     "stylelint": "^15.11.0",
     "stylelint-config-standard-scss": "^11.1.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5"
   },
   "dependencies": {

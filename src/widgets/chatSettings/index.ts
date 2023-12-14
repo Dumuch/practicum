@@ -11,6 +11,9 @@ import './styles.scss';
 
 //language=hbs
 const template = `
+    <div class='chat-settings__change-avatar'>
+        {{{inputAvatar}}}
+    </div>
     <div class='chat-settings__add-user'>
         {{{inputLogin}}}
 
@@ -29,7 +32,6 @@ const template = `
     {{{buttonDeleteChat}}}
 
     {{{buttonCloseModal}}}
-
 `;
 
 class ChatSettings extends Block {
@@ -38,6 +40,19 @@ class ChatSettings extends Block {
             attr: {
                 class: 'chat-settings',
             },
+            inputAvatar: new DefaultInput({
+                name: 'avatar',
+                label: 'Сменить аватар чата',
+                type: 'file',
+                events: {
+                    change: async event => {
+                        if (!this.props.isLoading) {
+                            await ChatController.updateChatAvatar({ avatar: event.target.files[0] });
+                            await ChatController.getAllChats();
+                        }
+                    },
+                },
+            }),
             inputLogin: new DefaultInput({
                 name: 'login',
                 label: 'Добавить участника чата',

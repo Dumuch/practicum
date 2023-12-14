@@ -1,5 +1,14 @@
+function getRandomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 export default (): string => {
-    return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
-        (Number(c) ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (Number(c) / 4)))).toString(16),
-    );
+    let uid = '';
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charsLength = chars.length;
+
+    for (let i = 0; i < 8; ++i) {
+        uid += chars[getRandomInt(0, charsLength - 1)];
+    }
+
+    return uid;
 };
